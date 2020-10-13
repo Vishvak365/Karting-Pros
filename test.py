@@ -1,5 +1,6 @@
 # import pygame module in this program
 import pygame
+import Track
 import time
 # activate the pygame library .
 # initiate pygame and give permission
@@ -26,6 +27,29 @@ image = pygame.image.load(
     r'images\car.png')
 car_y = 100
 # infinite loop
+
+class Track(pygame.sprite.Sprite):
+    black = pygame.image.load('images/track_black.png')
+
+    def __init__(self, position):
+        super(Track, self).__init__()
+        self.image = self.black
+        self.rect = pygame.Rect(self.black.get_rect())
+        self.rect.center = position
+
+    def update(self):
+        pass
+
+pads = [
+            Track((0, 10)),
+            Track((10, 10)),
+            Track((20, 10)),
+            Track((30, 10)),
+            Track((40, 10)),
+        ]
+
+pad_group = pygame.sprite.RenderPlain(*pads)
+
 while True:
 
     # completely fill the surface object
@@ -37,6 +61,7 @@ while True:
     # (0, 0) coordinate.
 
     display_surface.blit(image, (0, car_y))
+    pad_group.draw(display_surface)
     # if car_y < 500:
     #     time.sleep(1000)
     #     car_y += 10
