@@ -1,6 +1,6 @@
 # import pygame module in this program
 import pygame
-import Track
+# import Track
 import time
 # activate the pygame library .
 # initiate pygame and give permission
@@ -40,13 +40,31 @@ class Track(pygame.sprite.Sprite):
     def update(self):
         pass
 
-pads = [
-            Track((0, 10)),
-            Track((10, 10)),
-            Track((20, 10)),
-            Track((30, 10)),
-            Track((40, 10)),
-        ]
+# pads = [
+#             Track((0, 10)),
+#             Track((10, 10)),
+#             Track((20, 10)),
+#             Track((30, 10)),
+#             Track((40, 10)),
+#         ]
+pads = []
+for i in range(int(128)):
+    for x in range(int(72)):
+        x_val = 10*i
+        y_val = 10 * x
+        if (y_val > 80 and x_val >80) :
+            continue
+        else:
+            pads.append(Track((x_val, y_val)))
+
+for i in range(int(128)):
+    for x in range(int(72)):
+        x_val = 10*i
+        y_val = 10 * x
+        if (y_val < 640 and x_val <1200) :
+            continue
+        else:
+            pads.append(Track((x_val, y_val)))
 
 pad_group = pygame.sprite.RenderPlain(*pads)
 
