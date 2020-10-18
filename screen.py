@@ -3,8 +3,8 @@ import pygame
 
 class Screen:
     def __init__(self):
-        self.width = 1280
-        self.height = 720
+        self.width = 1920
+        self.height = 1080
         self.display_surface = pygame.display.set_mode((self.width, self.height))
         pygame.display.set_caption('Race-Karts')
 
