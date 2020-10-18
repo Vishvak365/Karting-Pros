@@ -9,11 +9,12 @@ def main():
     pygame.init()
     window = screen.Screen()
     display_surface = window.get_display()
-    white = (255, 255, 255)
+    track1 = track.Track()
+    white = (0, 128, 0)
     while True:
-
+        pad_group = track1.getPads()
         display_surface.fill(white)
-
+        pad_group.draw(display_surface)
         for event in pygame.event.get():
 
             if event.type == pygame.QUIT:

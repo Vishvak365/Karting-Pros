@@ -1,28 +1,51 @@
 import pygame
+import math
 
 
-class Track(pygame.sprite.Sprite):
+class Track:
+
+    def __init__(self):
+        self.pads = []
+        self.pads = self.makePads()
+
+    def update(self):
+        pass
+# 1920 v 1080
+    @staticmethod
+    def makePads():
+        center_x = 1980 / 2
+        center_y = 1020 / 2
+        width = 50
+        pads = []
+        for r in range(4):
+            for i in range(int(360)):
+                radian = math.radians(i)
+                pad_x = math.floor((math.cos(radian) * (650 + 32 * r) + center_x))
+                pad_y = math.floor((math.sin(radian) * (400 + 32 * r) + center_y))
+                print(pad_x)
+                print(pad_y)
+                pads.append(RoadSquares((pad_x, pad_y)))
+
+        return pygame.sprite.RenderPlain(*pads)
+
+    def getPads(self):
+        return self.pads
+
+
+class RoadSquares(pygame.sprite.Sprite):
     black = pygame.image.load('images/track_black.png')
 
     def __init__(self, position):
-        super(Track, self).__init__()
+        super(RoadSquares, self).__init__()
         self.image = self.black
         self.rect = pygame.Rect(self.black.get_rect())
         self.rect.center = position
-        self.pads = []
 
     def update(self):
         pass
 
-        pads = [
-            Track((0, 10)),
-            Track((600, 10)),
-            Track((1100, 10)),
-            Track((100, 150)),
-            Track((600, 150)),
-        ]
 
-        pad_group = pygame.sprite.RenderPlain(*pads)
+
 
 # for i in range(int(128)):
 #     for x in range(int(72)):
