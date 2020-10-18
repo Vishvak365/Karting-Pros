@@ -52,4 +52,4 @@ def timeTrial():
         pygame.display.flip()
 
 
-timeTrial()
+# timeTrial()
