@@ -20,10 +20,12 @@ class Track:
         for r in range(4):
             for i in range(int(360)):
                 radian = math.radians(i)
-                pad_x = math.floor((math.cos(radian) * (650 + 32 * r) + center_x))
-                pad_y = math.floor((math.sin(radian) * (400 + 32 * r) + center_y))
-                print(pad_x)
-                print(pad_y)
+                pad_x = math.floor(
+                    (math.cos(radian) * (650 + 32 * r) + center_x))
+                pad_y = math.floor(
+                    (math.sin(radian) * (400 + 32 * r) + center_y))
+                # print(pad_x)
+                # print(pad_y)
                 pads.append(RoadSquares((pad_x, pad_y)))
 
         return pygame.sprite.RenderPlain(*pads)
@@ -43,8 +45,6 @@ class RoadSquares(pygame.sprite.Sprite):
 
     def update(self):
         pass
-
-
 
 
 # for i in range(int(128)):
