@@ -2,6 +2,7 @@ import pygame
 import time
 import math
 import sys
+from car import Car
 from pygame.locals import *
 
 
@@ -11,52 +12,6 @@ def timeTrial():
     # GAME CLOCK
     clock = pygame.time.Clock()
     t0 = time.time()
-
-    class Car(pygame.sprite.Sprite):
-        MAX_FORWARD_SPEED = 4
-        MAX_REVERSE_SPEED = 1
-        ACCELERATION = 1
-        TURN_SPEED = 4
-
-        def __init__(self, image, position):
-            pygame.sprite.Sprite.__init__(self)
-            self.src_image = pygame.image.load(image)
-            self.position = position
-            self.speed = self.direction = 0
-            self.k_left = self.k_right = self.k_down = self.k_up = 0
-            self._x, self._y = 0, 0
-
-        def update(self, deltat):
-            # https://github.com/tdostilio/Race_Game
-            # SIMULATION
-            self.speed += (self.k_up + self.k_down)
-            if self.speed > self.MAX_FORWARD_SPEED:
-                self.speed = self.MAX_FORWARD_SPEED
-            if self.speed < -self.MAX_REVERSE_SPEED:
-                self.speed = -self.MAX_REVERSE_SPEED
-            self.direction += (self.k_right + self.k_left)
-            x, y = (self.position)
-            rad = self.direction * math.pi / 180
-            x += -self.speed*math.sin(rad)
-            y += -self.speed*math.cos(rad)
-            self.position = (x, y)
-            xScale = 40
-            yScale = math.ceil(xScale + (xScale*(1/3)))
-            self.src_image = pygame.transform.scale(
-                self.src_image, (xScale, yScale))
-            self.image = pygame.transform.rotate(
-                self.src_image, self.direction)
-            self.rect = self.image.get_rect()
-            self.rect.center = self.position
-            self.x, self.y = x, y
-
-        @property
-        def getX(self):
-            return self._x
-
-        @property
-        def getY(self):
-            return self._y
 
     car = Car('images/f1sprite.png', (719, 144))
     car_group = pygame.sprite.Group(car)
@@ -68,7 +23,7 @@ def timeTrial():
         # USER INPUT
         t1 = time.time()
         dt = t1-t0
-
+        print(dt)
         deltat = clock.tick(30)
         for event in pygame.event.get():
             if not hasattr(event, 'key'):
