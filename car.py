@@ -31,7 +31,7 @@ class Car(pygame.sprite.Sprite):
             self.speed = -self.MAX_REVERSE_SPEED
         self.direction += (self.k_right + self.k_left)
         x, y = (self.position)
-        # print(self.direction)
+        print(self.direction)
         rad = self.direction * math.pi / 180
         x += -self.speed*math.sin(rad)
         y += -self.speed*math.cos(rad)
