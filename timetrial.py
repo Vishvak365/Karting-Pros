@@ -12,7 +12,6 @@ def timeTrial(display_surface):
     # display_surface = screen
     track1 = track.Track()
     white = (0, 128, 0)
-
     clock = pygame.time.Clock()
     t0 = time.time()
 
@@ -20,13 +19,12 @@ def timeTrial(display_surface):
     car_group = pygame.sprite.Group(car)
 
     pad_group = track1.getPads()
-
     while True:
         # Draw the Track
         display_surface.fill(white)
         pad_group.draw(display_surface)
-
         deltat = clock.tick(60)
+        font = pygame.font.Font('fonts/American Captain.ttf', 32)
         for event in pygame.event.get():
             if event.type == QUIT:
                 sys.exit(0)
@@ -48,6 +46,8 @@ def timeTrial(display_surface):
                 # sys.exit(0)  # quit the game
 
         # Update car and draw track
+        font = font.render("Time: " + str(), True, (255, 255, 255))
+        display_surface.blit(font, (0,0))
         car_group.update(deltat)
         car_group.draw(display_surface)
         pygame.draw.rect(display_surface, (255, 0, 0), car.hitbox, 2)

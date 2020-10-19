@@ -11,6 +11,7 @@ pygame.font.init()
 #screen = pygame.display.set_mode(size)
 title = pygame.font.SysFont(None, 36)
 track = pygame.image.load('images/track.png')
+background = pygame.image.load('images/Gui_background.png')
 track = transform.scale(track, (100, 100))
 # Define some colors
 BLACK = (0, 0, 0)
@@ -69,7 +70,7 @@ def main_menu(screen):
             if click:
                 options(screen)
 
-        screen.fill(BLACK)
+        screen.blit(background, (0,0))
         text('Race Menu', title, YELLOW, screen, 310, 20)
         pygame.draw.rect(screen, button1col, button1)
         pygame.draw.rect(screen, button2col, button2)
@@ -100,7 +101,7 @@ def pick_track(screen):
     timetrial
     click = False
     in_opts = True
-    screen.fill(BLACK)
+    screen.blit(background, (0,0))
     text('Pick Track', title, YELLOW, screen, 20, 20)
     while in_opts:
         mx, my = pygame.mouse.get_pos()
@@ -133,7 +134,7 @@ def pick_track_2player(screen):
     timetrial
     click = False
     in_opts = True
-    screen.fill(BLACK)
+    screen.blit(background, (0,0))
     text('Pick Track', title, YELLOW, screen, 20, 20)
     while in_opts:
         mx, my = pygame.mouse.get_pos()
@@ -164,7 +165,7 @@ def pick_track_2player(screen):
 
 def options(screen):
     in_opts = True
-    screen.fill(BLACK)
+    screen.blit(background, (0,0))
     text('Options', title, YELLOW, screen, 20, 20)
     while in_opts:
         for event in pygame.event.get():  # User did something
@@ -181,7 +182,7 @@ def options(screen):
 
 def tutorial(screen):
     in_opts = True
-    screen.fill(BLACK)
+    screen.blit(background, (0,0))
     text('Tutorial', title, YELLOW, screen, 20, 20)
     image = pygame.image.load('images/tutorial.png')
     screen.blit(image, (0, 100))

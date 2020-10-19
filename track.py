@@ -23,7 +23,7 @@ class Track:
                 pad_x = math.floor(
                     (math.cos(radian) * (650 + 32 * r) + center_x))
                 pad_y = math.floor(
-                    (math.sin(radian) * (400 + 32 * r) + center_y))
+                    (math.sin(radian) * (350 + 32 * r) + center_y))
                 # print(pad_x)
                 # print(pad_y)
                 pads.append(RoadSquares((pad_x, pad_y)))
@@ -42,6 +42,7 @@ class RoadSquares(pygame.sprite.Sprite):
         self.image = self.black
         self.rect = pygame.Rect(self.black.get_rect())
         self.rect.center = position
+
 
     def update(self):
         pass
