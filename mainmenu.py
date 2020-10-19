@@ -97,7 +97,6 @@ def main_menu(screen):
 
 
 def pick_track(screen):
-    timetrial
     click = False
     in_opts = True
     screen.blit(background, (0, 0))
