@@ -17,10 +17,10 @@ def two_player(display_surface):
     clock = pygame.time.Clock()
     t0 = time.time()
 
-    car = Car('images/f1sprite.png', (719, 144))
+    car = Car('images/f1sprite.png', (800, 80))
     car_group = pygame.sprite.Group(car)
 
-    car2 = Car('images/f1sprite.png', (800, 144))
+    car2 = Car('images/f1sprite.png', (800, 170))
     car_group2 = pygame.sprite.Group(car2)
 
     pad_group = track1.getPads()
@@ -72,8 +72,15 @@ def two_player(display_surface):
         pygame.draw.rect(display_surface, (255, 0, 0), car2.hitbox, 2)
         if (car.hitbox[1] < (car2.hitbox[1] + 48)) and (car.hitbox[1] > (car2.hitbox[1] - 48)):
             if(car.hitbox[0] < (car2.hitbox[0] + 45)) and (car.hitbox[0] > (car2.hitbox[0] - 45)):
+                car2.speed = 0
+                car.speed = 0
+                crash = pygame.image.load('images/crash.png')
+                display_surface.blit(crash, (600,250))
+                pygame.display.update()
+                pygame.time.delay(5000)
                 print("collision")
                 print(car.hitbox)
+                mainmenu.main_menu(display_surface)
         pygame.display.flip()
         # pygame.draw.rect(display_surface, (255, 255, 255), (960, 0, 30, 125))
         pygame.display.update()
