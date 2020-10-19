@@ -17,6 +17,7 @@ class Car(pygame.sprite.Sprite):
         self.speed = self.direction = 0
         self.k_left = self.k_right = self.k_down = self.k_up = 0
         self._x, self._y = 0, 0
+        self.hitbox = (0, 0, 0, 0)
 
     def update(self, deltat):
         # https://github.com/tdostilio/Race_Game
@@ -41,6 +42,8 @@ class Car(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.rect.center = self.position
         self.x, self.y = x, y
+        self.hitbox = (int(x) - 20, int(y) - 20, xScale-5, xScale-5)
+
 
     @property
     def getX(self):
@@ -49,3 +52,5 @@ class Car(pygame.sprite.Sprite):
     @property
     def getY(self):
         return self._y
+
+
