@@ -24,8 +24,8 @@ def checkOutOfBounds(car):
 
 
 def checkpoint1(car, checkpoint, checkpoint_check):
-    if (car.hitbox[1] < (checkpoint[1] + 100)) and (car.hitbox[1] > (checkpoint[1] - 100)):
-        if (car.hitbox[0] < (checkpoint[0] + 5)) and (car.hitbox[0] > (checkpoint[0] - 5)):
+    if (car.hitbox[1] < (checkpoint[1] + 110)) and (car.hitbox[1] > (checkpoint[1] - 110)):
+        if (car.hitbox[0] < (checkpoint[0] + 10)) and (car.hitbox[0] > (checkpoint[0] - 10)):
             print("Lap finished")
             checkpoint_check = checkpoint_check + 1
     else:
