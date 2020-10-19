@@ -52,6 +52,7 @@ def main():
         # Update car and draw track
         car_group.update(deltat)
         car_group.draw(display_surface)
+        pygame.draw.rect(display_surface, (255, 0, 0), car.hitbox, 2)
         pygame.display.flip()
         pygame.display.update()
 
