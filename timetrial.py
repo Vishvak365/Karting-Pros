@@ -73,9 +73,17 @@ def timeTrial(display_surface):
         car_group.update(deltat)
         car_group.draw(display_surface)
 
+        on_track = pygame.sprite.groupcollide(
+            car_group, pad_group, False, False)
+        
+        if not on_track:
+            car.MAX_FORWARD_SPEED = 3
+        else:
+            car.MAX_FORWARD_SPEED = 10
+
         # OPTIONAL car hitbox
         pygame.draw.rect(display_surface, (255, 0, 0), car.hitbox, 2)
-
+        # print(car_group.)
         pygame.display.flip()
         if completeLap(car, finish_line):
             t0, t1 = time.time(), time.time()
