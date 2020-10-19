@@ -1,9 +1,9 @@
 # Karting-Pros
+#Authors 
+Kevin Kosta
 
+Vishcak Seenichamy
 
-Master is on my current progress -- just white screen but no globals and easier to integrate
+Wesly Boyd
 
-OOPed some of Vishvak's previous work on screen. 
-
-
-We have a lot of work to do tomorrow.
+Carson Hamel
