@@ -3,14 +3,14 @@ import pygame
 import screen
 import track
 import time
+import mainmenu
 from car import Car
 from pygame.locals import *
 import sys
 
 
-def two_player():
-    window = screen.Screen()
-    display_surface = window.get_display()
+def two_player(display_surface):
+    # window = screen.Screen()
     track1 = track.Track()
     white = (0, 128, 0)
 
@@ -46,11 +46,12 @@ def two_player():
             elif event.key == K_DOWN:
                 car.k_down = down * -2
             elif event.key == K_ESCAPE:
-                sys.exit(0)  # quit the game
+                mainmenu.main_menu(display_surface)
+                # sys.exit(0)  # quit the game
 
             if event.key == K_d:
                 car2.k_right = down * -5
-            elif event.key == K_SPACE:
+            elif event.key == K_LSHIFT:
                 car2.speed = 0
             elif event.key == K_a:
                 car2.k_left = down * 5
@@ -59,7 +60,8 @@ def two_player():
             elif event.key == K_s:
                 car2.k_down = down * -2
             elif event.key == K_ESCAPE:
-                sys.exit(0)  # quit the game
+                mainmenu.main_menu(display_surface)
+                # sys.exit(0)  # quit the game
 
         # Update car and draw track
         car_group.update(deltat)
@@ -73,5 +75,5 @@ def two_player():
                 print("collision")
                 print(car.hitbox)
         pygame.display.flip()
-        pygame.draw.rect(display_surface, (255, 255, 255), (960, 0, 30, 125))
+        # pygame.draw.rect(display_surface, (255, 255, 255), (960, 0, 30, 125))
         pygame.display.update()
