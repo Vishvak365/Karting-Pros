@@ -17,10 +17,9 @@ def collision(car,car2,display_surface):
             crash = pygame.image.load('images/crash.png')
             display_surface.blit(crash, (600, 250))
             pygame.display.update()
-            pygame.time.delay(5000)
+            pygame.time.delay(2500)
             print("collision")
             print(car.hitbox)
-            mainmenu.main_menu(display_surface)
 
 
 def carOneLap(car, finish_line):

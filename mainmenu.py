@@ -1,15 +1,9 @@
-# This is a sample Python script.
 import pygame
-import sys
 from pygame import *
 import timetrial
 import two_player
-# pygame.init()
-pygame.font.init()
-#size = (700, 500)
-#pygame.display.set_caption("My Game")
-#screen = pygame.display.set_mode(size)
-title = pygame.font.SysFont(None, 36)
+import sys
+
 track = pygame.image.load('images/track.png')
 background = pygame.image.load('images/Gui_background.png')
 track = transform.scale(track, (100, 100))
@@ -26,16 +20,21 @@ YELLOW = (255, 211, 0)
 clock = pygame.time.Clock()
 
 
-def text(text, font, color, surface, x, y):
-    textobj = title.render(text, 1, color)
+def text(text, color1, surface, x, y):
+    title = pygame.font.SysFont(None, 36)
+    textobj = title.render(text, 1, color1)
     textrec = textobj.get_rect()
     textrec.topleft = (x, y)
     surface.blit(textobj, textrec)
+
+
 # -------- Main Program Loop -----------
 
 
 def main_menu(screen):
+    pygame.font.init()
     carryOn = True
+    click = False
     while carryOn:
         # --- Main event loop
 
@@ -70,16 +69,16 @@ def main_menu(screen):
             if click:
                 options(screen)
 
-        screen.blit(background, (0,0))
-        text('Race Menu', title, YELLOW, screen, 310, 20)
+        screen.blit(background, (0, 0))
+        text('Race Menu', YELLOW, screen, 310, 20)
         pygame.draw.rect(screen, button1col, button1)
         pygame.draw.rect(screen, button2col, button2)
         pygame.draw.rect(screen, button3col, button3)
         pygame.draw.rect(screen, button4col, button4)
-        text('Time Trial', font, BLACK, screen, 80, 120)
-        text('Two-Player', font, BLACK, screen, 80, 220)
-        text('Tutorial', font, BLACK, screen, 80, 320)
-        text('Options', font, BLACK, screen, 80, 420)
+        text('Time Trial', BLACK, screen, 80, 120)
+        text('Two-Player', BLACK, screen, 80, 220)
+        text('Tutorial', BLACK, screen, 80, 320)
+        text('Options', BLACK, screen, 80, 420)
         click = False
         for event in pygame.event.get():  # User did something
             if event.type == pygame.QUIT:  # If user clicked close
@@ -98,11 +97,10 @@ def main_menu(screen):
 
 
 def pick_track(screen):
-    timetrial
     click = False
     in_opts = True
-    screen.blit(background, (0,0))
-    text('Pick Track', title, YELLOW, screen, 20, 20)
+    screen.blit(background, (0, 0))
+    text('Pick Track', YELLOW, screen, 20, 20)
     while in_opts:
         mx, my = pygame.mouse.get_pos()
         for event in pygame.event.get():  # User did something
@@ -130,12 +128,12 @@ def pick_track(screen):
         clock.tick(60)
     return False
 
+
 def pick_track_2player(screen):
-    timetrial
     click = False
     in_opts = True
-    screen.blit(background, (0,0))
-    text('Pick Track', title, YELLOW, screen, 20, 20)
+    screen.blit(background, (0, 0))
+    text('Pick Track', YELLOW, screen, 20, 20)
     while in_opts:
         mx, my = pygame.mouse.get_pos()
         for event in pygame.event.get():  # User did something
@@ -154,7 +152,6 @@ def pick_track_2player(screen):
             track_select_col = YELLOW
             if click:
                 two_player.two_player(screen)
-                in_opts = False
                 return True
 
         draw.rect(screen, track_select_col, trackCollide)
@@ -163,10 +160,11 @@ def pick_track_2player(screen):
         clock.tick(60)
     return False
 
+
 def options(screen):
     in_opts = True
-    screen.blit(background, (0,0))
-    text('Options', title, YELLOW, screen, 20, 20)
+    screen.blit(background, (0, 0))
+    text('Options', YELLOW, screen, 20, 20)
     while in_opts:
         for event in pygame.event.get():  # User did something
             if event.type == pygame.QUIT:  # If user clicked close
@@ -182,8 +180,8 @@ def options(screen):
 
 def tutorial(screen):
     in_opts = True
-    screen.blit(background, (0,0))
-    text('Tutorial', title, YELLOW, screen, 20, 20)
+    screen.blit(background, (0, 0))
+    text('Tutorial', YELLOW, screen, 20, 20)
     image = pygame.image.load('images/tutorial.png')
     screen.blit(image, (0, 100))
     while in_opts:
