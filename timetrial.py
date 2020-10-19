@@ -1,5 +1,6 @@
 import pygame
 import time
+import math
 import sys
 import track
 import mainmenu
@@ -34,6 +35,7 @@ def checkpoint1(car, checkpoint, checkpoint_check):
 
 
 def timeTrial(display_surface):
+    best_lap_time = 30000
     # display_surface = screen
     track1 = track.Track()
     white = (0, 128, 0)
@@ -47,14 +49,11 @@ def timeTrial(display_surface):
     finish_line = (960, 50, 20, 125)
     checkpoint = (960, 845, 10, 125)
     while True:
-        t1 = time.time()
-        dt = t1 - t0
-        # print(dt)
         # Draw the Track
         display_surface.fill(white)
         pad_group.draw(display_surface)
         track.checkpoint(display_surface)
-        deltat = clock.tick(60)
+        deltat = clock.tick(30)
         font = pygame.font.Font('fonts/American Captain.ttf', 32)
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -75,18 +74,26 @@ def timeTrial(display_surface):
             elif event.key == K_ESCAPE:
                 mainmenu.main_menu(display_surface)
                 # sys.exit(0)  # quit the game
-
+        t1 = time.time()
+        dt = t1-t0
         # Timer
-        font = font.render("Time: " + str(dt), True, (255, 255, 255))
-        display_surface.blit(font, (0, 0))
+        timer_text = font.render("Time: " + str(dt), True, (255, 255, 255))
+        display_surface.blit(timer_text, (0, 0))
 
+        # Time to Beat
+        if best_lap_time != 30000:
+            best_lap_text = font.render(
+                "Time to Beat: "+str(best_lap_time), True, (255, 255, 255))
+            display_surface.blit(best_lap_text, (0, 30))
         # Update Car and draw
         car_group.update(deltat)
         car_group.draw(display_surface)
 
+        # Check if car is on track
         on_track = pygame.sprite.groupcollide(
             car_group, pad_group, False, False)
 
+        # Slow down car if not on track
         if not on_track:
             car.MAX_FORWARD_SPEED = 3
         else:
@@ -94,14 +101,28 @@ def timeTrial(display_surface):
 
         # OPTIONAL car hitbox
         pygame.draw.rect(display_surface, (255, 0, 0), car.hitbox, 2)
-        # print(car_group.)
+
         pygame.display.flip()
+
         checkpoint_check = checkpoint1(car, checkpoint, checkpoint_check)
-        print(checkpoint_check)
+
         if checkpoint_check >= 1:
             if completeLap(car, finish_line):
+                if dt < best_lap_time:
+                    # print("Best Lap Time: "+str(dt))
+                    # win_font = font.render(
+                    #     "Best Lap Time! " + str(dt), True, (255, 255, 255))
+                    # display_surface.blit(win_font, (1920/2, 50))
+                    best_lap_time = dt
+                else:
+                    pass
+                    # win_font = font.render(
+                    #     "Time to Beat: " + str(best_lap_time) + "\n Your lap time:" + str(dt), True, (255, 255, 255))
+                    # display_surface.blit(win_font, (1920/2, 50))
+                # time.sleep(3000)
                 t0, t1 = time.time(), time.time()
                 checkpoint_check = 0
         if checkOutOfBounds(car):
             car.reset(start_position)
+
         pygame.display.update()
