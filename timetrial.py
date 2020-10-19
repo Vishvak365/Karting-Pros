@@ -10,7 +10,7 @@ from pygame.locals import *
 
 def completeLap(car, finish_line):
     if (car.hitbox[1] < (finish_line[1] + 100)) and (car.hitbox[1] > (finish_line[1] - 100)):
-        if (car.hitbox[0] < (finish_line[0] + 5)) and (car.hitbox[0] > (finish_line[0] - 5)):
+        if (car.hitbox[0] < (finish_line[0] + 15)) and (car.hitbox[0] > (finish_line[0] - 15)):
             print("Lap finished")
             return True
 
@@ -25,7 +25,7 @@ def checkOutOfBounds(car):
 
 def checkpoint1(car, checkpoint, checkpoint_check):
     if (car.hitbox[1] < (checkpoint[1] + 110)) and (car.hitbox[1] > (checkpoint[1] - 110)):
-        if (car.hitbox[0] < (checkpoint[0] + 10)) and (car.hitbox[0] > (checkpoint[0] - 10)):
+        if (car.hitbox[0] < (checkpoint[0] + 15)) and (car.hitbox[0] > (checkpoint[0] - 15)):
             print("Lap finished")
             checkpoint_check = checkpoint_check + 1
     else:
@@ -97,7 +97,7 @@ def timeTrial(display_surface):
         if not on_track:
             car.MAX_FORWARD_SPEED = 3
         else:
-            car.MAX_FORWARD_SPEED = 10
+            car.MAX_FORWARD_SPEED = 20
 
         # OPTIONAL car hitbox
         pygame.draw.rect(display_surface, (255, 0, 0), car.hitbox, 2)
