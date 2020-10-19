@@ -1,6 +1,9 @@
 import pygame
 import math
 
+def checkpoint(surface):
+    pygame.draw.rect(surface, (255, 255, 255), (960,50,20,125))
+
 
 class Track:
 
@@ -42,6 +45,7 @@ class RoadSquares(pygame.sprite.Sprite):
         self.image = self.black
         self.rect = pygame.Rect(self.black.get_rect())
         self.rect.center = position
+
 
 
     def update(self):
