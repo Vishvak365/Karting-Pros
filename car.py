@@ -48,10 +48,17 @@ class Car(pygame.sprite.Sprite):
         self.x, self.y = x, y
         self.hitbox = (int(x) - 20, int(y) - 20, xScale-5, xScale-5)
 
-    # @property
-    # def getX(self):
-    #     return self._x
+    def reset(self, position):
+        self.position = position
+        self.speed = 0
+        self.direction = -90
+        self.k_left = self.k_right = self.k_down = self.k_up = 0
+        # self._x, self._y = 0, 0
+        self.hitbox = (0, 0, 0, 0)
+        # @property
+        # def getX(self):
+        #     return self._x
 
-    # @property
-    # def getY(self):
-    #     return self._y
+        # @property
+        # def getY(self):
+        #     return self._y
