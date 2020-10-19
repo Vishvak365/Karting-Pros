@@ -3,6 +3,7 @@ import pygame
 import screen
 import track
 import time
+import mainmenu
 from car import Car
 from pygame.locals import *
 import sys
@@ -22,7 +23,7 @@ def main():
     car_group = pygame.sprite.Group(car)
 
     pad_group = track1.getPads()
-
+    mainmenu.main_menu(display_surface)
     while True:
         # Draw the Track
         display_surface.fill(white)
@@ -30,6 +31,8 @@ def main():
 
         deltat = clock.tick(30)
         for event in pygame.event.get():
+            if event.type == QUIT:
+                sys.exit(0)
             if not hasattr(event, 'key'):
                 continue
             down = event.type == KEYDOWN
