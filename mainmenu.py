@@ -4,8 +4,6 @@ import timetrial
 import two_player
 import sys
 
-
-
 track = pygame.image.load('images/track.png')
 background = pygame.image.load('images/Gui_background.png')
 track = transform.scale(track, (100, 100))
@@ -28,12 +26,15 @@ def text(text, color1, surface, x, y):
     textrec = textobj.get_rect()
     textrec.topleft = (x, y)
     surface.blit(textobj, textrec)
+
+
 # -------- Main Program Loop -----------
 
 
 def main_menu(screen):
     pygame.font.init()
     carryOn = True
+    click = False
     while carryOn:
         # --- Main event loop
 
@@ -68,7 +69,7 @@ def main_menu(screen):
             if click:
                 options(screen)
 
-        screen.blit(background, (0,0))
+        screen.blit(background, (0, 0))
         text('Race Menu', YELLOW, screen, 310, 20)
         pygame.draw.rect(screen, button1col, button1)
         pygame.draw.rect(screen, button2col, button2)
@@ -99,7 +100,7 @@ def pick_track(screen):
     timetrial
     click = False
     in_opts = True
-    screen.blit(background, (0,0))
+    screen.blit(background, (0, 0))
     text('Pick Track', YELLOW, screen, 20, 20)
     while in_opts:
         mx, my = pygame.mouse.get_pos()
@@ -128,11 +129,11 @@ def pick_track(screen):
         clock.tick(60)
     return False
 
+
 def pick_track_2player(screen):
-    timetrial
     click = False
     in_opts = True
-    screen.blit(background, (0,0))
+    screen.blit(background, (0, 0))
     text('Pick Track', YELLOW, screen, 20, 20)
     while in_opts:
         mx, my = pygame.mouse.get_pos()
@@ -160,9 +161,10 @@ def pick_track_2player(screen):
         clock.tick(60)
     return False
 
+
 def options(screen):
     in_opts = True
-    screen.blit(background, (0,0))
+    screen.blit(background, (0, 0))
     text('Options', YELLOW, screen, 20, 20)
     while in_opts:
         for event in pygame.event.get():  # User did something
@@ -179,7 +181,7 @@ def options(screen):
 
 def tutorial(screen):
     in_opts = True
-    screen.blit(background, (0,0))
+    screen.blit(background, (0, 0))
     text('Tutorial', YELLOW, screen, 20, 20)
     image = pygame.image.load('images/tutorial.png')
     screen.blit(image, (0, 100))
