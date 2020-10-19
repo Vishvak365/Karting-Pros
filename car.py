@@ -13,10 +13,12 @@ class Car(pygame.sprite.Sprite):
     def __init__(self, image, position):
         pygame.sprite.Sprite.__init__(self)
         self.src_image = pygame.image.load(image)
+        # self.src_image = pygame.transform.rotate(self.src_image, 90)
         self.position = position
-        self.speed = self.direction = 0
+        self.speed = 0
+        self.direction = -90
         self.k_left = self.k_right = self.k_down = self.k_up = 0
-        self._x, self._y = 0, 0
+        # self._x, self._y = 0, 0
         self.hitbox = (0, 0, 0, 0)
 
     def update(self, deltat):
@@ -29,10 +31,12 @@ class Car(pygame.sprite.Sprite):
             self.speed = -self.MAX_REVERSE_SPEED
         self.direction += (self.k_right + self.k_left)
         x, y = (self.position)
+        print(self.direction)
         rad = self.direction * math.pi / 180
         x += -self.speed*math.sin(rad)
         y += -self.speed*math.cos(rad)
         self.position = (x, y)
+        # print(self.position)
         xScale = 40
         yScale = math.ceil(xScale + (xScale*(1/3)))
         self.src_image = pygame.transform.scale(
@@ -44,13 +48,10 @@ class Car(pygame.sprite.Sprite):
         self.x, self.y = x, y
         self.hitbox = (int(x) - 20, int(y) - 20, xScale-5, xScale-5)
 
+    # @property
+    # def getX(self):
+    #     return self._x
 
-    @property
-    def getX(self):
-        return self._x
-
-    @property
-    def getY(self):
-        return self._y
-
-
+    # @property
+    # def getY(self):
+    #     return self._y

@@ -43,10 +43,10 @@ def two_player(display_surface):
     clock = pygame.time.Clock()
     t0 = time.time()
 
-    car = Car('images/f1sprite.png', (800, 80))
+    car = Car('images/f1sprite.png', ((1010, 144)))
     car_group = pygame.sprite.Group(car)
 
-    car2 = Car('images/f1sprite.png', (800, 170))
+    car2 = Car('images/f1sprite.png', ((1010, 75)))
     car_group2 = pygame.sprite.Group(car2)
 
     pad_group = track1.getPads()

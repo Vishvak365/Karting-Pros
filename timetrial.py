@@ -7,11 +7,11 @@ import mainmenu
 from car import Car
 from pygame.locals import *
 
+
 def completeLap(car, finish_line):
     if (car.hitbox[1] < (finish_line[1] + 100)) and (car.hitbox[1] > (finish_line[1] - 100)):
         if (car.hitbox[0] < (finish_line[0] + 5)) and (car.hitbox[0] > (finish_line[0] - 5)):
             print("Lap finished")
-
 
 
 def timeTrial(display_surface):
@@ -21,11 +21,11 @@ def timeTrial(display_surface):
     clock = pygame.time.Clock()
     t0 = time.time()
 
-    car = Car('images/f1sprite.png', (719, 144))
+    car = Car('images/f1sprite.png', (1010, 144))
     car_group = pygame.sprite.Group(car)
 
     pad_group = track1.getPads()
-    finish_line = (960,50,20,125)
+    finish_line = (960, 50, 20, 125)
     while True:
         # Draw the Track
         display_surface.fill(white)
@@ -53,12 +53,17 @@ def timeTrial(display_surface):
                 mainmenu.main_menu(display_surface)
                 # sys.exit(0)  # quit the game
 
-        # Update car and draw track
+        # Timer
         font = font.render("Time: " + str(), True, (255, 255, 255))
-        display_surface.blit(font, (0,0))
+        display_surface.blit(font, (0, 0))
+
+        # Update Car and draw
         car_group.update(deltat)
         car_group.draw(display_surface)
+        # car_group.
+        # OPTIONAL car hitbox
         pygame.draw.rect(display_surface, (255, 0, 0), car.hitbox, 2)
+
         pygame.display.flip()
-        completeLap(car,finish_line)
+        completeLap(car, finish_line)
         pygame.display.update()
