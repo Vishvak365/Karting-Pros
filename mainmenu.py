@@ -2,10 +2,10 @@ import pygame
 from pygame import *
 import timetrial
 import two_player
+import sys
 
-pygame.font.init()
 
-title = pygame.font.SysFont(None, 36)
+
 track = pygame.image.load('images/track.png')
 background = pygame.image.load('images/Gui_background.png')
 track = transform.scale(track, (100, 100))
@@ -23,6 +23,7 @@ clock = pygame.time.Clock()
 
 
 def text(text, color1, surface, x, y):
+    title = pygame.font.SysFont(None, 36)
     textobj = title.render(text, 1, color1)
     textrec = textobj.get_rect()
     textrec.topleft = (x, y)
@@ -31,6 +32,7 @@ def text(text, color1, surface, x, y):
 
 
 def main_menu(screen):
+    pygame.font.init()
     carryOn = True
     while carryOn:
         # --- Main event loop
@@ -67,15 +69,15 @@ def main_menu(screen):
                 options(screen)
 
         screen.blit(background, (0,0))
-        text('Race Menu', title, YELLOW, screen, 310, 20)
+        text('Race Menu', YELLOW, screen, 310, 20)
         pygame.draw.rect(screen, button1col, button1)
         pygame.draw.rect(screen, button2col, button2)
         pygame.draw.rect(screen, button3col, button3)
         pygame.draw.rect(screen, button4col, button4)
-        text('Time Trial', font, BLACK, screen, 80, 120)
-        text('Two-Player', font, BLACK, screen, 80, 220)
-        text('Tutorial', font, BLACK, screen, 80, 320)
-        text('Options', font, BLACK, screen, 80, 420)
+        text('Time Trial', BLACK, screen, 80, 120)
+        text('Two-Player', BLACK, screen, 80, 220)
+        text('Tutorial', BLACK, screen, 80, 320)
+        text('Options', BLACK, screen, 80, 420)
         click = False
         for event in pygame.event.get():  # User did something
             if event.type == pygame.QUIT:  # If user clicked close
@@ -98,7 +100,7 @@ def pick_track(screen):
     click = False
     in_opts = True
     screen.blit(background, (0,0))
-    text('Pick Track', title, YELLOW, screen, 20, 20)
+    text('Pick Track', YELLOW, screen, 20, 20)
     while in_opts:
         mx, my = pygame.mouse.get_pos()
         for event in pygame.event.get():  # User did something
@@ -131,7 +133,7 @@ def pick_track_2player(screen):
     click = False
     in_opts = True
     screen.blit(background, (0,0))
-    text('Pick Track', title, YELLOW, screen, 20, 20)
+    text('Pick Track', YELLOW, screen, 20, 20)
     while in_opts:
         mx, my = pygame.mouse.get_pos()
         for event in pygame.event.get():  # User did something
@@ -150,7 +152,6 @@ def pick_track_2player(screen):
             track_select_col = YELLOW
             if click:
                 two_player.two_player(screen)
-                in_opts = False
                 return True
 
         draw.rect(screen, track_select_col, trackCollide)
@@ -162,7 +163,7 @@ def pick_track_2player(screen):
 def options(screen):
     in_opts = True
     screen.blit(background, (0,0))
-    text('Options', title, YELLOW, screen, 20, 20)
+    text('Options', YELLOW, screen, 20, 20)
     while in_opts:
         for event in pygame.event.get():  # User did something
             if event.type == pygame.QUIT:  # If user clicked close
@@ -179,7 +180,7 @@ def options(screen):
 def tutorial(screen):
     in_opts = True
     screen.blit(background, (0,0))
-    text('Tutorial', title, YELLOW, screen, 20, 20)
+    text('Tutorial', YELLOW, screen, 20, 20)
     image = pygame.image.load('images/tutorial.png')
     screen.blit(image, (0, 100))
     while in_opts:
