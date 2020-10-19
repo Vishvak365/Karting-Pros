@@ -5,7 +5,7 @@ from pygame.locals import *
 
 
 class Car(pygame.sprite.Sprite):
-    MAX_FORWARD_SPEED = 10
+    MAX_FORWARD_SPEED = 30
     MAX_REVERSE_SPEED = 3
     ACCELERATION = 1
     TURN_SPEED = 4
