@@ -9,6 +9,25 @@ from pygame.locals import *
 import sys
 
 
+def checkpoint1(car, checkpoint, checkpoint_check):
+    if (car.hitbox[1] < (checkpoint[1] + 110)) and (car.hitbox[1] > (checkpoint[1] - 110)):
+        if (car.hitbox[0] < (checkpoint[0] + 15)) and (car.hitbox[0] > (checkpoint[0] - 15)):
+            print("Lap finished")
+            checkpoint_check = checkpoint_check + 1
+    else:
+        checkpoint_check = checkpoint_check
+
+    return checkpoint_check
+
+
+def checkOutOfBounds(car):
+    x, y = 1920, 1080
+    if (car.position[0] > x or car.position[0] < 0 or car.position[1] > y or car.position[1] < 0):
+        return True
+    else:
+        return False
+
+
 def collision(car,car2,display_surface):
     if (car.hitbox[1] < (car2.hitbox[1] + 48)) and (car.hitbox[1] > (car2.hitbox[1] - 48)):
         if (car.hitbox[0] < (car2.hitbox[0] + 45)) and (car.hitbox[0] > (car2.hitbox[0] - 45)):
@@ -22,40 +41,58 @@ def collision(car,car2,display_surface):
             print(car.hitbox)
 
 
-def carOneLap(car, finish_line):
+def carOneLap(car, finish_line, lap):
     if (car.hitbox[1] < (finish_line[1] + 100)) and (car.hitbox[1] > (finish_line[1] - 100)):
-        if (car.hitbox[0] < (finish_line[0] + 5)) and (car.hitbox[0] > (finish_line[0] - 5)):
+        if (car.hitbox[0] < (finish_line[0] + 15)) and (car.hitbox[0] > (finish_line[0] - 15)):
             print("Lap finished for car 1!")
+            lap = lap + 1
+            return lap
+        else:
+            return lap
+    else:
+        return lap
 
 
-def carTwoLap(car, finish_line):
+def carTwoLap(car, finish_line, lap):
     if (car.hitbox[1] < (finish_line[1] + 100)) and (car.hitbox[1] > (finish_line[1] - 100)):
-        if (car.hitbox[0] < (finish_line[0] + 5)) and (car.hitbox[0] > (finish_line[0] - 5)):
+        if (car.hitbox[0] < (finish_line[0] + 15)) and (car.hitbox[0] > (finish_line[0] - 15)):
             print("Lap finished for car 2!")
-
+            lap = lap + 1
+            return lap
+        else:
+            return lap
+    else:
+        return lap
 
 def two_player(display_surface):
     # window = screen.Screen()
     track1 = track.Track()
     white = (0, 128, 0)
-
+    startcar = (1010, 144)
+    startcar2 = (1010, 75)
     clock = pygame.time.Clock()
     t0 = time.time()
 
-    car = Car('images/f1sprite.png', ((1010, 144)))
+    car = Car('images/f1sprite.png', startcar)
     car_group = pygame.sprite.Group(car)
 
-    car2 = Car('images/f1sprite.png', ((1010, 75)))
+    car2 = Car('images/f1sprite.png', startcar2)
     car_group2 = pygame.sprite.Group(car2)
 
     pad_group = track1.getPads()
     finish_line = (960, 50, 20, 125)
+    checkpoint = (960, 845, 10, 125)
+    lapcar1 = 0
+    checkpointcar1 = 0
+    lapcar2 = 0
+    checkpointcar2 = 0
     while True:
         # Draw the Track
         display_surface.fill(white)
         pad_group.draw(display_surface)
         track.checkpoint(display_surface)
         deltat = clock.tick(30)
+        font = pygame.font.Font('fonts/American Captain.ttf', 32)
         for event in pygame.event.get():
             if not hasattr(event, 'key'):
                 continue
@@ -89,15 +126,52 @@ def two_player(display_surface):
                 # sys.exit(0)  # quit the game
 
         # Update car and draw track
+        carlap1 = font.render("Car 1 Laps completed: " + str(lapcar1) + "/5", True, (255, 255, 255))
+        carlap2 = font.render("Car 2 Laps completed: " + str(lapcar2) + "/5", True, (255, 255, 255))
+        display_surface.blit(carlap1, (0, 0))
+        display_surface.blit(carlap2, (0, 30))
         car_group.update(deltat)
         car_group.draw(display_surface)
         pygame.draw.rect(display_surface, (255, 0, 0), car.hitbox, 2)
         car_group2.update(deltat)
         car_group2.draw(display_surface)
         pygame.draw.rect(display_surface, (255, 0, 0), car2.hitbox, 2)
+        # Check if car is on track
+        on_track = pygame.sprite.groupcollide(
+            car_group, pad_group, False, False)
+
+        # Slow down car if not on track
+        if not on_track:
+            car.MAX_FORWARD_SPEED = 3
+        else:
+            car.MAX_FORWARD_SPEED = 20
+        # Check if car is on track
+        on_track2 = pygame.sprite.groupcollide(
+            car_group2, pad_group, False, False)
+
+        # Slow down car if not on track
+        if not on_track2:
+            car2.MAX_FORWARD_SPEED = 3
+        else:
+            car2.MAX_FORWARD_SPEED = 20
+
         pygame.display.flip()
         collision(car,car2,display_surface)
-        carOneLap(car, finish_line)
-        carTwoLap(car2, finish_line)
+        if checkOutOfBounds(car):
+            car.reset(startcar)
+        if checkOutOfBounds(car2):
+            car2.reset(startcar2)
+        checkpointcar1 = checkpoint1(car, checkpoint, checkpointcar1)
+        checkpointcar2 = checkpoint1(car2, checkpoint, checkpointcar2)
+        if checkpointcar1 >= 1:
+            previouslapcar1 = lapcar1
+            lapcar1 = carOneLap(car, finish_line, lapcar1)
+            if lapcar1 > previouslapcar1:
+                checkpointcar1 = 0
+        if checkpointcar2 >= 1:
+            previouslapcar2 = lapcar2
+            lapcar2 = carTwoLap(car2, finish_line, lapcar2)
+            if lapcar2 > previouslapcar2:
+                checkpointcar2 = 0
         # pygame.draw.rect(display_surface, (255, 255, 255), (960, 0, 30, 125))
         pygame.display.update()
