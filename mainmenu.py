@@ -1,14 +1,10 @@
-# This is a sample Python script.
 import pygame
-import sys
 from pygame import *
 import timetrial
 import two_player
-# pygame.init()
+
 pygame.font.init()
-#size = (700, 500)
-#pygame.display.set_caption("My Game")
-#screen = pygame.display.set_mode(size)
+
 title = pygame.font.SysFont(None, 36)
 track = pygame.image.load('images/track.png')
 background = pygame.image.load('images/Gui_background.png')
@@ -26,8 +22,8 @@ YELLOW = (255, 211, 0)
 clock = pygame.time.Clock()
 
 
-def text(text, font, color, surface, x, y):
-    textobj = title.render(text, 1, color)
+def text(text, color1, surface, x, y):
+    textobj = title.render(text, 1, color1)
     textrec = textobj.get_rect()
     textrec.topleft = (x, y)
     surface.blit(textobj, textrec)
