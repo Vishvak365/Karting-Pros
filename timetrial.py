@@ -1,6 +1,5 @@
 import pygame
 import time
-import math
 import sys
 import track
 import mainmenu
@@ -24,14 +23,14 @@ def checkOutOfBounds(car):
 
 
 def checkpoint1(car, checkpoint, checkpoint_check):
-        if (car.hitbox[1] < (checkpoint[1] + 100)) and (car.hitbox[1] > (checkpoint[1] - 100)):
-            if (car.hitbox[0] < (checkpoint[0] + 5)) and (car.hitbox[0] > (checkpoint[0] - 5)):
-                print("Lap finished")
-                checkpoint_check = checkpoint_check + 1
-        else:
-            checkpoint_check = checkpoint_check
+    if (car.hitbox[1] < (checkpoint[1] + 100)) and (car.hitbox[1] > (checkpoint[1] - 100)):
+        if (car.hitbox[0] < (checkpoint[0] + 5)) and (car.hitbox[0] > (checkpoint[0] - 5)):
+            print("Lap finished")
+            checkpoint_check = checkpoint_check + 1
+    else:
+        checkpoint_check = checkpoint_check
 
-        return checkpoint_check
+    return checkpoint_check
 
 
 def timeTrial(display_surface):
@@ -49,7 +48,7 @@ def timeTrial(display_surface):
     checkpoint = (960, 845, 10, 125)
     while True:
         t1 = time.time()
-        dt = t1-t0
+        dt = t1 - t0
         # print(dt)
         # Draw the Track
         display_surface.fill(white)
@@ -87,7 +86,7 @@ def timeTrial(display_surface):
 
         on_track = pygame.sprite.groupcollide(
             car_group, pad_group, False, False)
-        
+
         if not on_track:
             car.MAX_FORWARD_SPEED = 3
         else:
@@ -97,7 +96,7 @@ def timeTrial(display_surface):
         pygame.draw.rect(display_surface, (255, 0, 0), car.hitbox, 2)
         # print(car_group.)
         pygame.display.flip()
-        checkpoint_check = checkpoint1(car, checkpoint,checkpoint_check)
+        checkpoint_check = checkpoint1(car, checkpoint, checkpoint_check)
         print(checkpoint_check)
         if checkpoint_check >= 1:
             if completeLap(car, finish_line):
