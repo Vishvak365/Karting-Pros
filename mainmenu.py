@@ -2,6 +2,8 @@
 import pygame
 import sys
 from pygame import *
+import timetrial
+import two_player
 # pygame.init()
 pygame.font.init()
 #size = (700, 500)
@@ -40,9 +42,11 @@ def main_menu(screen):
         button1col = RED
         button2col = RED
         button3col = RED
+        button4col = RED
         button1 = pygame.Rect(50, 100, 200, 50)
         button2 = pygame.Rect(50, 200, 200, 50)
         button3 = pygame.Rect(50, 300, 200, 50)
+        button4 = pygame.Rect(50, 400, 200, 50)
 
         if button1.collidepoint((mx, my)):
             button1col = YELLOW
@@ -52,25 +56,34 @@ def main_menu(screen):
         if button2.collidepoint((mx, my)):
             button2col = YELLOW
             if click:
-                options(screen)
+                if pick_track_2player(screen):
+                    break
 
         if button3.collidepoint((mx, my)):
             button3col = YELLOW
             if click:
                 tutorial(screen)
 
+        if button4.collidepoint((mx, my)):
+            button4col = YELLOW
+            if click:
+                options(screen)
+
         screen.fill(BLACK)
         text('Race Menu', title, YELLOW, screen, 310, 20)
         pygame.draw.rect(screen, button1col, button1)
         pygame.draw.rect(screen, button2col, button2)
         pygame.draw.rect(screen, button3col, button3)
+        pygame.draw.rect(screen, button4col, button4)
         text('Time Trial', font, BLACK, screen, 80, 120)
-        text('Options', font, BLACK, screen, 80, 220)
+        text('Two-Player', font, BLACK, screen, 80, 220)
         text('Tutorial', font, BLACK, screen, 80, 320)
+        text('Options', font, BLACK, screen, 80, 420)
         click = False
         for event in pygame.event.get():  # User did something
             if event.type == pygame.QUIT:  # If user clicked close
-                carryOn = False  # Flag that we are done so we exit this loop
+                sys.exit()
+                # carryOn = False  # Flag that we are done so we exit this loop
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     carryOn = False
@@ -84,6 +97,7 @@ def main_menu(screen):
 
 
 def pick_track(screen):
+    timetrial
     click = False
     in_opts = True
     screen.fill(BLACK)
@@ -105,6 +119,7 @@ def pick_track(screen):
         if trackCollide.collidepoint((mx, my)):
             track_select_col = YELLOW
             if click:
+                timetrial.timeTrial(screen)
                 in_opts = False
                 return True
 
@@ -114,6 +129,38 @@ def pick_track(screen):
         clock.tick(60)
     return False
 
+def pick_track_2player(screen):
+    timetrial
+    click = False
+    in_opts = True
+    screen.fill(BLACK)
+    text('Pick Track', title, YELLOW, screen, 20, 20)
+    while in_opts:
+        mx, my = pygame.mouse.get_pos()
+        for event in pygame.event.get():  # User did something
+            if event.type == pygame.QUIT:  # If user clicked close
+                pygame.quit()  # Flag that we are done so we exit this loop
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    in_opts = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+
+        trackCollide = pygame.Rect(40, 70, 120, 120)
+        track_select_col = BLACK
+        if trackCollide.collidepoint((mx, my)):
+            track_select_col = YELLOW
+            if click:
+                two_player.two_player(screen)
+                in_opts = False
+                return True
+
+        draw.rect(screen, track_select_col, trackCollide)
+        screen.blit(track, (50, 80))
+        pygame.display.update()
+        clock.tick(60)
+    return False
 
 def options(screen):
     in_opts = True
@@ -137,7 +184,7 @@ def tutorial(screen):
     screen.fill(BLACK)
     text('Tutorial', title, YELLOW, screen, 20, 20)
     image = pygame.image.load('images/tutorial.png')
-    screen.blit(image,(0,100))
+    screen.blit(image, (0, 100))
     while in_opts:
         for event in pygame.event.get():  # User did something
             if event.type == pygame.QUIT:  # If user clicked close
