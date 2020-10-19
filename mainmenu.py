@@ -110,4 +110,5 @@ def options(screen):
                     in_opts = False
 
         pygame.display.update()
+
         clock.tick(60)
