@@ -73,6 +73,7 @@ def two_player():
                 print("collision")
                 print(car.hitbox)
         pygame.display.flip()
+        pygame.draw.rect(display_surface, (255, 255, 255), (960, 0, 30, 125))
         pygame.display.update()
 
 
