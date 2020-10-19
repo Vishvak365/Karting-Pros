@@ -1,4 +1,5 @@
 import pygame
+# Common screen class for game -- height and width set, create display
 
 
 class Screen:
