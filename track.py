@@ -27,8 +27,6 @@ class Track:
                     (math.cos(radian) * (650 + 32 * r) + center_x))
                 pad_y = math.floor(
                     (math.sin(radian) * (350 + 32 * r) + center_y))
-                # print(pad_x)
-                # print(pad_y)
                 pads.append(RoadSquares((pad_x, pad_y)))
 
         return pygame.sprite.RenderPlain(*pads)
