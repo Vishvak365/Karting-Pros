@@ -1,0 +1,61 @@
+('C:\\Users\\Vishvak Seenichamy\\OneDrive - University of '
+ 'Florida\\!Fall2020\\CIS4930 - Performant Programming in '
+ 'Python\\Karting-Pros\\build\\main\\PKG-00.pkg',
+ {'BINARY': 1,
+  'DATA': 1,
+  'EXECUTABLE': 1,
+  'EXTENSION': 1,
+  'PYMODULE': 1,
+  'PYSOURCE': 1,
+  'PYZ': 0},
+ [('PYZ-00.pyz',
+   'C:\\Users\\Vishvak Seenichamy\\OneDrive - University of '
+   'Florida\\!Fall2020\\CIS4930 - Performant Programming in '
+   'Python\\Karting-Pros\\build\\main\\PYZ-00.pyz',
+   'PYZ'),
+  ('struct',
+   'C:\\Users\\Vishvak '
+   'Seenichamy\\AppData\\Local\\Programs\\Python\\Python37\\lib\\struct.pyo',
+   'PYMODULE'),
+  ('pyimod01_os_path',
+   'C:\\Users\\Vishvak '
+   'Seenichamy\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\PyInstaller\\loader\\pyimod01_os_path.pyc',
+   'PYMODULE'),
+  ('pyimod02_archive',
+   'C:\\Users\\Vishvak '
+   'Seenichamy\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\PyInstaller\\loader\\pyimod02_archive.pyc',
+   'PYMODULE'),
+  ('pyimod03_importers',
+   'C:\\Users\\Vishvak '
+   'Seenichamy\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\PyInstaller\\loader\\pyimod03_importers.pyc',
+   'PYMODULE'),
+  ('pyiboot01_bootstrap',
+   'C:\\Users\\Vishvak '
+   'Seenichamy\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\PyInstaller\\loader\\pyiboot01_bootstrap.py',
+   'PYSOURCE'),
+  ('pyi_rth_pkgres',
+   'C:\\Users\\Vishvak '
+   'Seenichamy\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_pkgres.py',
+   'PYSOURCE'),
+  ('pyi_rth_win32comgenpy',
+   'C:\\Users\\Vishvak '
+   'Seenichamy\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_win32comgenpy.py',
+   'PYSOURCE'),
+  ('pyi_rth_multiprocessing',
+   'C:\\Users\\Vishvak '
+   'Seenichamy\\AppData\\Local\\Programs\\Python\\Python37\\lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_multiprocessing.py',
+   'PYSOURCE'),
+  ('main',
+   'C:\\Users\\Vishvak Seenichamy\\OneDrive - University of '
+   'Florida\\!Fall2020\\CIS4930 - Performant Programming in '
+   'Python\\Karting-Pros\\main.py',
+   'PYSOURCE'),
+  ('main.exe.manifest',
+   'C:\\Users\\Vishvak Seenichamy\\OneDrive - University of '
+   'Florida\\!Fall2020\\CIS4930 - Performant Programming in '
+   'Python\\Karting-Pros\\build\\main\\main.exe.manifest',
+   'BINARY')],
+ True,
+ False,
+ True,
+ [])
