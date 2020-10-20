@@ -8,6 +8,27 @@ from car import Car
 from pygame.locals import *
 import sys
 
+def win(display_surface):
+    font = pygame.font.Font('fonts/American Captain.ttf', 32)
+    win = pygame.image.load('images/win.png')
+    carlap1 = font.render("Car 1 Wins!", True, (255, 255, 255))
+    display_surface.blit(win, (700,300))
+    display_surface.blit(carlap1, (1050, 500))
+    pygame.display.update()
+    pygame.time.delay(5000)
+    mainmenu.main_menu(display_surface)
+
+
+def win2(display_surface):
+    font = pygame.font.Font('fonts/American Captain.ttf', 32)
+    win = pygame.image.load('images/win.png')
+    carlap2 = font.render("Car 2 Wins!", True, (255, 255, 255))
+    display_surface.blit(win, (700, 300))
+    display_surface.blit(carlap2, (1050, 500))
+    pygame.display.update()
+    pygame.time.delay(5000)
+    mainmenu.main_menu(display_surface)
+
 
 def checkpoint1(car, checkpoint, checkpoint_check):
     if (car.hitbox[1] < (checkpoint[1] + 110)) and (car.hitbox[1] > (checkpoint[1] - 110)):
@@ -29,16 +50,15 @@ def checkOutOfBounds(car):
 
 
 def collision(car,car2,display_surface):
-    if (car.hitbox[1] < (car2.hitbox[1] + 48)) and (car.hitbox[1] > (car2.hitbox[1] - 48)):
-        if (car.hitbox[0] < (car2.hitbox[0] + 45)) and (car.hitbox[0] > (car2.hitbox[0] - 45)):
+    if (car.hitbox[1] < (car2.hitbox[1] + 35)) and (car.hitbox[1] > (car2.hitbox[1] - 35)):
+        if (car.hitbox[0] < (car2.hitbox[0] + 35)) and (car.hitbox[0] > (car2.hitbox[0] - 35)):
             car2.speed = 0
             car.speed = 0
             crash = pygame.image.load('images/crash.png')
             display_surface.blit(crash, (600, 250))
             pygame.display.update()
             pygame.time.delay(2500)
-            print("collision")
-            print(car.hitbox)
+            mainmenu.main_menu(display_surface)
 
 
 def carOneLap(car, finish_line, lap):
@@ -167,11 +187,15 @@ def two_player(display_surface):
             previouslapcar1 = lapcar1
             lapcar1 = carOneLap(car, finish_line, lapcar1)
             if lapcar1 > previouslapcar1:
+                if lapcar1 == 5:
+                    win(display_surface)
                 checkpointcar1 = 0
-        if checkpointcar2 >= 1:
+        if checkpointcar2 >= 5:
             previouslapcar2 = lapcar2
             lapcar2 = carTwoLap(car2, finish_line, lapcar2)
             if lapcar2 > previouslapcar2:
+                if lapcar2 == 1:
+                    win2(display_surface)
                 checkpointcar2 = 0
         # pygame.draw.rect(display_surface, (255, 255, 255), (960, 0, 30, 125))
         pygame.display.update()
