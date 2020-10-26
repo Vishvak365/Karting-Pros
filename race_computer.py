@@ -116,23 +116,10 @@ def computer_race(display_surface):
         for event in pygame.event.get():
             if not hasattr(event, 'key'):
                 continue
-            down = getEvent(car,event,display_surface)
+            down = getEvent1(car,event,display_surface)
+            down2 = getEvent2(car2,event,display_surface)
 
-                # sys.exit(0)  # quit the game
 
-            if event.key == K_d:
-                car2.k_right = down * -5
-            elif event.key == K_LSHIFT:
-                car2.speed = 0
-            elif event.key == K_a:
-                car2.k_left = down * 5
-            elif event.key == K_w:
-                car2.k_up = down * 2
-            elif event.key == K_s:
-                car2.k_down = down * -2
-            elif event.key == K_ESCAPE:
-                mainmenu.main_menu(display_surface)
-                # sys.exit(0)  # quit the game
 
         # Update car and draw track
         carlap1 = font.render("Car 1 Laps completed: " + str(lapcar1) + "/5", True, (255, 255, 255))
@@ -190,7 +177,7 @@ def computer_race(display_surface):
         pygame.display.update()
 
 
-def getEvent(car, event, display_surface):
+def getEvent1(car, event, display_surface):
     down = event.type == KEYDOWN
     if event.key == K_RIGHT:
         car.k_right = down * -5
@@ -204,5 +191,24 @@ def getEvent(car, event, display_surface):
         car.k_down = down * -2
     elif event.key == K_ESCAPE:
         mainmenu.main_menu(display_surface)
+
+    return down
+
+
+def getEvent2(car2,event,display_surface):
+    down = event.type == KEYDOWN
+    if event.key == K_d:
+        car2.k_right = down * -5
+    elif event.key == K_LSHIFT:
+        car2.speed = 0
+    elif event.key == K_a:
+        car2.k_left = down * 5
+    elif event.key == K_w:
+        car2.k_up = down * 2
+    elif event.key == K_s:
+        car2.k_down = down * -2
+    elif event.key == K_ESCAPE:
+        mainmenu.main_menu(display_surface)
+        # sys.exit(0)  # quit the game
 
     return down
