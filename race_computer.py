@@ -84,7 +84,7 @@ def carTwoLap(car, finish_line, lap):
     else:
         return lap
 
-def two_player(display_surface):
+def computer_race(display_surface):
     # window = screen.Screen()
     track1 = track.Track()
     white = (0, 128, 0)
@@ -116,19 +116,8 @@ def two_player(display_surface):
         for event in pygame.event.get():
             if not hasattr(event, 'key'):
                 continue
-            down = event.type == KEYDOWN
-            if event.key == K_RIGHT:
-                car.k_right = down * -5
-            elif event.key == K_SPACE:
-                car.speed = 0
-            elif event.key == K_LEFT:
-                car.k_left = down * 5
-            elif event.key == K_UP:
-                car.k_up = down * 2
-            elif event.key == K_DOWN:
-                car.k_down = down * -2
-            elif event.key == K_ESCAPE:
-                mainmenu.main_menu(display_surface)
+            down = getEvent(car,event,display_surface)
+
                 # sys.exit(0)  # quit the game
 
             if event.key == K_d:
@@ -199,3 +188,21 @@ def two_player(display_surface):
                 checkpointcar2 = 0
         # pygame.draw.rect(display_surface, (255, 255, 255), (960, 0, 30, 125))
         pygame.display.update()
+
+
+def getEvent(car, event, display_surface):
+    down = event.type == KEYDOWN
+    if event.key == K_RIGHT:
+        car.k_right = down * -5
+    elif event.key == K_SPACE:
+        car.speed = 0
+    elif event.key == K_LEFT:
+        car.k_left = down * 5
+    elif event.key == K_UP:
+        car.k_up = down * 2
+    elif event.key == K_DOWN:
+        car.k_down = down * -2
+    elif event.key == K_ESCAPE:
+        mainmenu.main_menu(display_surface)
+
+    return down

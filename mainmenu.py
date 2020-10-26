@@ -2,6 +2,7 @@ import pygame
 from pygame import *
 import timetrial
 import two_player
+import race_computer
 import sys
 
 track = pygame.image.load('images/track.png')
@@ -151,7 +152,7 @@ def pick_track_2player(screen):
         if trackCollide.collidepoint((mx, my)):
             track_select_col = YELLOW
             if click:
-                two_player.two_player(screen)
+                race_computer.computer_race(screen)
                 return True
 
         draw.rect(screen, track_select_col, trackCollide)
