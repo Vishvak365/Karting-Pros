@@ -2,6 +2,7 @@ import pygame
 from pygame import *
 import timetrial
 import two_player
+import race_computer
 import sys
 
 track = pygame.image.load('images/track.png')
@@ -20,9 +21,9 @@ YELLOW = (255, 211, 0)
 clock = pygame.time.Clock()
 
 
-def text(text, color1, surface, x, y):
+def text(print_string, color1, surface, x, y):
     title = pygame.font.SysFont(None, 36)
-    textobj = title.render(text, 1, color1)
+    textobj = title.render(print_string, 1, color1)
     textrec = textobj.get_rect()
     textrec.topleft = (x, y)
     surface.blit(textobj, textrec)
@@ -33,9 +34,8 @@ def text(text, color1, surface, x, y):
 
 def main_menu(screen):
     pygame.font.init()
-    carryOn = True
     click = False
-    while carryOn:
+    while True:
         # --- Main event loop
 
         mx, my = pygame.mouse.get_pos()
@@ -83,10 +83,9 @@ def main_menu(screen):
         for event in pygame.event.get():  # User did something
             if event.type == pygame.QUIT:  # If user clicked close
                 sys.exit()
-                # carryOn = False  # Flag that we are done so we exit this loop
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    carryOn = False
+                    break
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True
@@ -151,7 +150,7 @@ def pick_track_2player(screen):
         if trackCollide.collidepoint((mx, my)):
             track_select_col = YELLOW
             if click:
-                two_player.two_player(screen)
+                two_player.RaceCars(screen)
                 return True
 
         draw.rect(screen, track_select_col, trackCollide)
