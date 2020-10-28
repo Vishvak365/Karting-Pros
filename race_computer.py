@@ -8,12 +8,13 @@ from car import Car
 from pygame.locals import *
 import sys
 
+
 def win(display_surface):
     font = pygame.font.Font('fonts/American Captain.ttf', 32)
     win = pygame.image.load('images/win.png')
-    carlap1 = font.render("Car 1 Wins!", True, (255, 255, 255))
-    display_surface.blit(win, (700,300))
-    display_surface.blit(carlap1, (1050, 500))
+    car_lap1 = font.render("Car 1 Wins!", True, (255, 255, 255))
+    display_surface.blit(win, (700, 300))
+    display_surface.blit(car_lap1, (1050, 500))
     pygame.display.update()
     pygame.time.delay(5000)
     mainmenu.main_menu(display_surface)
@@ -22,9 +23,9 @@ def win(display_surface):
 def win2(display_surface):
     font = pygame.font.Font('fonts/American Captain.ttf', 32)
     win = pygame.image.load('images/win.png')
-    carlap2 = font.render("Car 2 Wins!", True, (255, 255, 255))
+    car_lap2 = font.render("Car 2 Wins!", True, (255, 255, 255))
     display_surface.blit(win, (700, 300))
-    display_surface.blit(carlap2, (1050, 500))
+    display_surface.blit(car_lap2, (1050, 500))
     pygame.display.update()
     pygame.time.delay(5000)
     mainmenu.main_menu(display_surface)
@@ -43,13 +44,13 @@ def checkpoint1(car, checkpoint, checkpoint_check):
 
 def checkOutOfBounds(car):
     x, y = 1920, 1080
-    if (car.position[0] > x or car.position[0] < 0 or car.position[1] > y or car.position[1] < 0):
+    if car.position[0] > x or car.position[0] < 0 or car.position[1] > y or car.position[1] < 0:
         return True
     else:
         return False
 
 
-def collision(car,car2,display_surface):
+def collision(car, car2, display_surface):
     if (car.hitbox[1] < (car2.hitbox[1] + 35)) and (car.hitbox[1] > (car2.hitbox[1] - 35)):
         if (car.hitbox[0] < (car2.hitbox[0] + 35)) and (car.hitbox[0] > (car2.hitbox[0] - 35)):
             car2.speed = 0
@@ -84,52 +85,51 @@ def carTwoLap(car, finish_line, lap):
     else:
         return lap
 
+
 def computer_race(display_surface):
     # window = screen.Screen()
     track1 = track.Track()
     white = (0, 128, 0)
-    startcar = (1010, 144)
-    startcar2 = (1010, 75)
+    start_car1 = (1010, 144)
+    start_car2 = (1010, 75)
     clock = pygame.time.Clock()
     t0 = time.time()
 
-    car = Car('images/f1sprite.png', startcar)
+    car = Car('images/f1sprite.png', start_car1)
     car_group = pygame.sprite.Group(car)
 
-    car2 = Car('images/f1sprite.png', startcar2)
+    car2 = Car('images/f1sprite.png', start_car2)
     car_group2 = pygame.sprite.Group(car2)
 
     pad_group = track1.getPads()
     finish_line = (960, 50, 20, 125)
     checkpoint = (960, 845, 10, 125)
-    lapcar1 = 0
-    checkpointcar1 = 0
-    lapcar2 = 0
-    checkpointcar2 = 0
+    lap_car1 = 0
+    checkpoint_car1 = 0
+    lap_car2 = 0
+    checkpoint_car2 = 0
     while True:
         # Draw the Track
         display_surface.fill(white)
         pad_group.draw(display_surface)
         track.checkpoint(display_surface)
-        deltat = clock.tick(30)
+        delta_t = clock.tick(30)
         font = pygame.font.Font('fonts/American Captain.ttf', 32)
         for event in pygame.event.get():
             if not hasattr(event, 'key'):
                 continue
-            getEvent1(car,event,display_surface)
-            getEvent2(car2,event,display_surface)
-
-
+            getEvent1(car, event, display_surface)
+            getEvent2(car2, event, display_surface)
 
         # Update car and draw track
-        carlap1 = font.render("Car 1 Laps completed: " + str(lapcar1) + "/5", True, (255, 255, 255))
-        carlap2 = font.render("Car 2 Laps completed: " + str(lapcar2) + "/5", True, (255, 255, 255))
+        carlap1 = font.render("Car 1 Laps completed: " + str(lap_car1) + "/5", True, (255, 255, 255))
+        carlap2 = font.render("Car 2 Laps completed: " + str(lap_car2) + "/5", True, (255, 255, 255))
         display_surface.blit(carlap1, (0, 0))
         display_surface.blit(carlap2, (0, 30))
-        car_group.update(deltat)
+        car_group.update(delta_t)
         car_group.draw(display_surface)
         pygame.draw.rect(display_surface, (255, 0, 0), car.hitbox, 2)
-        car_group2.update(deltat)
+        car_group2.update(delta_t)
         car_group2.draw(display_surface)
         pygame.draw.rect(display_surface, (255, 0, 0), car2.hitbox, 2)
         # Check if car is on track
@@ -152,27 +152,27 @@ def computer_race(display_surface):
             car2.MAX_FORWARD_SPEED = 20
 
         pygame.display.flip()
-        collision(car,car2,display_surface)
+        collision(car, car2, display_surface)
         if checkOutOfBounds(car):
-            car.reset(startcar)
+            car.reset(start_car1)
         if checkOutOfBounds(car2):
-            car2.reset(startcar2)
-        checkpointcar1 = checkpoint1(car, checkpoint, checkpointcar1)
-        checkpointcar2 = checkpoint1(car2, checkpoint, checkpointcar2)
-        if checkpointcar1 >= 1:
-            previouslapcar1 = lapcar1
-            lapcar1 = carOneLap(car, finish_line, lapcar1)
-            if lapcar1 > previouslapcar1:
-                if lapcar1 == 5:
+            car2.reset(start_car2)
+        checkpoint_car1 = checkpoint1(car, checkpoint, checkpoint_car1)
+        checkpoint_car2 = checkpoint1(car2, checkpoint, checkpoint_car2)
+        if checkpoint_car1 >= 1:
+            previouslapcar1 = lap_car1
+            lap_car1 = carOneLap(car, finish_line, lap_car1)
+            if lap_car1 > previouslapcar1:
+                if lap_car1 == 5:
                     win(display_surface)
-                checkpointcar1 = 0
-        if checkpointcar2 >= 5:
-            previouslapcar2 = lapcar2
-            lapcar2 = carTwoLap(car2, finish_line, lapcar2)
-            if lapcar2 > previouslapcar2:
-                if lapcar2 == 1:
+                checkpoint_car1 = 0
+        if checkpoint_car2 >= 5:
+            previouslapcar2 = lap_car2
+            lap_car2 = carTwoLap(car2, finish_line, lap_car2)
+            if lap_car2 > previouslapcar2:
+                if lap_car2 == 1:
                     win2(display_surface)
-                checkpointcar2 = 0
+                checkpoint_car2 = 0
         # pygame.draw.rect(display_surface, (255, 255, 255), (960, 0, 30, 125))
         pygame.display.update()
 
@@ -193,7 +193,7 @@ def getEvent1(car, event, display_surface):
         mainmenu.main_menu(display_surface)
 
 
-def getEvent2(car2,event,display_surface):
+def getEvent2(car2, event, display_surface):
     down = event.type == KEYDOWN
     if event.key == K_d:
         car2.k_right = down * -5

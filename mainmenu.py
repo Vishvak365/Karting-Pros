@@ -152,7 +152,7 @@ def pick_track_2player(screen):
         if trackCollide.collidepoint((mx, my)):
             track_select_col = YELLOW
             if click:
-                race_computer.computer_race(screen)
+                two_player.RaceCars(screen)
                 return True
 
         draw.rect(screen, track_select_col, trackCollide)
