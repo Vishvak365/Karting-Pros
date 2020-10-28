@@ -34,9 +34,8 @@ def text(text, color1, surface, x, y):
 
 def main_menu(screen):
     pygame.font.init()
-    carryOn = True
     click = False
-    while carryOn:
+    while True:
         # --- Main event loop
 
         mx, my = pygame.mouse.get_pos()
@@ -84,10 +83,9 @@ def main_menu(screen):
         for event in pygame.event.get():  # User did something
             if event.type == pygame.QUIT:  # If user clicked close
                 sys.exit()
-                # carryOn = False  # Flag that we are done so we exit this loop
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    carryOn = False
+                    break
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True
