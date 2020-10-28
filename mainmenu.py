@@ -21,9 +21,9 @@ YELLOW = (255, 211, 0)
 clock = pygame.time.Clock()
 
 
-def text(text, color1, surface, x, y):
+def text(print_string, color1, surface, x, y):
     title = pygame.font.SysFont(None, 36)
-    textobj = title.render(text, 1, color1)
+    textobj = title.render(print_string, 1, color1)
     textrec = textobj.get_rect()
     textrec.topleft = (x, y)
     surface.blit(textobj, textrec)
