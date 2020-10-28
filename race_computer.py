@@ -116,8 +116,8 @@ def computer_race(display_surface):
         for event in pygame.event.get():
             if not hasattr(event, 'key'):
                 continue
-            down = getEvent1(car,event,display_surface)
-            down2 = getEvent2(car2,event,display_surface)
+            getEvent1(car,event,display_surface)
+            getEvent2(car2,event,display_surface)
 
 
 
@@ -192,8 +192,6 @@ def getEvent1(car, event, display_surface):
     elif event.key == K_ESCAPE:
         mainmenu.main_menu(display_surface)
 
-    return down
-
 
 def getEvent2(car2,event,display_surface):
     down = event.type == KEYDOWN
@@ -209,6 +207,3 @@ def getEvent2(car2,event,display_surface):
         car2.k_down = down * -2
     elif event.key == K_ESCAPE:
         mainmenu.main_menu(display_surface)
-        # sys.exit(0)  # quit the game
-
-    return down
