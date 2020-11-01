@@ -59,6 +59,10 @@ def collision(car, car2, display_surface):
             crash = pygame.image.load('images/crash.png')
             display_surface.blit(crash, (600, 250))
             pygame.display.update()
+            mixer.init()
+            mixer.music.load('sounds/car_crash.mp3')
+            mixer.music.set_volume(0.7)
+            mixer.music.play()
             pygame.time.delay(2500)
             mainmenu.main_menu(display_surface)
 
@@ -116,7 +120,7 @@ def RaceCars(display_surface):
     checkpoint_car1 = 0
     lap_car2 = 0
     checkpoint_car2 = 0
-    
+
     mixer.music.play()
     while True:
         # Draw the Track
