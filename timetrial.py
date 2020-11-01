@@ -6,6 +6,7 @@ import track
 import mainmenu
 from car import Car
 from pygame.locals import *
+from pygame import mixer
 
 
 def completeLap(car, finish_line):
@@ -35,12 +36,18 @@ def checkpoint1(car, checkpoint, checkpoint_check):
 
 
 def timeTrial(display_surface):
+    mixer.init()
+    mixer.music.load('sounds/race_coundown.mp3')
+    mixer.music.set_volume(0.7)
+    
     best_lap_time = 30000
     # display_surface = screen
     track1 = track.Track()
     white = (0, 128, 0)
     clock = pygame.time.Clock()
     t0 = time.time()
+    countdownTimerStart = time.time()
+    countdownFinished = False
     start_position = (1010, 144)
     car = Car('images/f1sprite.png', start_position)
     car_group = pygame.sprite.Group(car)
@@ -48,13 +55,26 @@ def timeTrial(display_surface):
     pad_group = track1.getPads()
     finish_line = (960, 50, 20, 125)
     checkpoint = (960, 845, 10, 125)
+    
+    mixer.music.play()
+
+
     while True:
         # Draw the Track
         display_surface.fill(white)
         pad_group.draw(display_surface)
+        font = pygame.font.Font('fonts/American Captain.ttf', 32)
+
         track.checkpoint(display_surface)
         deltat = clock.tick(30)
-        font = pygame.font.Font('fonts/American Captain.ttf', 32)
+
+        # Update Car and draw
+        car_group.update(deltat)
+        car_group.draw(display_surface)
+
+        t1 = time.time()
+        dt = t1-t0
+
         for event in pygame.event.get():
             if event.type == QUIT:
                 sys.exit(0)
@@ -74,20 +94,18 @@ def timeTrial(display_surface):
             elif event.key == K_ESCAPE:
                 mainmenu.main_menu(display_surface)
                 # sys.exit(0)  # quit the game
-        t1 = time.time()
-        dt = t1-t0
-        # Timer
-        timer_text = font.render("Time: " + str(dt), True, (255, 255, 255))
-        display_surface.blit(timer_text, (0, 0))
 
-        # Time to Beat
-        if best_lap_time != 30000:
-            best_lap_text = font.render(
-                "Time to Beat: "+str(best_lap_time), True, (255, 255, 255))
-            display_surface.blit(best_lap_text, (0, 30))
-        # Update Car and draw
-        car_group.update(deltat)
-        car_group.draw(display_surface)
+        
+        if(countdownFinished):
+            # Timer
+            timer_text = font.render("Time: " + str(dt), True, (255, 255, 255))
+            display_surface.blit(timer_text, (0, 0))
+
+            # Time to Beat
+            if best_lap_time != 30000:
+                best_lap_text = font.render(
+                    "Time to Beat: "+str(best_lap_time), True, (255, 255, 255))
+                display_surface.blit(best_lap_text, (0, 30))
 
         # Check if car is on track
         on_track = pygame.sprite.groupcollide(
@@ -124,5 +142,13 @@ def timeTrial(display_surface):
                 checkpoint_check = 0
         if checkOutOfBounds(car):
             car.reset(start_position)
-
+        while(time.time()-countdownTimerStart < 4):
+            fontBig = pygame.font.Font('fonts/American Captain.ttf', 64)
+            countdown_text = font.render("Time: " + str(4-t0), True, (255, 255, 255))
+            display_surface.blit(countdown_text, (0, 0))    
+            t0 = time.time()
+            t1 = time.time()
+            dt = t1-t0  
+            countdownFinished = True
+            # pygame.display.update()
         pygame.display.update()

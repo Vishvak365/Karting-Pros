@@ -6,6 +6,7 @@ import time
 import mainmenu
 from car import Car
 from pygame.locals import *
+from pygame import mixer
 import sys
 
 
@@ -87,6 +88,10 @@ def carTwoLap(car, finish_line, lap):
 
 
 def RaceCars(display_surface):
+    mixer.init()
+    mixer.music.load('sounds/race_coundown.mp3')
+    mixer.music.set_volume(0.7)
+
     # window = screen.Screen()
     track1 = track.Track()
     white = (0, 128, 0)
@@ -94,6 +99,9 @@ def RaceCars(display_surface):
     start_car2 = (1010, 75)
     clock = pygame.time.Clock()
     t0 = time.time()
+
+    countdownTimerStart = time.time()
+    countdownFinished = False
 
     car = Car('images/f1sprite.png', start_car1)
     car_group = pygame.sprite.Group(car)
@@ -108,6 +116,8 @@ def RaceCars(display_surface):
     checkpoint_car1 = 0
     lap_car2 = 0
     checkpoint_car2 = 0
+    
+    mixer.music.play()
     while True:
         # Draw the Track
         display_surface.fill(white)
@@ -173,6 +183,15 @@ def RaceCars(display_surface):
                 if lap_car2 == 1:
                     win2(display_surface)
                 checkpoint_car2 = 0
+
+        while(time.time()-countdownTimerStart < 4):
+            fontBig = pygame.font.Font('fonts/American Captain.ttf', 64)
+            countdown_text = font.render("Time: " + str(4-t0), True, (255, 255, 255))
+            display_surface.blit(countdown_text, (0, 0))    
+            t0 = time.time()
+            t1 = time.time()
+            dt = t1-t0  
+            countdownFinished = True
         pygame.display.update()
 
 
