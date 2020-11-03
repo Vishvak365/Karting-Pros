@@ -2,6 +2,7 @@ import pygame
 from pygame import *
 import timetrial
 import two_player
+from car import Car
 import race_computer
 import sys
 
@@ -14,6 +15,7 @@ WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 YELLOW = (255, 211, 0)
+
 # The loop will carry on until the user exit the game (e.g. clicks the close button).
 
 
@@ -35,9 +37,13 @@ def text(print_string, color1, surface, x, y):
 def main_menu(screen):
     pygame.font.init()
     click = False
+    offset = 0
+    start_position = (1010, 144)
+    car = Car('images/f1sprite.png', start_position)
+    car_group = pygame.sprite.Group(car)
     while True:
         # --- Main event loop
-
+        deltat = clock.tick(30)
         mx, my = pygame.mouse.get_pos()
         button1col = RED
         button2col = RED
@@ -69,7 +75,16 @@ def main_menu(screen):
             if click:
                 options(screen)
 
-        screen.blit(background, (0, 0))
+        #screen.blit(background, (0, 0))
+        screen.fill(BLACK)
+        if offset == 99:
+            offset = 0
+        else:
+            offset = offset + 1
+        drawroad(screen, offset)
+        car_group.update(deltat)
+        car_group.draw(screen)
+
         text('Race Menu', YELLOW, screen, 310, 20)
         pygame.draw.rect(screen, button1col, button1)
         pygame.draw.rect(screen, button2col, button2)
@@ -194,3 +209,15 @@ def tutorial(screen):
         pygame.display.update()
 
         clock.tick(60)
+
+
+def drawroad(screen, offset):
+    left = 900
+    right = 1200
+    middle = left + ((right - left) / 2)
+    leftSide = pygame.Rect(left, 0, 10, screen.get_height())
+    rightSide = pygame.Rect(right, 0, 10, screen.get_height())
+    pygame.draw.rect(screen, YELLOW, leftSide)
+    pygame.draw.rect(screen, YELLOW, rightSide)
+    for i in range(-100, screen.get_height() + 100, 100):
+        pygame.draw.rect(screen, YELLOW, (middle, i + offset, 10, 60))
