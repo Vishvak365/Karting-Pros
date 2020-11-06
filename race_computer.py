@@ -9,26 +9,26 @@ from pygame.locals import *
 import sys
 
 
-def win(display_surface):
+def win(display_surface, msg):
     font = pygame.font.Font('fonts/American Captain.ttf', 32)
-    win = pygame.image.load('images/win.png')
-    car_lap1 = font.render("Car 1 Wins!", True, (255, 255, 255))
-    display_surface.blit(win, (700, 300))
-    display_surface.blit(car_lap1, (1050, 500))
+    win_image = pygame.image.load('images/win.png')
+    car_lap = font.render(msg, True, (255, 255, 255))
+    display_surface.blit(win_image, (700, 300))
+    display_surface.blit(car_lap, (1050, 500))
     pygame.display.update()
     pygame.time.delay(5000)
     mainmenu.main_menu(display_surface)
 
 
-def win2(display_surface):
-    font = pygame.font.Font('fonts/American Captain.ttf', 32)
-    win = pygame.image.load('images/win.png')
-    car_lap2 = font.render("Car 2 Wins!", True, (255, 255, 255))
-    display_surface.blit(win, (700, 300))
-    display_surface.blit(car_lap2, (1050, 500))
-    pygame.display.update()
-    pygame.time.delay(5000)
-    mainmenu.main_menu(display_surface)
+# def win2(display_surface):
+#     font = pygame.font.Font('fonts/American Captain.ttf', 32)
+#     win = pygame.image.load('images/win.png')
+#     car_lap2 = font.render("Car 2 Wins!", True, (255, 255, 255))
+#     display_surface.blit(win, (700, 300))
+#     display_surface.blit(car_lap2, (1050, 500))
+#     pygame.display.update()
+#     pygame.time.delay(5000)
+#     mainmenu.main_menu(display_surface)
 
 
 def checkpoint1(car, checkpoint, checkpoint_check):
@@ -137,14 +137,14 @@ def RaceCars(display_surface):
             lap_car1 = carLap(car, finish_line, lap_car1, "Lap finished for car 1!")
             if lap_car1 > previouslapcar1:
                 if lap_car1 == 5:
-                    win(display_surface)
+                    win(display_surface, "Car 1 Wins!")
                 checkpoint_car1 = 0
-        if checkpoint_car2 >= 5:
+        if checkpoint_car2 >= 1:
             previouslapcar2 = lap_car2
             lap_car2 = carLap(car2, finish_line, lap_car2, "Lap finished for car 2!")
             if lap_car2 > previouslapcar2:
-                if lap_car2 == 1:
-                    win2(display_surface)
+                if lap_car2 == 5:
+                    win(display_surface, "Car 2 Wins!")
                 checkpoint_car2 = 0
         # pygame.draw.rect(display_surface, (255, 255, 255), (960, 0, 30, 125))
         pygame.display.update()
