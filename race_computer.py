@@ -62,22 +62,10 @@ def collision(car, car2, display_surface):
             mainmenu.main_menu(display_surface)
 
 
-def carOneLap(car, finish_line, lap):
+def carLap(car, finish_line, lap, msg):
     if (car.hitbox[1] < (finish_line[1] + 100)) and (car.hitbox[1] > (finish_line[1] - 100)):
         if (car.hitbox[0] < (finish_line[0] + 15)) and (car.hitbox[0] > (finish_line[0] - 15)):
-            print("Lap finished for car 1!")
-            lap = lap + 1
-            return lap
-        else:
-            return lap
-    else:
-        return lap
-
-
-def carTwoLap(car, finish_line, lap):
-    if (car.hitbox[1] < (finish_line[1] + 100)) and (car.hitbox[1] > (finish_line[1] - 100)):
-        if (car.hitbox[0] < (finish_line[0] + 15)) and (car.hitbox[0] > (finish_line[0] - 15)):
-            print("Lap finished for car 2!")
+            print(msg)
             lap = lap + 1
             return lap
         else:
@@ -146,14 +134,14 @@ def RaceCars(display_surface):
         checkpoint_car2 = checkpoint1(car2, checkpoint, checkpoint_car2)
         if checkpoint_car1 >= 1:
             previouslapcar1 = lap_car1
-            lap_car1 = carOneLap(car, finish_line, lap_car1)
+            lap_car1 = carLap(car, finish_line, lap_car1, "Lap finished for car 1!")
             if lap_car1 > previouslapcar1:
                 if lap_car1 == 5:
                     win(display_surface)
                 checkpoint_car1 = 0
         if checkpoint_car2 >= 5:
             previouslapcar2 = lap_car2
-            lap_car2 = carTwoLap(car2, finish_line, lap_car2)
+            lap_car2 = carLap(car2, finish_line, lap_car2, "Lap finished for car 2!")
             if lap_car2 > previouslapcar2:
                 if lap_car2 == 1:
                     win2(display_surface)
