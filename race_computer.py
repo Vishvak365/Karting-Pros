@@ -86,7 +86,7 @@ def carTwoLap(car, finish_line, lap):
         return lap
 
 
-def computer_race(display_surface):
+def RaceCars(display_surface):
     # window = screen.Screen()
     track1 = track.Track()
     white = (0, 128, 0)
@@ -133,23 +133,8 @@ def computer_race(display_surface):
         car_group2.draw(display_surface)
         pygame.draw.rect(display_surface, (255, 0, 0), car2.hitbox, 2)
         # Check if car is on track
-        on_track = pygame.sprite.groupcollide(
-            car_group, pad_group, False, False)
-
-        # Slow down car if not on track
-        if not on_track:
-            car.MAX_FORWARD_SPEED = 3
-        else:
-            car.MAX_FORWARD_SPEED = 20
-        # Check if car is on track
-        on_track2 = pygame.sprite.groupcollide(
-            car_group2, pad_group, False, False)
-
-        # Slow down car if not on track
-        if not on_track2:
-            car2.MAX_FORWARD_SPEED = 3
-        else:
-            car2.MAX_FORWARD_SPEED = 20
+        SetCarMaxSpeed(car, pad_group, car_group)
+        SetCarMaxSpeed(car2, pad_group, car_group2)
 
         pygame.display.flip()
         collision(car, car2, display_surface)
@@ -175,6 +160,17 @@ def computer_race(display_surface):
                 checkpoint_car2 = 0
         # pygame.draw.rect(display_surface, (255, 255, 255), (960, 0, 30, 125))
         pygame.display.update()
+
+
+def SetCarMaxSpeed(car, pad_group, car_group):
+    on_track = pygame.sprite.groupcollide(
+        car_group, pad_group, False, False)
+
+    # Slow down car if not on track
+    if not on_track:
+        car.MAX_FORWARD_SPEED = 3
+    else:
+        car.MAX_FORWARD_SPEED = 20
 
 
 def getEvent1(car, event, display_surface):
