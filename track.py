@@ -13,10 +13,13 @@ class Track:
     def __init__(self):
         self.pads = []
         self.pads = self.makePads()
+        self.finish_line = (960, 50, 20, 125)
 
     def update(self):
         pass
 
+    def getFinishLine(self):
+        return self.finish_line
     # Static method creates oval track using sin, cos
     @staticmethod
     def makePads():

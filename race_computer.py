@@ -102,7 +102,7 @@ def RaceCars(display_surface):
     car_group2 = pygame.sprite.Group(car2)
 
     pad_group = track1.getPads()
-    finish_line = (960, 50, 20, 125)
+    finish_line = track1.getFinishLine()
     checkpoint = (960, 845, 10, 125)
     lap_car1 = 0
     checkpoint_car1 = 0
