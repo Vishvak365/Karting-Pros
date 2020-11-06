@@ -20,17 +20,6 @@ def win(display_surface, msg):
     mainmenu.main_menu(display_surface)
 
 
-# def win2(display_surface):
-#     font = pygame.font.Font('fonts/American Captain.ttf', 32)
-#     win = pygame.image.load('images/win.png')
-#     car_lap2 = font.render("Car 2 Wins!", True, (255, 255, 255))
-#     display_surface.blit(win, (700, 300))
-#     display_surface.blit(car_lap2, (1050, 500))
-#     pygame.display.update()
-#     pygame.time.delay(5000)
-#     mainmenu.main_menu(display_surface)
-
-
 def checkpoint1(car, checkpoint, checkpoint_check):
     if (car.hitbox[1] < (checkpoint[1] + 110)) and (car.hitbox[1] > (checkpoint[1] - 110)):
         if (car.hitbox[0] < (checkpoint[0] + 15)) and (car.hitbox[0] > (checkpoint[0] - 15)):
