@@ -6,6 +6,7 @@ import time
 import mainmenu
 from car import Car
 from pygame.locals import *
+from pygame import mixer
 import sys
 
 
@@ -78,13 +79,22 @@ def RaceCars(display_surface):
     car2 = Car('images/f1sprite.png', start_car2)
     car_group2 = pygame.sprite.Group(car2)
 
+    countdownTimerStart = time.time()
+    countdownFinished = False
+
     pad_group = track1.getPads()
     finish_line = track1.getFinishLine()
+
     checkpoint = (960, 845, 10, 125)
     lap_car1 = 0
     checkpoint_car1 = 0
     lap_car2 = 0
     checkpoint_car2 = 0
+
+    mixer.init()
+    mixer.music.load('sounds/race_coundown.mp3')
+    mixer.music.set_volume(0.7)
+    mixer.music.play()
     while True:
         # Draw the Track
         display_surface.fill(white)
@@ -99,8 +109,10 @@ def RaceCars(display_surface):
             getEvent2(car2, event, display_surface)
 
         # Update car and draw track
-        carlap1 = font.render("Car 1 Laps completed: " + str(lap_car1) + "/5", True, (255, 255, 255))
-        carlap2 = font.render("Car 2 Laps completed: " + str(lap_car2) + "/5", True, (255, 255, 255))
+        carlap1 = font.render("Car 1 Laps completed: " +
+                              str(lap_car1) + "/5", True, (255, 255, 255))
+        carlap2 = font.render("Car 2 Laps completed: " +
+                              str(lap_car2) + "/5", True, (255, 255, 255))
         display_surface.blit(carlap1, (0, 0))
         display_surface.blit(carlap2, (0, 30))
         car_group.update(delta_t)
@@ -123,18 +135,36 @@ def RaceCars(display_surface):
         checkpoint_car2 = checkpoint1(car2, checkpoint, checkpoint_car2)
         if checkpoint_car1 >= 1:
             previouslapcar1 = lap_car1
-            lap_car1 = carLap(car, finish_line, lap_car1, "Lap finished for car 1!")
+            lap_car1 = carLap(car, finish_line, lap_car1,
+                              "Lap finished for car 1!")
             if lap_car1 > previouslapcar1:
                 if lap_car1 == 5:
                     win(display_surface, "Car 1 Wins!")
                 checkpoint_car1 = 0
         if checkpoint_car2 >= 1:
             previouslapcar2 = lap_car2
-            lap_car2 = carLap(car2, finish_line, lap_car2, "Lap finished for car 2!")
+            lap_car2 = carLap(car2, finish_line, lap_car2,
+                              "Lap finished for car 2!")
             if lap_car2 > previouslapcar2:
                 if lap_car2 == 5:
                     win(display_surface, "Car 2 Wins!")
                 checkpoint_car2 = 0
+
+        while(time.time()-countdownTimerStart < 4):
+            # display_surface = pygame.display.set_mode(((1920/2)-(768/2), 50))
+            image = pygame.image.load(
+                'images/starting_lights/lights'+str(int(time.time()-countdownTimerStart)+1)+'.png')
+            display_surface.blit(image, ((1920/2)-(768/2), 50))
+            print(int(time.time()-countdownTimerStart))
+            fontBig = pygame.font.Font('fonts/American Captain.ttf', 64)
+            countdown_text = font.render(
+                "Time: " + str(4-t0), True, (255, 255, 255))
+            display_surface.blit(countdown_text, (0, 0))
+            t0 = time.time()
+            t1 = time.time()
+            dt = t1-t0
+            countdownFinished = True
+            pygame.display.update()
         # pygame.draw.rect(display_surface, (255, 255, 255), (960, 0, 30, 125))
         pygame.display.update()
 
