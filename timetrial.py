@@ -36,30 +36,39 @@ def checkpoint1(car, checkpoint, checkpoint_check):
 
 
 def timeTrial(display_surface):
-    mixer.init()
-    mixer.music.load('sounds/race_coundown.mp3')
-    mixer.music.set_volume(0.7)
-    
     best_lap_time = 30000
-    # display_surface = screen
+
     track1 = track.Track()
     white = (0, 128, 0)
+
     clock = pygame.time.Clock()
     t0 = time.time()
-    countdownTimerStart = time.time()
-    countdownFinished = False
+
+
+    # Car Setup
     start_position = (1010, 144)
     car = Car('images/f1sprite.png', start_position)
+
     car_group = pygame.sprite.Group(car)
+
+    # Lap logic
     checkpoint_check = 0
     pad_group = track1.getPads()
     finish_line = (960, 50, 20, 125)
     checkpoint = (960, 845, 10, 125)
-    
+
+    # Countdown timer logic
+    countdownTimerStart = time.time()
+    countdownFinished = False
+
+    # Music for countdown sound
+    mixer.init()
+    mixer.music.load('sounds/race_coundown.mp3')
+    mixer.music.set_volume(0.7)
     mixer.music.play()
 
-
     while True:
+
         # Draw the Track
         display_surface.fill(white)
         pad_group.draw(display_surface)
@@ -74,6 +83,8 @@ def timeTrial(display_surface):
 
         t1 = time.time()
         dt = t1-t0
+
+
 
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -95,7 +106,6 @@ def timeTrial(display_surface):
                 mainmenu.main_menu(display_surface)
                 # sys.exit(0)  # quit the game
 
-        
         if(countdownFinished):
             # Timer
             timer_text = font.render("Time: " + str(dt), True, (255, 255, 255))
@@ -124,6 +134,22 @@ def timeTrial(display_surface):
 
         checkpoint_check = checkpoint1(car, checkpoint, checkpoint_check)
 
+        while(time.time()-countdownTimerStart < 4):
+            # display_surface = pygame.display.set_mode(((1920/2)-(768/2), 50))
+            image = pygame.image.load(
+                'images/starting_lights/lights'+str(int(time.time()-countdownTimerStart)+1)+'.png')
+            display_surface.blit(image, ((1920/2)-(768/2), 50))
+            print(int(time.time()-countdownTimerStart))
+            fontBig = pygame.font.Font('fonts/American Captain.ttf', 64)
+            countdown_text = font.render(
+                "Time: " + str(4-t0), True, (255, 255, 255))
+            display_surface.blit(countdown_text, (0, 0))
+            t0 = time.time()
+            t1 = time.time()
+            dt = t1-t0
+            countdownFinished = True
+            pygame.display.update()
+
         if checkpoint_check >= 1:
             if completeLap(car, finish_line):
                 if dt < best_lap_time:
@@ -142,13 +168,6 @@ def timeTrial(display_surface):
                 checkpoint_check = 0
         if checkOutOfBounds(car):
             car.reset(start_position)
-        while(time.time()-countdownTimerStart < 4):
-            fontBig = pygame.font.Font('fonts/American Captain.ttf', 64)
-            countdown_text = font.render("Time: " + str(4-t0), True, (255, 255, 255))
-            display_surface.blit(countdown_text, (0, 0))    
-            t0 = time.time()
-            t1 = time.time()
-            dt = t1-t0  
-            countdownFinished = True
+
             # pygame.display.update()
         pygame.display.update()
