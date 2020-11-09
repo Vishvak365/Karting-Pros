@@ -65,32 +65,38 @@ def carLap(car, finish_line, lap, msg):
 
 
 def RaceCars(display_surface):
-    # window = screen.Screen()
     track1 = track.Track()
     white = (0, 128, 0)
-    start_car1 = (1010, 144)
-    start_car2 = (1010, 75)
+
+    # Official timer
     clock = pygame.time.Clock()
     t0 = time.time()
 
+    # Setup car objects
+    start_car1 = (1010, 144)
     car = Car('images/f1sprite.png', start_car1)
     car_group = pygame.sprite.Group(car)
 
+    start_car2 = (1010, 75)
     car2 = Car('images/f1sprite.png', start_car2)
     car_group2 = pygame.sprite.Group(car2)
 
-    countdownTimerStart = time.time()
-    countdownFinished = False
-
+    # Groups for pads and finish line
     pad_group = track1.getPads()
     finish_line = track1.getFinishLine()
 
+    # Setup lap logic
     checkpoint = (960, 845, 10, 125)
     lap_car1 = 0
     checkpoint_car1 = 0
     lap_car2 = 0
     checkpoint_car2 = 0
 
+    # Countdown timer logic
+    countdownTimerStart = time.time()
+    countdownFinished = False
+
+    # Music for countdown sound
     mixer.init()
     mixer.music.load('sounds/race_coundown.mp3')
     mixer.music.set_volume(0.7)

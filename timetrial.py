@@ -37,23 +37,31 @@ def checkpoint1(car, checkpoint, checkpoint_check):
 
 def timeTrial(display_surface):
     best_lap_time = 30000
-    # display_surface = screen
+
     track1 = track.Track()
     white = (0, 128, 0)
+
     clock = pygame.time.Clock()
     t0 = time.time()
 
-    countdownTimerStart = time.time()
-    countdownFinished = False
 
+    # Car Setup
     start_position = (1010, 144)
     car = Car('images/f1sprite.png', start_position)
+
     car_group = pygame.sprite.Group(car)
+
+    # Lap logic
     checkpoint_check = 0
     pad_group = track1.getPads()
     finish_line = (960, 50, 20, 125)
     checkpoint = (960, 845, 10, 125)
 
+    # Countdown timer logic
+    countdownTimerStart = time.time()
+    countdownFinished = False
+
+    # Music for countdown sound
     mixer.init()
     mixer.music.load('sounds/race_coundown.mp3')
     mixer.music.set_volume(0.7)
