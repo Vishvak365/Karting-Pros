@@ -123,9 +123,9 @@ def timeTrial(display_surface):
 
         # Slow down car if not on track
         if not on_track:
-            car.MAX_FORWARD_SPEED = 3
+            car.setOffTrackSpeed()
         else:
-            car.MAX_FORWARD_SPEED = 20
+            car.setRegularSpeed()
 
         # OPTIONAL car hitbox
         pygame.draw.rect(display_surface, (255, 0, 0), car.hitbox, 2)
