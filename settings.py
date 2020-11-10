@@ -12,8 +12,8 @@ def getMaxForwardSpeed():
 def getSetting(settingName):
     f = open(JSON_FILE_NAME)
     data = json.load(f)
-    print(data[settingName])
     f.close()
+    return(data[settingName])
 
 
-getMaxForwardSpeed()
+# getMaxForwardSpeed()
