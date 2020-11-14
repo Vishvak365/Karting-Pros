@@ -1,4 +1,6 @@
 import json
+import pygame
+from pygame.locals import *
 JSON_FILE_NAME = "settings.json"
 
 
@@ -16,4 +18,10 @@ def getSetting(settingName):
     return(data[settingName])
 
 
-# getMaxForwardSpeed()
+def displaySettings(display_surface):
+    white = (0, 128, 0)
+    while True:
+        # Draw the Track
+        display_surface.fill(white)
+        font = pygame.font.Font('fonts/American Captain.ttf', 32)
+    # getMaxForwardSpeed()

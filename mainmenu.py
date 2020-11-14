@@ -4,6 +4,8 @@ import timetrial
 import two_player
 import race_computer
 import sys
+import settings
+from TextBoxPyGame import TextInput
 
 track = pygame.image.load('images/track.png')
 background = pygame.image.load('images/Gui_background.png')
@@ -164,14 +166,18 @@ def options(screen):
     in_opts = True
     screen.blit(background, (0, 0))
     text('Options', YELLOW, screen, 20, 20)
+
+    maxSpeedTextInput = TextInput(initial_string='asdf')
     while in_opts:
-        for event in pygame.event.get():  # User did something
+        events = pygame.event.get()
+        for event in events:  # User did something
             if event.type == pygame.QUIT:  # If user clicked close
                 pygame.quit()  # Flag that we are done so we exit this loop
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     in_opts = False
-
+        maxSpeedTextInput.update(events)
+        screen.blit(maxSpeedTextInput.get_surface(), (40, 40))
         pygame.display.update()
 
         clock.tick(60)
