@@ -11,6 +11,7 @@ from pygame.locals import *
 from pygame import mixer
 import pickle
 
+
 def completeLap(car, finish_line):
     if (car.hitbox[1] < (finish_line[1] + 100)) and (car.hitbox[1] > (finish_line[1] - 100)):
         if (car.hitbox[0] < (finish_line[0] + 15)) and (car.hitbox[0] > (finish_line[0] - 15)):
@@ -65,9 +66,11 @@ def timeTrial(display_surface):
     # labels = []
     # Import AI model
     model_filename = "knn_model.pkl"
-    with open(model_filename, 'rb') as file:  
+    with open(model_filename, 'rb') as file:
         model = pickle.load(file)
+    moves = np.load('labels.npy')
     right_press, left_press, up_press, down_press = 0, 0, 0, 0
+    moveNum = 0
     while True:
         # Machine Learning Features
         # Direction (%360), Position.X, Position.Y
@@ -83,9 +86,13 @@ def timeTrial(display_surface):
         feature.append(car.direction % 360)
         feature.append(int(car.position[0]))
         feature.append(int(car.position[1]))
+        feature = np.array(feature)
+        feature = feature / feature.max(axis=0)
         # features.append(feature)
-        
-        predicted_move = model.predict([feature])
+
+        # predicted_move = model.predict([feature])
+        predicted_move = moves[moveNum]
+        moveNum+=1
         print(predicted_move)
         track.checkpoint(display_surface)
         deltat = clock.tick(30)
@@ -96,11 +103,15 @@ def timeTrial(display_surface):
 
         t1 = time.time()
         dt = t1-t0
-        # print(predicted_move)
-        car.k_right = predicted_move[0][0] * -5
-        car.k_left = predicted_move[0][1] * 5
-        car.k_up = predicted_move[0][2] * 2
-        car.k_down = predicted_move[0][3] * -2
+
+        # car.k_right = predicted_move[0][0] * -5
+        # car.k_left = predicted_move[0][1] * 5
+        # car.k_up = predicted_move[0][2] * 2
+        # car.k_down = predicted_move[0][3] * -2
+        car.k_right = predicted_move[0] * -5
+        car.k_left = 0 * 5
+        car.k_up = 1 * 2
+        car.k_down = 0 * -2
 
         for event in pygame.event.get():
             if event.type == QUIT:
@@ -123,24 +134,8 @@ def timeTrial(display_surface):
                 down_press = 1
                 car.k_down = down * -2
             if event.key == K_ESCAPE:
-                # save('features.npy', np.array(features))
-                # save('labels.npy', np.array(labels))
                 mainmenu.main_menu(display_surface)
 
-            # if event.type == KEYUP:
-            #     if event.key == pygame.K_RIGHT:
-            #         right_press = 0
-            #     elif event.key == pygame.K_LEFT:
-            #         left_press = 0
-            #     elif event.key == pygame.K_UP:
-            #         up_press = 0
-            #     elif event.key == pygame.K_DOWN:
-            #         down_press = 0
-
-            # sys.exit(0)  # quit the game
-        # label.append([right_press, left_press, up_press, down_press])
-        # print(feature, labels[-1])
-        # print()
         if(countdownFinished):
             # Timer
             timer_text = font.render("Time: " + str(dt), True, (255, 255, 255))

@@ -9,7 +9,7 @@ from numpy import save
 from car import Car
 from pygame.locals import *
 from pygame import mixer
-
+import pickle
 
 def completeLap(car, finish_line):
     if (car.hitbox[1] < (finish_line[1] + 100)) and (car.hitbox[1] > (finish_line[1] - 100)):
@@ -63,6 +63,9 @@ def timeTrial(display_surface):
     # Data collection for machine learning
     features = []
     labels = []
+    model_filename = "knn_model.pkl"
+    with open(model_filename, 'rb') as file:
+        model = pickle.load(file)
     right_press, left_press, up_press, down_press = 0, 0, 0, 0
     while True:
         # Machine Learning Features
@@ -79,7 +82,10 @@ def timeTrial(display_surface):
         feature.append(car.direction % 360)
         feature.append(int(car.position[0]))
         feature.append(int(car.position[1]))
+        feature = np.array(feature)
+        feature = feature / feature.max(axis=0)
         features.append(feature)
+        print(model.predict([feature]))
 
         track.checkpoint(display_surface)
         deltat = clock.tick(30)
@@ -113,8 +119,8 @@ def timeTrial(display_surface):
                 down_press = 1
                 car.k_down = down * -2
             elif event.key == K_ESCAPE:
-                save('features.npy', np.array(features))
-                save('labels.npy', np.array(labels))
+                # save('features.npy', np.array(features))
+                # save('labels.npy', np.array(labels))
                 mainmenu.main_menu(display_surface)
 
             if event.type == KEYUP:
