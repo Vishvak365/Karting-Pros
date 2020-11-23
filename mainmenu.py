@@ -1,6 +1,6 @@
 import pygame
 from pygame import *
-import timetrial
+import timetrial_AI as timetrial
 import two_player
 import race_computer
 import sys
