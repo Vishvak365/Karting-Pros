@@ -4,6 +4,8 @@ import math
 import sys
 import track
 import mainmenu
+import numpy as np
+from numpy import save
 from car import Car
 from pygame.locals import *
 from pygame import mixer
@@ -110,6 +112,8 @@ def timeTrial(display_surface):
                 down_press = 1
                 car.k_down = down * -2
             elif event.key == K_ESCAPE:
+                save('features.npy', np.array(features))
+                save('labels.npy', np.array(labels))
                 mainmenu.main_menu(display_surface)
 
             if event.type == KEYUP:
