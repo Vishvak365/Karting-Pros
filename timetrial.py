@@ -77,8 +77,7 @@ def timeTrial(display_surface):
         # Data collection for machine learning
         features = []
         labels = []
-
-    # right_press, left_press, up_press, down_press = 0, 0, 0, 0
+        right_press, left_press, up_press, down_press = 0, 0, 0, 0
     while True:
         if data_collection:
             # Machine Learning Features
@@ -99,7 +98,6 @@ def timeTrial(display_surface):
             feature = np.array(feature)
             feature = feature / feature.max(axis=0)
             features.append(feature)
-            print(model.predict([feature]))
 
         track.checkpoint(display_surface)
         deltat = clock.tick(30)
