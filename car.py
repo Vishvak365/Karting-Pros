@@ -1,14 +1,15 @@
 import pygame
 import time
 import math
+import settings
 from pygame.locals import *
 
 
 class Car(pygame.sprite.Sprite):
-    MAX_FORWARD_SPEED = 20
-    MAX_REVERSE_SPEED = 3
-    ACCELERATION = 1
-    TURN_SPEED = 4
+    MAX_FORWARD_SPEED = settings.getSetting('max_forward_speed')
+    MAX_REVERSE_SPEED = settings.getSetting('max_reverse_speed')
+    ACCELERATION = settings.getSetting('acceleration')
+    TURN_SPEED = settings.getSetting('turn_speed')
 
     def __init__(self, image, position):
         pygame.sprite.Sprite.__init__(self)
@@ -46,6 +47,12 @@ class Car(pygame.sprite.Sprite):
         self.rect.center = self.position
         self.x, self.y = x, y
         self.hitbox = (int(x) - 20, int(y) - 20, xScale-5, xScale-5)
+
+    def setOffTrackSpeed(self):
+        self.MAX_FORWARD_SPEED = settings.getSetting('off_track_speed')
+
+    def setRegularSpeed(self):
+        self.MAX_FORWARD_SPEED = settings.getSetting('max_forward_speed')
 
     def reset(self, position):
         self.position = position
