@@ -8,6 +8,7 @@ from car import Car
 from pygame.locals import *
 from pygame import mixer
 import sys
+import settings
 
 
 def win(display_surface, msg):
@@ -92,6 +93,9 @@ def RaceCars(display_surface):
     lap_car2 = 0
     checkpoint_car2 = 0
 
+    # Collision Check
+    collisions = settings.getSetting('collision')
+
     # Countdown timer logic
     countdownTimerStart = time.time()
     countdownFinished = False
@@ -132,7 +136,10 @@ def RaceCars(display_surface):
         SetCarMaxSpeed(car2, pad_group, car_group2)
 
         pygame.display.flip()
-        collision(car, car2, display_surface)
+        # Check for collisions only if enabled
+        if collisions:
+            collision(car, car2, display_surface)
+
         if checkOutOfBounds(car):
             car.reset(start_car1)
         if checkOutOfBounds(car2):

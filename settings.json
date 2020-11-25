@@ -4,5 +4,6 @@
   "max_reverse_speed": 3,
   "acceleration": 1,
   "turn_speed": 4,
-  "off_track_speed": 4
+  "off_track_speed": 4,
+  "collision": false
 }
