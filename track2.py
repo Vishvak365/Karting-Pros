@@ -58,36 +58,29 @@ class Track2:
         lastx = 0
         lasty = 0
         for r in range(4):
-            for i in range(15):
+            for i in range(16):
                 pad_x = math.floor(
                     (960 + 16 + 32 * i))
                 pad_y = math.floor(
                     (50 + 16 + 32 * r))
                 pads.append(RoadSquares((pad_x, pad_y)))
-                if r == 1 and i == 14:
+                if r == 1 and i == 15:
                     lastx = pad_x
                     lasty = pad_y
-
 
         # last pad_x furthest to the right
         # last pad_y is shallowest
         curve_center_x = lastx
-        curve_center_y = lasty + 2*32
+        curve_center_y = lasty + 2 * 32
         print(curve_center_x)
         print(curve_center_y)
+        turn_pads = self.MakeTurn(curve_center_x, curve_center_y, -90, 0)
+        pads.append(turn_pads)
 
-        degree_angle = -90
-        for r in range(4):
-            while degree_angle <= 0:
-                radian = math.radians(degree_angle)
-                pad_x = math.floor(
-                    (math.cos(radian) * (r*32) + curve_center_x))
-                pad_y = math.floor(
-                    (math.sin(radian) * (r*32) + curve_center_y))
-                pads.append(RoadSquares((pad_x, pad_y)))
-                degree_angle = degree_angle + 1
-            degree_angle = -90
-
+        curve_center_x = curve_center_x + 4*32
+        #curve_center_y = lasty + 4 * 32
+        turn_pads = self.MakeTurn(curve_center_x, curve_center_y, -270, -180)
+        pads.append(turn_pads)
         # for r in range(4):
         #     for i in range(int(360)):
         #         radian = math.radians(i)
@@ -103,6 +96,21 @@ class Track2:
 
         return pygame.sprite.RenderPlain(*pads)
 
+    def MakeTurn(self, curve_center_x, curve_center_y, start_angle, end_angle):
+        pads = []
+        degree_angle = start_angle
+        for r in range(4):
+            while degree_angle <= end_angle:
+                radian = math.radians(degree_angle)
+                pad_x = math.floor(
+                    (math.cos(radian) * (r * 32 + 32) + curve_center_x))
+                pad_y = math.floor(
+                    (math.sin(radian) * (r * 32) + curve_center_y))
+                pads.append(RoadSquares((pad_x, pad_y)))
+                degree_angle = degree_angle + 1
+            degree_angle = start_angle
+        return pads
+
     # Getter for list of road square objects
     def getPads(self):
         return self.pads
@@ -117,6 +125,9 @@ class RoadSquares(pygame.sprite.Sprite):
         self.image = self.black
         self.rect = pygame.Rect(self.black.get_rect())
         self.rect.center = position
+
+    def getPosition(self):
+        return self.rect.center
 
     def update(self):
         pass
