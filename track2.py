@@ -55,13 +55,39 @@ class Track2:
         center_y = 1020 / 2
         pads = []
         # self.finish_line = (960, 50, 20, 125)
+        lastx = 0
+        lasty = 0
         for r in range(4):
-            for i in range(30):
+            for i in range(15):
                 pad_x = math.floor(
-                    (960 + 32 * i))
+                    (960 + 16 + 32 * i))
                 pad_y = math.floor(
-                    (50 ))
+                    (50 + 16 + 32 * r))
                 pads.append(RoadSquares((pad_x, pad_y)))
+                if r == 1 and i == 14:
+                    lastx = pad_x
+                    lasty = pad_y
+
+
+        # last pad_x furthest to the right
+        # last pad_y is shallowest
+        curve_center_x = lastx
+        curve_center_y = lasty + 2*32
+        print(curve_center_x)
+        print(curve_center_y)
+
+        degree_angle = -90
+        for r in range(4):
+            while degree_angle <= 0:
+                radian = math.radians(degree_angle)
+                pad_x = math.floor(
+                    (math.cos(radian) * (r*32) + curve_center_x))
+                pad_y = math.floor(
+                    (math.sin(radian) * (r*32) + curve_center_y))
+                pads.append(RoadSquares((pad_x, pad_y)))
+                degree_angle = degree_angle + 1
+            degree_angle = -90
+
         # for r in range(4):
         #     for i in range(int(360)):
         #         radian = math.radians(i)

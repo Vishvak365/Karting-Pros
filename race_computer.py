@@ -1,7 +1,7 @@
 # import pygame module in this program
 import pygame
 import screen
-import track
+import track2
 import time
 import mainmenu
 from car import Car
@@ -65,7 +65,7 @@ def carLap(car, finish_line, lap, msg):
 
 def RaceCars(display_surface):
     # window = screen.Screen()
-    track1 = track.Track()
+    track1 = track2.Track2()
     white = (0, 128, 0)
     start_car1 = (1010, 144)
     start_car2 = (1010, 75)
@@ -89,7 +89,7 @@ def RaceCars(display_surface):
         # Draw the Track
         display_surface.fill(white)
         pad_group.draw(display_surface)
-        track.checkpoint(display_surface)
+        track2.checkpoint(display_surface)
         delta_t = clock.tick(30)
         font = pygame.font.Font('fonts/American Captain.ttf', 32)
         for event in pygame.event.get():
