@@ -1,8 +1,9 @@
 import pygame
 from pygame import *
-import timetrial_AI as timetrial
-# import timetrial
+# import timetrial_AI as timetrial
+import timetrial
 import two_player
+import T1_AI as track1_AI
 import race_computer
 import sys
 
@@ -44,10 +45,12 @@ def main_menu(screen):
         button2col = RED
         button3col = RED
         button4col = RED
+        button5col = RED
         button1 = pygame.Rect(50, 100, 200, 50)
         button2 = pygame.Rect(50, 200, 200, 50)
         button3 = pygame.Rect(50, 300, 200, 50)
         button4 = pygame.Rect(50, 400, 200, 50)
+        button5 = pygame.Rect(50, 500, 200, 50)
 
         if button1.collidepoint((mx, my)):
             button1col = YELLOW
@@ -63,10 +66,16 @@ def main_menu(screen):
         if button3.collidepoint((mx, my)):
             button3col = YELLOW
             if click:
-                tutorial(screen)
+                if pick_track_AI(screen):
+                    break
 
         if button4.collidepoint((mx, my)):
             button4col = YELLOW
+            if click:
+                tutorial(screen)
+                
+        if button5.collidepoint((mx, my)):
+            button5col = YELLOW
             if click:
                 options(screen)
 
@@ -76,10 +85,13 @@ def main_menu(screen):
         pygame.draw.rect(screen, button2col, button2)
         pygame.draw.rect(screen, button3col, button3)
         pygame.draw.rect(screen, button4col, button4)
+        pygame.draw.rect(screen, button5col, button5)
+
         text('Time Trial', BLACK, screen, 80, 120)
         text('Two-Player', BLACK, screen, 80, 220)
-        text('Tutorial', BLACK, screen, 80, 320)
-        text('Options', BLACK, screen, 80, 420)
+        text('AI_Versus', BLACK, screen, 80, 320)
+        text('Tutorial', BLACK, screen, 80, 420)
+        text('Options', BLACK, screen, 80, 520)
         click = False
         for event in pygame.event.get():  # User did something
             if event.type == pygame.QUIT:  # If user clicked close
@@ -152,6 +164,39 @@ def pick_track_2player(screen):
             track_select_col = YELLOW
             if click:
                 two_player.RaceCars(screen)
+                return True
+
+        draw.rect(screen, track_select_col, trackCollide)
+        screen.blit(track, (50, 80))
+        pygame.display.update()
+        clock.tick(60)
+    return False
+
+
+def pick_track_AI(screen):
+    click = False
+    in_opts = True
+    screen.blit(background, (0, 0))
+    text('Pick Track', YELLOW, screen, 20, 20)
+    while in_opts:
+        mx, my = pygame.mouse.get_pos()
+        for event in pygame.event.get():  # User did something
+            if event.type == pygame.QUIT:  # If user clicked close
+                pygame.quit()  # Flag that we are done so we exit this loop
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    in_opts = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+
+        trackCollide = pygame.Rect(40, 70, 120, 120)
+        track_select_col = BLACK
+        if trackCollide.collidepoint((mx, my)):
+            track_select_col = YELLOW
+            if click:
+                track1_AI.T1_AI(screen)
+                # two_player.RaceCars(screen)
                 return True
 
         draw.rect(screen, track_select_col, trackCollide)

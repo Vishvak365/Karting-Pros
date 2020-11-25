@@ -9,7 +9,6 @@ from numpy import save
 from car import Car
 from pygame.locals import *
 from pygame import mixer
-import pickle
 
 
 def completeLap(car, finish_line):
@@ -39,9 +38,6 @@ def checkpoint1(car, checkpoint, checkpoint_check):
 
 
 def timeTrial(display_surface):
-    # mixer.init()
-    # mixer.music.load('sounds/race_coundown.mp3')
-    # mixer.music.set_volume(0.7)
 
     best_lap_time = 30000
 
@@ -73,32 +69,32 @@ def timeTrial(display_surface):
     mixer.music.set_volume(0.7)
     mixer.music.play()
 
-    # Data collection for machine learning
-    features = []
-    labels = []
-    model_filename = "knn_model.pkl"
-    with open(model_filename, 'rb') as file:
-        model = pickle.load(file)
-    right_press, left_press, up_press, down_press = 0, 0, 0, 0
+    # # Data collection for machine learning
+    # features = []
+    # labels = []
+    # model_filename = "knn_model.pkl"
+    # with open(model_filename, 'rb') as file:
+    #     model = pickle.load(file)
+    # right_press, left_press, up_press, down_press = 0, 0, 0, 0
     while True:
         # Machine Learning Features
         # Direction (%360), Position.X, Position.Y
-        feature = []
-        # Label(right,left,up,down)(1 or 0 for all)
-        label = []
+        # feature = []
+        # # Label(right,left,up,down)(1 or 0 for all)
+        # label = []
 
         # Draw the Track
         display_surface.fill(white)
         pad_group.draw(display_surface)
         font = pygame.font.Font('fonts/American Captain.ttf', 32)
 
-        feature.append(car.direction % 360)
-        feature.append(int(car.position[0]))
-        feature.append(int(car.position[1]))
-        feature = np.array(feature)
-        feature = feature / feature.max(axis=0)
-        features.append(feature)
-        print(model.predict([feature]))
+        # feature.append(car.direction % 360)
+        # feature.append(int(car.position[0]))
+        # feature.append(int(car.position[1]))
+        # feature = np.array(feature)
+        # feature = feature / feature.max(axis=0)
+        # features.append(feature)
+        # print(model.predict([feature]))
 
         track.checkpoint(display_surface)
         deltat = clock.tick(30)
@@ -116,7 +112,7 @@ def timeTrial(display_surface):
             if not hasattr(event, 'key'):
                 continue
             down = event.type == KEYDOWN
-            print(down)
+            # print(down)
             if event.key == K_RIGHT:
                 right_press = 1
                 car.k_right = down * -5
@@ -136,18 +132,18 @@ def timeTrial(display_surface):
                 # save('labels.npy', np.array(labels))
                 mainmenu.main_menu(display_surface)
 
-            if event.type == KEYUP:
-                if event.key == pygame.K_RIGHT:
-                    right_press = 0
-                elif event.key == pygame.K_LEFT:
-                    left_press = 0
-                elif event.key == pygame.K_UP:
-                    up_press = 0
-                elif event.key == pygame.K_DOWN:
-                    down_press = 0
+            # if event.type == KEYUP:
+            #     if event.key == pygame.K_RIGHT:
+            #         right_press = 0
+            #     elif event.key == pygame.K_LEFT:
+            #         left_press = 0
+            #     elif event.key == pygame.K_UP:
+            #         up_press = 0
+            #     elif event.key == pygame.K_DOWN:
+            #         down_press = 0
 
             # sys.exit(0)  # quit the game
-        labels.append([right_press, left_press, up_press, down_press])
+        # labels.append([right_press, left_press, up_press, down_press])
         # print(feature, labels[-1])
         if(countdownFinished):
             # Timer
@@ -182,7 +178,7 @@ def timeTrial(display_surface):
             image = pygame.image.load(
                 'images/starting_lights/lights'+str(int(time.time()-countdownTimerStart)+1)+'.png')
             display_surface.blit(image, ((1920/2)-(768/2), 50))
-            print(int(time.time()-countdownTimerStart))
+            # print(int(time.time()-countdownTimerStart))
             fontBig = pygame.font.Font('fonts/American Captain.ttf', 64)
             countdown_text = font.render(
                 "Time: " + str(4-t0), True, (255, 255, 255))
