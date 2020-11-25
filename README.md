@@ -16,6 +16,7 @@ In order to run karting pros the user must install pygame using the following co
 
 ```
 $ pip install pygame
+$ pip install numpy
 ```
 In order to run the game, the user must use the following command
 ```
