@@ -95,11 +95,12 @@ def RaceCars(display_surface):
 
     # Collision Check
     collisions = settings.getSetting('collision')
+    draw_hitbox = settings.getSetting('draw_hitbox')
 
     # Countdown timer logic
     countdownTimerStart = time.time()
     countdownFinished = False
-
+    
     # Music for countdown sound
     mixer.init()
     mixer.music.load('sounds/race_coundown.mp3')
@@ -123,14 +124,22 @@ def RaceCars(display_surface):
                               str(lap_car1) + "/5", True, (255, 255, 255))
         carlap2 = font.render("Car 2 Laps completed: " +
                               str(lap_car2) + "/5", True, (255, 255, 255))
+        # Lap count for Cars                          
         display_surface.blit(carlap1, (0, 0))
         display_surface.blit(carlap2, (0, 30))
+
+        # Update and draw car
         car_group.update(delta_t)
         car_group.draw(display_surface)
-        pygame.draw.rect(display_surface, (255, 0, 0), car.hitbox, 2)
+        
+        # Update and draw car
         car_group2.update(delta_t)
         car_group2.draw(display_surface)
-        pygame.draw.rect(display_surface, (255, 0, 0), car2.hitbox, 2)
+
+        if draw_hitbox:
+            pygame.draw.rect(display_surface, (255, 0, 0), car.hitbox, 2)
+            pygame.draw.rect(display_surface, (255, 0, 0), car2.hitbox, 2)
+
         # Check if car is on track
         SetCarMaxSpeed(car, pad_group, car_group)
         SetCarMaxSpeed(car2, pad_group, car_group2)
@@ -164,7 +173,11 @@ def RaceCars(display_surface):
                 checkpoint_car2 = 0
 
         while(time.time()-countdownTimerStart < 4):
-            # display_surface = pygame.display.set_mode(((1920/2)-(768/2), 50))
+            # Ability to close out mid countdown
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    sys.exit(0)
+                    
             image = pygame.image.load(
                 'images/starting_lights/lights'+str(int(time.time()-countdownTimerStart)+1)+'.png')
             display_surface.blit(image, ((1920/2)-(768/2), 50))

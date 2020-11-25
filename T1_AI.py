@@ -25,7 +25,6 @@ def win(display_surface, msg):
 def checkpoint1(car, checkpoint, checkpoint_check):
     if (car.hitbox[1] < (checkpoint[1] + 110)) and (car.hitbox[1] > (checkpoint[1] - 110)):
         if (car.hitbox[0] < (checkpoint[0] + 15)) and (car.hitbox[0] > (checkpoint[0] - 15)):
-            print("Lap finished")
             checkpoint_check = checkpoint_check + 1
     else:
         checkpoint_check = checkpoint_check
@@ -56,7 +55,6 @@ def collision(car, car2, display_surface):
 def carLap(car, finish_line, lap, msg):
     if (car.hitbox[1] < (finish_line[1] + 100)) and (car.hitbox[1] > (finish_line[1] - 100)):
         if (car.hitbox[0] < (finish_line[0] + 15)) and (car.hitbox[0] > (finish_line[0] - 15)):
-            print(msg)
             lap = lap + 1
             return lap
         else:
@@ -103,6 +101,7 @@ def T1_AI(display_surface):
     countdownFinished = False
 
     collisions = settings.getSetting('collision')
+    draw_hitbox = settings.getSetting('draw_hitbox')
 
     # Music for countdown sound
     mixer.init()
@@ -123,7 +122,6 @@ def T1_AI(display_surface):
             if not hasattr(event, 'key'):
                 continue
             getEvent1(car, event, display_surface)
-            # getEvent2(car2, event, display_surface)
 
         # AI Movement System
         car2.k_right = moves[moveNum][0] * -5
@@ -137,14 +135,21 @@ def T1_AI(display_surface):
                               str(lap_car1) + "/5", True, (255, 255, 255))
         carlap2 = font.render("Car 2 Laps completed: " +
                               str(lap_car2) + "/5", True, (255, 255, 255))
+        # Lap count for Cars                          
         display_surface.blit(carlap1, (0, 0))
         display_surface.blit(carlap2, (0, 30))
+
+        # Update and draw car
         car_group.update(delta_t)
         car_group.draw(display_surface)
-        pygame.draw.rect(display_surface, (255, 0, 0), car.hitbox, 2)
+        
+        # Update and draw car
         car_group2.update(delta_t)
         car_group2.draw(display_surface)
-        pygame.draw.rect(display_surface, (255, 0, 0), car2.hitbox, 2)
+
+        if draw_hitbox:
+            pygame.draw.rect(display_surface, (255, 0, 0), car.hitbox, 2)
+            pygame.draw.rect(display_surface, (255, 0, 0), car2.hitbox, 2)
         # Check if car is on track
         SetCarMaxSpeed(car, pad_group, car_group)
         SetCarMaxSpeed(car2, pad_group, car_group2)
@@ -177,11 +182,14 @@ def T1_AI(display_surface):
                 checkpoint_car2 = 0
 
         while(time.time()-countdownTimerStart < 4):
-            # display_surface = pygame.display.set_mode(((1920/2)-(768/2), 50))
+            # Ability to close out mid countdown
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    sys.exit(0)
+
             image = pygame.image.load(
                 'images/starting_lights/lights'+str(int(time.time()-countdownTimerStart)+1)+'.png')
             display_surface.blit(image, ((1920/2)-(768/2), 50))
-            print(int(time.time()-countdownTimerStart))
             fontBig = pygame.font.Font('fonts/American Captain.ttf', 64)
             countdown_text = font.render(
                 "Time: " + str(4-t0), True, (255, 255, 255))
@@ -218,21 +226,5 @@ def getEvent1(car, event, display_surface):
         car.k_up = down * 2
     elif event.key == K_DOWN:
         car.k_down = down * -2
-    elif event.key == K_ESCAPE:
-        mainmenu.main_menu(display_surface)
-
-
-def getEvent2(car2, event, display_surface):
-    down = event.type == KEYDOWN
-    if event.key == K_d:
-        car2.k_right = down * -5
-    elif event.key == K_LSHIFT:
-        car2.speed = 0
-    elif event.key == K_a:
-        car2.k_left = down * 5
-    elif event.key == K_w:
-        car2.k_up = down * 2
-    elif event.key == K_s:
-        car2.k_down = down * -2
     elif event.key == K_ESCAPE:
         mainmenu.main_menu(display_surface)

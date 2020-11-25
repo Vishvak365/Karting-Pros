@@ -15,7 +15,6 @@ import settings
 def completeLap(car, finish_line):
     if (car.hitbox[1] < (finish_line[1] + 100)) and (car.hitbox[1] > (finish_line[1] - 100)):
         if (car.hitbox[0] < (finish_line[0] + 15)) and (car.hitbox[0] > (finish_line[0] - 15)):
-            print("Lap finished")
             return True
 
 
@@ -30,7 +29,6 @@ def checkOutOfBounds(car):
 def checkpoint1(car, checkpoint, checkpoint_check):
     if (car.hitbox[1] < (checkpoint[1] + 110)) and (car.hitbox[1] > (checkpoint[1] - 110)):
         if (car.hitbox[0] < (checkpoint[0] + 15)) and (car.hitbox[0] > (checkpoint[0] - 15)):
-            print("Lap finished")
             checkpoint_check = checkpoint_check + 1
     else:
         checkpoint_check = checkpoint_check
@@ -178,6 +176,10 @@ def timeTrial(display_surface):
 
         # Countdown Timer Logic (program does not move forward until this is finished)
         while(time.time()-countdownTimerStart < 4):
+            # Ability to close out mid countdown
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    sys.exit(0)
             # Load proper lights image
             image = pygame.image.load(
                 'images/starting_lights/lights'+str(int(time.time()-countdownTimerStart)+1)+'.png')
