@@ -9,6 +9,7 @@ from numpy import save
 from car import Car
 from pygame.locals import *
 from pygame import mixer
+import settings
 
 
 def completeLap(car, finish_line):
@@ -69,32 +70,36 @@ def timeTrial(display_surface):
     mixer.music.set_volume(0.7)
     mixer.music.play()
 
-    # # Data collection for machine learning
-    # features = []
-    # labels = []
-    # model_filename = "knn_model.pkl"
-    # with open(model_filename, 'rb') as file:
-    #     model = pickle.load(file)
+    data_collection = settings.getSetting('collect_data_for_AI')
+    draw_hitbox = settings.getSetting('draw_hitbox')
+
+    if data_collection:
+        # Data collection for machine learning
+        features = []
+        labels = []
+
     # right_press, left_press, up_press, down_press = 0, 0, 0, 0
     while True:
-        # Machine Learning Features
-        # Direction (%360), Position.X, Position.Y
-        # feature = []
-        # # Label(right,left,up,down)(1 or 0 for all)
-        # label = []
+        if data_collection:
+            # Machine Learning Features
+            # Direction (%360), Position.X, Position.Y
+            feature = []
+            # Label(right,left,up,down)(1 or 0 for all)
+            label = []
 
         # Draw the Track
         display_surface.fill(white)
         pad_group.draw(display_surface)
         font = pygame.font.Font('fonts/American Captain.ttf', 32)
 
-        # feature.append(car.direction % 360)
-        # feature.append(int(car.position[0]))
-        # feature.append(int(car.position[1]))
-        # feature = np.array(feature)
-        # feature = feature / feature.max(axis=0)
-        # features.append(feature)
-        # print(model.predict([feature]))
+        if data_collection:
+            feature.append(car.direction % 360)
+            feature.append(int(car.position[0]))
+            feature.append(int(car.position[1]))
+            feature = np.array(feature)
+            feature = feature / feature.max(axis=0)
+            features.append(feature)
+            print(model.predict([feature]))
 
         track.checkpoint(display_surface)
         deltat = clock.tick(30)
@@ -128,23 +133,23 @@ def timeTrial(display_surface):
                 down_press = 1
                 car.k_down = down * -2
             elif event.key == K_ESCAPE:
-                # save('features.npy', np.array(features))
-                # save('labels.npy', np.array(labels))
+                np.save('features.npy', np.array(features))
+                np.save('labels.npy', np.array(labels))
                 mainmenu.main_menu(display_surface)
+            if data_collection:
+                if event.type == KEYUP:
+                    if event.key == pygame.K_RIGHT:
+                        right_press = 0
+                    elif event.key == pygame.K_LEFT:
+                        left_press = 0
+                    elif event.key == pygame.K_UP:
+                        up_press = 0
+                    elif event.key == pygame.K_DOWN:
+                        down_press = 0
 
-            # if event.type == KEYUP:
-            #     if event.key == pygame.K_RIGHT:
-            #         right_press = 0
-            #     elif event.key == pygame.K_LEFT:
-            #         left_press = 0
-            #     elif event.key == pygame.K_UP:
-            #         up_press = 0
-            #     elif event.key == pygame.K_DOWN:
-            #         down_press = 0
+        if data_collection:
+            labels.append([right_press, left_press, up_press, down_press])
 
-            # sys.exit(0)  # quit the game
-        # labels.append([right_press, left_press, up_press, down_press])
-        # print(feature, labels[-1])
         if(countdownFinished):
             # Timer
             timer_text = font.render("Time: " + str(dt), True, (255, 255, 255))
@@ -166,19 +171,19 @@ def timeTrial(display_surface):
         else:
             car.setRegularSpeed()
 
-        # OPTIONAL car hitbox
-        pygame.draw.rect(display_surface, (255, 0, 0), car.hitbox, 2)
+        if draw_hitbox:
+            pygame.draw.rect(display_surface, (255, 0, 0), car.hitbox, 2)
 
         pygame.display.flip()
 
         checkpoint_check = checkpoint1(car, checkpoint, checkpoint_check)
 
+        # Countdown Timer Logic (program does not move forward until this is finished)
         while(time.time()-countdownTimerStart < 4):
-            # display_surface = pygame.display.set_mode(((1920/2)-(768/2), 50))
+            # Load proper lights image
             image = pygame.image.load(
                 'images/starting_lights/lights'+str(int(time.time()-countdownTimerStart)+1)+'.png')
             display_surface.blit(image, ((1920/2)-(768/2), 50))
-            # print(int(time.time()-countdownTimerStart))
             fontBig = pygame.font.Font('fonts/American Captain.ttf', 64)
             countdown_text = font.render(
                 "Time: " + str(4-t0), True, (255, 255, 255))
@@ -192,21 +197,14 @@ def timeTrial(display_surface):
         if checkpoint_check >= 1:
             if completeLap(car, finish_line):
                 if dt < best_lap_time:
-                    # print("Best Lap Time: "+str(dt))
-                    # win_font = font.render(
-                    #     "Best Lap Time! " + str(dt), True, (255, 255, 255))
-                    # display_surface.blit(win_font, (1920/2, 50))
                     best_lap_time = dt
-                else:
-                    pass
-                    # win_font = font.render(
-                    #     "Time to Beat: " + str(best_lap_time) + "\n Your lap time:" + str(dt), True, (255, 255, 255))
-                    # display_surface.blit(win_font, (1920/2, 50))
-                # time.sleep(3000)
                 t0, t1 = time.time(), time.time()
                 checkpoint_check = 0
+
+        # If car is out of screen
         if checkOutOfBounds(car):
             car.reset(start_position)
+
         while(time.time()-countdownTimerStart < 4):
             fontBig = pygame.font.Font('fonts/American Captain.ttf', 64)
             countdown_text = font.render(
@@ -217,5 +215,4 @@ def timeTrial(display_surface):
             dt = t1-t0
             countdownFinished = True
 
-            # pygame.display.update()
         pygame.display.update()

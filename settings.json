@@ -5,5 +5,7 @@
   "acceleration": 1,
   "turn_speed": 4,
   "off_track_speed": 4,
-  "collision": false
+  "collision": false,
+  "draw_hitbox": false,
+  "collect_data_for_AI": true
 }
