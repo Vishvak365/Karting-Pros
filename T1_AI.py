@@ -9,7 +9,7 @@ from pygame.locals import *
 from pygame import mixer
 import numpy as np
 import sys
-
+import settings
 
 def win(display_surface, msg):
     font = pygame.font.Font('fonts/American Captain.ttf', 32)
@@ -102,6 +102,8 @@ def T1_AI(display_surface):
     countdownTimerStart = time.time()
     countdownFinished = False
 
+    collisions = settings.getSetting('collision')
+
     # Music for countdown sound
     mixer.init()
     mixer.music.load('sounds/race_coundown.mp3')
@@ -148,7 +150,9 @@ def T1_AI(display_surface):
         SetCarMaxSpeed(car2, pad_group, car_group2)
 
         pygame.display.flip()
-        collision(car, car2, display_surface)
+        if collisions:
+            collision(car, car2, display_surface)
+        
         if checkOutOfBounds(car):
             car.reset(start_car1)
         if checkOutOfBounds(car2):
