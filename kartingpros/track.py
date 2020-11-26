@@ -14,7 +14,7 @@ def _load_image(relative_image_path, colorkey=False):
     current_path = os.path.abspath(os.path.dirname(__file__))
     absolute_image_path = os.path.join(current_path, relative_image_path)
 
-    image = pygame.image.load(absolute_image_path).convert_alpha()
+    image = pygame.image.load(absolute_image_path)
     return image
 
 class Track:
