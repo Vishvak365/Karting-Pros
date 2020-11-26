@@ -1,9 +1,8 @@
 import pygame
 from pygame import *
-# import timetrial_AI as timetrial
 import timetrial
 import two_player
-import T1_AI as track1_AI
+from car import Car
 import race_computer
 import sys
 
@@ -16,6 +15,7 @@ WHITE = (255, 255, 255)
 GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 YELLOW = (255, 211, 0)
+
 # The loop will carry on until the user exit the game (e.g. clicks the close button).
 
 
@@ -37,20 +37,22 @@ def text(print_string, color1, surface, x, y):
 def main_menu(screen):
     pygame.font.init()
     click = False
+    offset = 0
+    start_position = (1010, 144)
+    car = Car('images/f1sprite.png', start_position)
+    car_group = pygame.sprite.Group(car)
     while True:
         # --- Main event loop
-
+        deltat = clock.tick(30)
         mx, my = pygame.mouse.get_pos()
         button1col = RED
         button2col = RED
         button3col = RED
         button4col = RED
-        button5col = RED
         button1 = pygame.Rect(50, 100, 200, 50)
         button2 = pygame.Rect(50, 200, 200, 50)
         button3 = pygame.Rect(50, 300, 200, 50)
         button4 = pygame.Rect(50, 400, 200, 50)
-        button5 = pygame.Rect(50, 500, 200, 50)
 
         if button1.collidepoint((mx, my)):
             button1col = YELLOW
@@ -66,32 +68,32 @@ def main_menu(screen):
         if button3.collidepoint((mx, my)):
             button3col = YELLOW
             if click:
-                if pick_track_AI(screen):
-                    break
+                tutorial(screen)
 
         if button4.collidepoint((mx, my)):
             button4col = YELLOW
             if click:
-                tutorial(screen)
-                
-        if button5.collidepoint((mx, my)):
-            button5col = YELLOW
-            if click:
                 options(screen)
 
-        screen.blit(background, (0, 0))
+        #screen.blit(background, (0, 0))
+        screen.fill(BLACK)
+        if offset == 99:
+            offset = 0
+        else:
+            offset = offset + 1
+        drawroad(screen, offset)
+        car_group.update(deltat)
+        car_group.draw(screen)
+
         text('Race Menu', YELLOW, screen, 310, 20)
         pygame.draw.rect(screen, button1col, button1)
         pygame.draw.rect(screen, button2col, button2)
         pygame.draw.rect(screen, button3col, button3)
         pygame.draw.rect(screen, button4col, button4)
-        pygame.draw.rect(screen, button5col, button5)
-
         text('Time Trial', BLACK, screen, 80, 120)
         text('Two-Player', BLACK, screen, 80, 220)
-        text('AI_Versus', BLACK, screen, 80, 320)
-        text('Tutorial', BLACK, screen, 80, 420)
-        text('Options', BLACK, screen, 80, 520)
+        text('Tutorial', BLACK, screen, 80, 320)
+        text('Options', BLACK, screen, 80, 420)
         click = False
         for event in pygame.event.get():  # User did something
             if event.type == pygame.QUIT:  # If user clicked close
@@ -173,39 +175,6 @@ def pick_track_2player(screen):
     return False
 
 
-def pick_track_AI(screen):
-    click = False
-    in_opts = True
-    screen.blit(background, (0, 0))
-    text('Pick Track', YELLOW, screen, 20, 20)
-    while in_opts:
-        mx, my = pygame.mouse.get_pos()
-        for event in pygame.event.get():  # User did something
-            if event.type == pygame.QUIT:  # If user clicked close
-                pygame.quit()  # Flag that we are done so we exit this loop
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    in_opts = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    click = True
-
-        trackCollide = pygame.Rect(40, 70, 120, 120)
-        track_select_col = BLACK
-        if trackCollide.collidepoint((mx, my)):
-            track_select_col = YELLOW
-            if click:
-                track1_AI.T1_AI(screen)
-                # two_player.RaceCars(screen)
-                return True
-
-        draw.rect(screen, track_select_col, trackCollide)
-        screen.blit(track, (50, 80))
-        pygame.display.update()
-        clock.tick(60)
-    return False
-
-
 def options(screen):
     in_opts = True
     screen.blit(background, (0, 0))
@@ -240,3 +209,15 @@ def tutorial(screen):
         pygame.display.update()
 
         clock.tick(60)
+
+
+def drawroad(screen, offset):
+    left = 900
+    right = 1200
+    middle = left + ((right - left) / 2)
+    leftSide = pygame.Rect(left, 0, 10, screen.get_height())
+    rightSide = pygame.Rect(right, 0, 10, screen.get_height())
+    pygame.draw.rect(screen, YELLOW, leftSide)
+    pygame.draw.rect(screen, YELLOW, rightSide)
+    for i in range(-100, screen.get_height() + 100, 100):
+        pygame.draw.rect(screen, YELLOW, (middle, i + offset, 10, 60))
