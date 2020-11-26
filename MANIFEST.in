@@ -1,6 +1,6 @@
-include src/images/*
-include src/images/starting_lights/*
-include src/fonts/*
-include src/ArtificalIntelligence/*
-include src/settings.json
+include kartingpros/images/*
+include kartingpros/images/starting_lights/*
+include kartingpros/fonts/*
+include kartingpros/ArtificalIntelligence/*
+include kartingpros/settings.json
 include requirements.txt
