@@ -17,3 +17,4 @@ setup(
     },
 )
 # echo y | pip uninstall kartingpros && python setup.py install && KartingPros
+# echo y | pip3 uninstall kartingpros && python3 setup.py install && KartingPros

@@ -12,8 +12,8 @@ import settings
 
 
 def win(display_surface, msg):
-    font = pygame.font.Font('fonts/American Captain.ttf', 32)
-    win_image = pygame.image.load('images/win.png')
+    font = pygame.font.Font(r'src/fonts/American Captain.ttf', 32)
+    win_image = pygame.image.load(r'src/images/win.png')
     car_lap = font.render(msg, True, (255, 255, 255))
     display_surface.blit(win_image, (700, 300))
     display_surface.blit(car_lap, (1050, 500))
@@ -46,7 +46,7 @@ def collision(car, car2, display_surface):
         if (car.hitbox[0] < (car2.hitbox[0] + 35)) and (car.hitbox[0] > (car2.hitbox[0] - 35)):
             car2.speed = 0
             car.speed = 0
-            crash = pygame.image.load('images/crash.png')
+            crash = pygame.image.load(r'src/images/crash.png')
             display_surface.blit(crash, (600, 250))
             pygame.display.update()
             pygame.time.delay(2500)
@@ -75,11 +75,11 @@ def RaceCars(display_surface):
 
     # Setup car objects
     start_car1 = (1010, 144)
-    car = Car('images/f1sprite.png', start_car1)
+    car = Car(r'src/images/f1sprite.png', start_car1)
     car_group = pygame.sprite.Group(car)
 
     start_car2 = (1010, 75)
-    car2 = Car('images/f1sprite.png', start_car2)
+    car2 = Car(r'src/images/f1sprite.png', start_car2)
     car_group2 = pygame.sprite.Group(car2)
 
     # Groups for pads and finish line
@@ -103,7 +103,7 @@ def RaceCars(display_surface):
     
     # Music for countdown sound
     mixer.init()
-    mixer.music.load('sounds/race_coundown.mp3')
+    mixer.music.load(r'src/sounds/race_coundown.mp3')
     mixer.music.set_volume(0.7)
     mixer.music.play()
     while True:
@@ -112,7 +112,7 @@ def RaceCars(display_surface):
         pad_group.draw(display_surface)
         track.checkpoint(display_surface)
         delta_t = clock.tick(30)
-        font = pygame.font.Font('fonts/American Captain.ttf', 32)
+        font = pygame.font.Font(r'src/fonts/American Captain.ttf', 32)
         for event in pygame.event.get():
             if not hasattr(event, 'key'):
                 continue
@@ -179,10 +179,10 @@ def RaceCars(display_surface):
                     sys.exit(0)
                     
             image = pygame.image.load(
-                'images/starting_lights/lights'+str(int(time.time()-countdownTimerStart)+1)+'.png')
+                r'src/images/starting_lights/lights'+str(int(time.time()-countdownTimerStart)+1)+'.png')
             display_surface.blit(image, ((1920/2)-(768/2), 50))
             print(int(time.time()-countdownTimerStart))
-            fontBig = pygame.font.Font('fonts/American Captain.ttf', 64)
+            fontBig = pygame.font.Font(r'src/fonts/American Captain.ttf', 64)
             countdown_text = font.render(
                 "Time: " + str(4-t0), True, (255, 255, 255))
             display_surface.blit(countdown_text, (0, 0))

@@ -48,7 +48,7 @@ def timeTrial(display_surface):
 
     # Car Setup
     start_position = (1010, 144)
-    car = Car('images/f1sprite.png', start_position)
+    car = Car(r'src/images/f1sprite.png', start_position)
 
     car_group = pygame.sprite.Group(car)
 
@@ -64,7 +64,7 @@ def timeTrial(display_surface):
 
     # Music for countdown sound
     mixer.init()
-    mixer.music.load('sounds/race_coundown.mp3')
+    mixer.music.load(r'src/sounds/race_coundown.mp3')
     mixer.music.set_volume(0.7)
     mixer.music.play()
 
@@ -87,7 +87,7 @@ def timeTrial(display_surface):
         # Draw the Track
         display_surface.fill(white)
         pad_group.draw(display_surface)
-        font = pygame.font.Font('fonts/American Captain.ttf', 32)
+        font = pygame.font.Font(r'src/fonts/American Captain.ttf', 32)
 
         if data_collection:
             feature.append(car.direction % 360)
@@ -129,8 +129,9 @@ def timeTrial(display_surface):
                 down_press = 1
                 car.k_down = down * -2
             elif event.key == K_ESCAPE:
-                np.save('features.npy', np.array(features))
-                np.save('labels.npy', np.array(labels))
+                if data_collection:
+                    np.save('features.npy', np.array(features))
+                    np.save('labels.npy', np.array(labels))
                 mainmenu.main_menu(display_surface)
             if data_collection:
                 if event.type == KEYUP:
@@ -182,9 +183,9 @@ def timeTrial(display_surface):
                     sys.exit(0)
             # Load proper lights image
             image = pygame.image.load(
-                'images/starting_lights/lights'+str(int(time.time()-countdownTimerStart)+1)+'.png')
+                r'src/images/starting_lights/lights'+str(int(time.time()-countdownTimerStart)+1)+'.png')
             display_surface.blit(image, ((1920/2)-(768/2), 50))
-            fontBig = pygame.font.Font('fonts/American Captain.ttf', 64)
+            fontBig = pygame.font.Font(r'src/fonts/American Captain.ttf', 64)
             countdown_text = font.render(
                 "Time: " + str(4-t0), True, (255, 255, 255))
             display_surface.blit(countdown_text, (0, 0))
@@ -206,7 +207,7 @@ def timeTrial(display_surface):
             car.reset(start_position)
 
         while(time.time()-countdownTimerStart < 4):
-            fontBig = pygame.font.Font('fonts/American Captain.ttf', 64)
+            fontBig = pygame.font.Font(r'src/fonts/American Captain.ttf', 64)
             countdown_text = font.render(
                 "Time: " + str(4-t0), True, (255, 255, 255))
             display_surface.blit(countdown_text, (0, 0))

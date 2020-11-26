@@ -1,5 +1,5 @@
 import json
-JSON_FILE_NAME = "..settings.json"
+JSON_FILE_NAME = r"src/settings.json"
 
 
 def getMaxForwardSpeed():

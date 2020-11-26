@@ -1,14 +1,13 @@
 import pygame
 from pygame import *
-# import timetrial_AI as timetrial
 import timetrial
 import two_player
 import T1_AI as track1_AI
 import race_computer
 import sys
 
-track = pygame.image.load('images/track.png')
-background = pygame.image.load('images/Gui_background.png')
+track = pygame.image.load(r'src/images/track.png')
+background = pygame.image.load(r'src/images/Gui_background.png')
 track = transform.scale(track, (100, 100))
 # Define some colors
 BLACK = (0, 0, 0)
@@ -227,7 +226,7 @@ def tutorial(screen):
     in_opts = True
     screen.blit(background, (0, 0))
     text('Tutorial', YELLOW, screen, 20, 20)
-    image = pygame.image.load('images/tutorial.png')
+    image = pygame.image.load(r'src/images/tutorial.png')
     screen.blit(image, (0, 100))
     while in_opts:
         for event in pygame.event.get():  # User did something
