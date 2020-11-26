@@ -1,12 +1,21 @@
 import pygame
 import math
-
+import os
 
 # Track class, makes surface of track
 
 def checkpoint(surface):
     pygame.draw.rect(surface, (255, 255, 255), (960, 50, 20, 125))
 
+def _load_image(relative_image_path, colorkey=False):
+    """ Utility method to load the images. It handles if the images contain
+    transparency, and relative paths.
+    """
+    current_path = os.path.abspath(os.path.dirname(__file__))
+    absolute_image_path = os.path.join(current_path, relative_image_path)
+
+    image = pygame.image.load(absolute_image_path).convert_alpha()
+    return image
 
 class Track:
     # Constructor calls static function to make track, track is list of extended sprite class objects
@@ -57,7 +66,7 @@ class Track:
 
 # Black 32x32 squares to make the road
 class RoadSquares(pygame.sprite.Sprite):
-    black = pygame.image.load(r"kartingpros/images/track_black.png")
+    black = _load_image("./images/track_black.png")
 
     def __init__(self, position):
         super(RoadSquares, self).__init__()
