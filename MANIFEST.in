@@ -2,4 +2,5 @@ include src/images/*
 include src/images/starting_lights/*
 include src/fonts/*
 include src/ArtificalIntelligence/*
-include src/*
+include src/settings.json
+include requirements.txt

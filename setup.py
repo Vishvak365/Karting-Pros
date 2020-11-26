@@ -1,14 +1,23 @@
 
-from setuptools import setup
-from setuptools import find_packages
+from setuptools import setup, find_packages
+
+with open("README.md", "r") as readme:
+    long_description = readme.read()
 
 setup(
     name="kartingpros",
-    version="0.1.0",
-    include_package_data=True,
-    packages=find_packages(),
+    version="0.1.1",
+    # include_package_data=True,
+    author="Vishvak Seenichamy, Kevin Kosta, Wesley Boyd, Carson Hamel",
+    author_email="vishvak@vishvak.com",
+    packages=['src'],
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url='https://github.com/kosta2456/Karting-Pros',
+    description="A 2D racing game",
     install_requires=[
         'pygame==1.9.6',
+        'numpy==1.18.4'
     ],
     entry_points={
         "console_scripts": [

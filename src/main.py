@@ -5,7 +5,6 @@ import mainmenu
 
 
 def main():
-    print('asdf')
     pygame.init()
     window = screen.Screen()
     display_surface = window.get_display()
@@ -14,4 +13,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-    # print('adsf')
