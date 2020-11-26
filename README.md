@@ -11,6 +11,9 @@ Karting Pros is a 2-D top view racing game made on python using the pygames libr
 
 - Carson Hamel
 
+## Developing
+https://github.com/kosta2456/Karting-Pros/wiki/Developing-and-Running-the-Game
+
 ## Dependencies
 In order to run karting pros the user must install pygame using the following command
 
