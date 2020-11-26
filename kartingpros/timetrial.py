@@ -181,7 +181,7 @@ def timeTrial(display_surface):
                     sys.exit(0)
             # Load proper lights image
             image = pygame.image.load(
-                r'src/images/starting_lights/lights'+str(int(time.time()-countdownTimerStart)+1)+'.png')
+                r'kartingpros/images/starting_lights/lights'+str(int(time.time()-countdownTimerStart)+1)+'.png')
             display_surface.blit(image, ((1920/2)-(768/2), 50))
             fontBig = pygame.font.Font(r'kartingpros/fonts/American Captain.ttf', 64)
             countdown_text = font.render(
