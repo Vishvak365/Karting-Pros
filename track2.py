@@ -64,20 +64,20 @@ class Track2:
                 pad_y = math.floor(
                     (50 + 16 + 32 * r))
                 pads.append(RoadSquares((pad_x, pad_y)))
-                if r == 1 and i == 15:
+                if r == 0 and i == 15:
                     lastx = pad_x
                     lasty = pad_y
 
         # last pad_x furthest to the right
         # last pad_y is shallowest
         curve_center_x = lastx
-        curve_center_y = lasty + 2 * 32
+        curve_center_y = lasty + 3 * 32
         print(curve_center_x)
         print(curve_center_y)
         turn_pads = self.MakeTurn(curve_center_x, curve_center_y, -90, 0)
         pads.append(turn_pads)
 
-        curve_center_x = curve_center_x + 4*32
+        curve_center_x = curve_center_x + 4 * 32
         curve_center_y = curve_center_y + 32
         turn_pads = self.MakeTurn(curve_center_x, curve_center_y, -270, -180)
         pads.append(turn_pads)
@@ -88,7 +88,40 @@ class Track2:
                 pad_y = math.floor(
                     (curve_center_y + 32 * r))
                 pads.append(RoadSquares((pad_x, pad_y)))
+                if r == 0 and i == 4:
+                    lastx = pad_x
+                    lasty = pad_y
+        curve_center_x = lastx + 32
+        curve_center_y = lasty + 3 * 32
+        turn_pads = self.MakeTurn(curve_center_x, curve_center_y, -90, 0)
+        pads.append(turn_pads)
+        for r in range(18):
+            for i in range(5):
+                pad_x = math.floor(
+                    (curve_center_x + 32 * i))
+                pad_y = math.floor(
+                    (curve_center_y + 32 * r))
+                pads.append(RoadSquares((pad_x, pad_y)))
+                if r == 17 and i == 4:
+                    lastx = pad_x
+                    lasty = pad_y
 
+        curve_center_x = lastx - 4 * 32
+        curve_center_y = lasty + 32
+        turn_pads = self.MakeTurn(curve_center_x, curve_center_y, -360, -270)
+        pads.append(turn_pads)
+        curve_center_x = lastx - 4 * 32
+        curve_center_y = lasty
+        for r in range(40):
+            for i in range(5):
+                pad_x = math.floor(
+                    (curve_center_x - 32 * r))
+                pad_y = math.floor(
+                    (curve_center_y + 32 * i))
+                pads.append(RoadSquares((pad_x, pad_y)))
+                if r == 17 and i == 4:
+                    lastx = pad_x
+                    lasty = pad_y
         return pygame.sprite.RenderPlain(*pads)
 
     def MakeTurn(self, curve_center_x, curve_center_y, start_angle, end_angle):
