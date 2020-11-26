@@ -1,16 +1,12 @@
 import json
-JSON_FILE_NAME = r"kartingpros/settings.json"
-
-
-def getMaxForwardSpeed():
-    f = open(JSON_FILE_NAME)
-    data = json.load(f)
-    print(data["max_forward_speed"])
-    f.close()
+import os
+JSON_FILE_NAME = "./settings.json"
 
 
 def getSetting(settingName):
-    f = open(JSON_FILE_NAME)
+    current_path = os.path.abspath(os.path.dirname(__file__))
+    absolute_image_path = os.path.join(current_path, JSON_FILE_NAME)
+    f = open(absolute_image_path)
     data = json.load(f)
     f.close()
     return(data[settingName])

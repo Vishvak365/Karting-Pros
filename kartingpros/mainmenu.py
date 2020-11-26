@@ -1,11 +1,11 @@
 import pygame
 from pygame import *
-from kartingpros import timetrial, two_player, T1_AI as track1_AI, race_computer
+from kartingpros import timetrial, two_player, T1_AI as track1_AI, race_computer,loadimage
+from kartingpros.loadimage import _load_image,_load_sound,_load_font
 import sys
 
-
-track = pygame.image.load(r'kartingpros/images/track.png')
-background = pygame.image.load(r'kartingpros/images/Gui_background.png')
+track = _load_image('./images/track.png')
+background = _load_image('./images/Gui_background.png')
 track = transform.scale(track, (100, 100))
 # Define some colors
 BLACK = (0, 0, 0)
@@ -224,7 +224,7 @@ def tutorial(screen):
     in_opts = True
     screen.blit(background, (0, 0))
     text('Tutorial', YELLOW, screen, 20, 20)
-    image = pygame.image.load(r'kartingpros/images/tutorial.png')
+    image = _load_image('./images/tutorial.png')
     screen.blit(image, (0, 100))
     while in_opts:
         for event in pygame.event.get():  # User did something

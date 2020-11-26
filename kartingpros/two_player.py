@@ -1,16 +1,17 @@
 # import pygame module in this program
 import pygame
-from kartingpros import screen, track, mainmenu, car, settings
+from kartingpros import screen, track, mainmenu, car, settings,loadimage
+from kartingpros.loadimage import _load_image,_load_sound,_load_font
 import time
 from kartingpros.car import Car
 from pygame.locals import *
 from pygame import mixer
 import sys
-
+import os
 
 def win(display_surface, msg):
-    font = pygame.font.Font(r'kartingpros/fonts/American Captain.ttf', 32)
-    win_image = pygame.image.load(r'kartingpros/images/win.png')
+    font = _load_font('./fonts/American Captain.ttf', 32)
+    win_image = _load_image('./images/win.png')
     car_lap = font.render(msg, True, (255, 255, 255))
     display_surface.blit(win_image, (700, 300))
     display_surface.blit(car_lap, (1050, 500))
@@ -43,7 +44,7 @@ def collision(car, car2, display_surface):
         if (car.hitbox[0] < (car2.hitbox[0] + 35)) and (car.hitbox[0] > (car2.hitbox[0] - 35)):
             car2.speed = 0
             car.speed = 0
-            crash = pygame.image.load(r'kartingpros/images/crash.png')
+            crash = _load_image('./images/crash.png')
             display_surface.blit(crash, (600, 250))
             pygame.display.update()
             pygame.time.delay(2500)
@@ -72,11 +73,11 @@ def RaceCars(display_surface):
 
     # Setup car objects
     start_car1 = (1010, 144)
-    car = Car(r'kartingpros/images/f1sprite.png', start_car1)
+    car = Car('./images/f1sprite.png', start_car1)
     car_group = pygame.sprite.Group(car)
 
     start_car2 = (1010, 75)
-    car2 = Car(r'kartingpros/images/f1sprite.png', start_car2)
+    car2 = Car('./images/f1sprite.png', start_car2)
     car_group2 = pygame.sprite.Group(car2)
 
     # Groups for pads and finish line
@@ -99,8 +100,11 @@ def RaceCars(display_surface):
     countdownFinished = False
 
     # Music for countdown sound
+    current_path = os.path.abspath(os.path.dirname(__file__))
+    absolute_image_path = os.path.join(
+        current_path, './sounds/race_coundown.mp3')
     mixer.init()
-    mixer.music.load(r'kartingpros/sounds/race_coundown.mp3')
+    mixer.music.load(absolute_image_path)
     mixer.music.set_volume(0.7)
     mixer.music.play()
     while True:
@@ -109,7 +113,7 @@ def RaceCars(display_surface):
         pad_group.draw(display_surface)
         track.checkpoint(display_surface)
         delta_t = clock.tick(30)
-        font = pygame.font.Font(r'kartingpros/fonts/American Captain.ttf', 32)
+        font = _load_font('./fonts/American Captain.ttf', 32)
         for event in pygame.event.get():
             if not hasattr(event, 'key'):
                 continue
@@ -175,11 +179,11 @@ def RaceCars(display_surface):
                 if event.type == QUIT:
                     sys.exit(0)
 
-            image = pygame.image.load(
-                r'kartingpros/images/starting_lights/lights'+str(int(time.time()-countdownTimerStart)+1)+'.png')
+            image = _load_image('./images/starting_lights/lights' +
+                                str(int(time.time()-countdownTimerStart)+1)+'.png')
             display_surface.blit(image, ((1920/2)-(768/2), 50))
             print(int(time.time()-countdownTimerStart))
-            fontBig = pygame.font.Font(r'kartingpros/fonts/American Captain.ttf', 64)
+            fontBig = _load_font('./fonts/American Captain.ttf', 64)
             countdown_text = font.render(
                 "Time: " + str(4-t0), True, (255, 255, 255))
             display_surface.blit(countdown_text, (0, 0))

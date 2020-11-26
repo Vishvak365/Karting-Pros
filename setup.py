@@ -6,7 +6,7 @@ with open("README.md", "r") as readme:
 
 setup(
     name="kartingpros",
-    version="0.1.14",
+    version="0.1.16",
     include_package_data=True,
     author="Vishvak Seenichamy, Kevin Kosta, Wesley Boyd, Carson Hamel",
     author_email="vishvak@vishvak.com",
@@ -16,7 +16,7 @@ setup(
     url='https://github.com/kosta2456/Karting-Pros',
     description="A 2D racing game",
     install_requires=[
-        'pygame==2.0.0',
+        'pygame==1.9.6',
         'numpy==1.18.4',
     ],
     entry_points={

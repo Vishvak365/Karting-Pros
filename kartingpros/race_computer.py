@@ -1,15 +1,16 @@
 # import pygame module in this program
 import pygame
 import time
-from kartingpros import screen, track, mainmenu, settings, car
+from kartingpros import screen, track, mainmenu, settings, car, loadimage
+from kartingpros.loadimage import _load_image,_load_sound,_load_font
 from kartingpros.car import Car
 from pygame.locals import *
 import sys
 
 
 def win(display_surface, msg):
-    font = pygame.font.Font(r'kartingpros/fonts/American Captain.ttf', 32)
-    win_image = pygame.image.load(r'kartingpros/images/win.png')
+    font = _load_font('./fonts/American Captain.ttf', 32)
+    win_image = _load_image('./images/win.png')
     car_lap = font.render(msg, True, (255, 255, 255))
     display_surface.blit(win_image, (700, 300))
     display_surface.blit(car_lap, (1050, 500))
@@ -42,7 +43,7 @@ def collision(car, car2, display_surface):
         if (car.hitbox[0] < (car2.hitbox[0] + 35)) and (car.hitbox[0] > (car2.hitbox[0] - 35)):
             car2.speed = 0
             car.speed = 0
-            crash = pygame.image.load(r'kartingpros/images/crash.png')
+            crash = _load_image('./images/crash.png')
             display_surface.blit(crash, (600, 250))
             pygame.display.update()
             pygame.time.delay(2500)
@@ -70,10 +71,10 @@ def RaceCars(display_surface):
     clock = pygame.time.Clock()
     t0 = time.time()
 
-    car = Car(r'kartingpros/images/f1sprite.png', start_car1)
+    car = Car('./images/f1sprite.png', start_car1)
     car_group = pygame.sprite.Group(car)
 
-    car2 = Car(r'kartingpros/images/f1sprite.png', start_car2)
+    car2 = Car('./images/f1sprite.png', start_car2)
     car_group2 = pygame.sprite.Group(car2)
 
     pad_group = track1.getPads()
@@ -89,7 +90,7 @@ def RaceCars(display_surface):
         pad_group.draw(display_surface)
         track.checkpoint(display_surface)
         delta_t = clock.tick(30)
-        font = pygame.font.Font(r'kartingpros/fonts/American Captain.ttf', 32)
+        font = _load_font('./fonts/American Captain.ttf', 32)
         for event in pygame.event.get():
             if not hasattr(event, 'key'):
                 continue

@@ -3,3 +3,5 @@
 # /dist
 /kartingpros.egg-info
 pypirc_template
+/dev_env
+.vscode

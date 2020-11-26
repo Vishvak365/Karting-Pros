@@ -2,6 +2,7 @@ import pygame
 import time
 import math
 from kartingpros import settings
+from kartingpros.loadimage import _load_image,_load_sound,_load_font
 from pygame.locals import *
 
 
@@ -13,7 +14,7 @@ class Car(pygame.sprite.Sprite):
 
     def __init__(self, image, position):
         pygame.sprite.Sprite.__init__(self)
-        self.src_image = pygame.image.load(image)
+        self.src_image = _load_image(image)
         # self.src_image = pygame.transform.rotate(self.src_image, 90)
         self.position = position
         self.speed = 0
