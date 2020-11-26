@@ -17,8 +17,8 @@ def _load_image(relative_image_path, colorkey=False):
 
 def _load_font(relative_font_path, size):
     current_path = os.path.abspath(os.path.dirname(__file__))
-    absolute_image_path = os.path.join(current_path, relative_image_path)
-    return pygame.font.Font(absolute_image_path, size)
+    absolute_font_path = os.path.join(current_path, relative_font_path)
+    return pygame.font.Font(absolute_font_path, size)
 
 
 def _load_sound(relative_sound_path):

@@ -63,10 +63,11 @@ def timeTrial(display_surface):
 
     # Music for countdown sound
     current_path = os.path.abspath(os.path.dirname(__file__))
-    absolute_image_path = os.path.join(
+    absolute_path = os.path.join(
         current_path, './sounds/race_coundown.mp3')
+    print(absolute_path)
     mixer.init()
-    mixer.music.load(absolute_image_path)
+    mixer.music.load(absolute_path)
     mixer.music.set_volume(0.7)
     mixer.music.play()
 
