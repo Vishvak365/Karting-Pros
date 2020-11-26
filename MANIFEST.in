@@ -1,0 +1,7 @@
+include kartingpros/images/*
+include kartingpros/images/starting_lights/*
+include kartingpros/fonts/*
+include kartingpros/sounds/*
+include kartingpros/ArtificalIntelligence/*
+include kartingpros/settings.json
+include requirements.txt
