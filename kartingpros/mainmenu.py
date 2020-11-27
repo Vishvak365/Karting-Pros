@@ -3,6 +3,7 @@ from pygame import *
 from kartingpros import timetrial, two_player, T1_AI as track1_AI, race_computer,loadimage
 from kartingpros.loadimage import _load_image,_load_sound,_load_font
 import sys
+from kartingpros.car import Car
 
 track = _load_image('./images/track.png')
 background = _load_image('./images/Gui_background.png')
@@ -34,50 +35,66 @@ def text(print_string, color1, surface, x, y):
 def main_menu(screen):
     pygame.font.init()
     click = False
+
+    offset = 0
+    start_position = (1120, 400)
+    car = Car('images/f1sprite.png', start_position)
+    car.direction = 0
+    car_group = pygame.sprite.Group(car)
+
     while True:
         # --- Main event loop
-
+        deltat = clock.tick(30)
         mx, my = pygame.mouse.get_pos()
-        button1col = RED
-        button2col = RED
-        button3col = RED
-        button4col = RED
-        button5col = RED
-        button1 = pygame.Rect(50, 100, 200, 50)
-        button2 = pygame.Rect(50, 200, 200, 50)
-        button3 = pygame.Rect(50, 300, 200, 50)
-        button4 = pygame.Rect(50, 400, 200, 50)
-        button5 = pygame.Rect(50, 500, 200, 50)
+        button1col = YELLOW
+        button2col = YELLOW
+        button3col = YELLOW
+        button4col = YELLOW
+        button5col = YELLOW
+        button1 = pygame.Rect(50, 100, 500, 50)
+        button2 = pygame.Rect(50, 200, 500, 50)
+        button3 = pygame.Rect(50, 300, 500, 50)
+        button4 = pygame.Rect(50, 400, 500, 50)
+        button5 = pygame.Rect(50, 500, 500, 50)
 
         if button1.collidepoint((mx, my)):
-            button1col = YELLOW
+            button1col = RED
             if click:
                 if pick_track(screen):
                     break
         if button2.collidepoint((mx, my)):
-            button2col = YELLOW
+            button2col = RED
             if click:
                 if pick_track_2player(screen):
                     break
 
         if button3.collidepoint((mx, my)):
-            button3col = YELLOW
+            button3col = RED
             if click:
                 if pick_track_AI(screen):
                     break
 
         if button4.collidepoint((mx, my)):
-            button4col = YELLOW
+            button4col = RED
             if click:
                 tutorial(screen)
 
         if button5.collidepoint((mx, my)):
-            button5col = YELLOW
+            button5col = RED
             if click:
                 options(screen)
 
-        screen.blit(background, (0, 0))
-        text('Race Menu', YELLOW, screen, 310, 20)
+        #screen.blit(background, (0, 0))
+        screen.fill(BLACK)
+        if offset == 99:
+            offset = 0
+        else:
+            offset = offset + 1
+        drawroad(screen, offset)
+        car_group.update(deltat)
+        car_group.draw(screen)
+
+        text('KARTING PROS', YELLOW, screen, 310, 20)
         pygame.draw.rect(screen, button1col, button1)
         pygame.draw.rect(screen, button2col, button2)
         pygame.draw.rect(screen, button3col, button3)
@@ -237,3 +254,15 @@ def tutorial(screen):
         pygame.display.update()
 
         clock.tick(60)
+
+
+def drawroad(screen, offset):
+    left = 1000
+    right = 1200
+    middle = left + ((right - left) / 2)
+    leftSide = pygame.Rect(left, 0, 10, screen.get_height())
+    rightSide = pygame.Rect(right, 0, 10, screen.get_height())
+    pygame.draw.rect(screen, YELLOW, leftSide)
+    pygame.draw.rect(screen, YELLOW, rightSide)
+    for i in range(-100, screen.get_height() + 100, 100):
+        pygame.draw.rect(screen, YELLOW, (middle, i + offset, 10, 60))
