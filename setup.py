@@ -18,6 +18,7 @@ setup(
     install_requires=[
         'pygame==1.9.6',
         'numpy==1.18.4',
+        'cppyy==1.9.1',
     ],
     entry_points={
         "console_scripts": [

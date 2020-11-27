@@ -4,4 +4,5 @@ include kartingpros/fonts/*
 include kartingpros/sounds/*
 include kartingpros/ArtificalIntelligence/*
 include kartingpros/settings.json
+include kartingpros/cppPerformance/*
 include requirements.txt
