@@ -1,0 +1,41 @@
+# import cppyy
+# cppyy.include("CarCalculations.h")
+# cppyy.load_library("CarCalculations")
+# from cppyy.gbl import CarCalculations
+import ctypes
+import math
+import time
+import os
+
+current_path = os.path.abspath(os.path.dirname(__file__))
+libPath = os.path.join(
+    current_path, './cppPerformance/CarCalculations.so')
+carCalc = ctypes.CDLL(libPath)
+carCalc.calcRad(2)
+# print(carCalc.calcRad(-23))
+
+# nums = []
+# for i in range(0, 500):
+#     nums.append(-i)
+
+# cppTime = 1
+# pyTime = 1
+
+# for i in range(100):
+#     start_time = time.time_ns()
+#     for x in nums:
+#         carCalc.calcRad(x)
+#     finish_time = time.time_ns()
+#     # cppTime+=1
+#     cppTime += (finish_time-start_time)
+
+#     start_time = time.time_ns()
+#     for x in nums:
+#         math.sin(x)
+#     finish_time = time.time_ns()
+#     # print(cppTime)
+#     pyTime += (finish_time-start_time)
+
+
+# print(f"Python time is {pyTime/100}")
+# print(f"C++ time is {cppTime/100}")

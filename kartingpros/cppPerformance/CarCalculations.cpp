@@ -3,7 +3,7 @@
 #include "CarCalculations.h"
 #include <vector>
 #include <chrono>
-#include <math.h>
+#include "math.h"
 using namespace std;
 // int main()
 // {
@@ -21,5 +21,12 @@ double CarCalculations::calcRad(int direction)
 {
     return M_PI * direction / 180;
 }
+extern "C"
+{
+    CarCalculations *CarCalculations_new() { return new CarCalculations(); }
+    double CarCalculations_calcRad(int direction) { return M_PI * direction / 180; }
+}
 // g++ -c -fPIC CarCalculations.cpp -o CarCalculations.o
 // g++ -shared -Wl,-soname,CarCalculations.so -o CarCalculations.so  CarCalculations.o
+// g++ -fPIC -c -Wall CarCalculations.cpp
+// ld -shared CarCalculations.o -o CarCalculations.so
