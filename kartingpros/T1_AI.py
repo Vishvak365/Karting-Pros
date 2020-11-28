@@ -79,16 +79,22 @@ def T1_AI(display_surface):
     start_car1 = (1010, 75)
     car = Car('./images/f1sprite.png', start_car1)
     car_group = pygame.sprite.Group(car)
+    car.setDefaultValues()
 
     # AI Car
     start_car2 = (1010, 144)
     car2 = Car('./images/f1sprite.png', start_car2)
     car_group2 = pygame.sprite.Group(car2)
+    car2.setDefaultValues()
 
     # AI Moves
     current_path = os.path.abspath(os.path.dirname(__file__))
-    absolute_image_path = os.path.join(
-        current_path, './ArtificalIntelligence/track1.npy')
+    if settings.getSetting('ai_difficulty_hard') == False:
+        absolute_image_path = os.path.join(
+            current_path, './ArtificalIntelligence/track1_easy.npy')
+    else:
+        absolute_image_path = os.path.join(
+            current_path, './ArtificalIntelligence/track1_hard.npy')
     moves = np.load(absolute_image_path)
     moveNum = 0
 
@@ -118,8 +124,9 @@ def T1_AI(display_surface):
     mixer.music.load(absolute_image_path)
     mixer.music.set_volume(0.7)
     mixer.music.play()
-
+    right_press, left_press, up_press, down_press = 0, 0, 0, 0
     while True:
+
         # Draw the Track
         display_surface.fill(white)
         pad_group.draw(display_surface)
@@ -131,8 +138,39 @@ def T1_AI(display_surface):
                 sys.exit(0)
             if not hasattr(event, 'key'):
                 continue
-            getEvent1(car, event, display_surface)
+            if event.key == K_RIGHT:
+                right_press = 1
+            elif event.key == K_SPACE:
+                car.speed = 0
+            elif event.key == K_LEFT:
+                left_press = 1
+            elif event.key == K_UP:
+                up_press = 1
+            elif event.key == K_DOWN:
+                down_press = 1
+            elif event.key == K_ESCAPE:
+                mainmenu.main_menu(display_surface)
+            if event.type == KEYUP:
+                if event.key == pygame.K_RIGHT:
+                    right_press = 0
+                elif event.key == pygame.K_LEFT:
+                    left_press = 0
+                elif event.key == pygame.K_UP:
+                    up_press = 0
+                elif event.key == pygame.K_DOWN:
+                    down_press = 0
 
+        # Human Movement System
+        car.k_right = right_press * -5
+        car.k_left = left_press * 5
+        car.k_up = up_press * 2
+        car.k_down = down_press * -2
+
+        # Friction component
+        if up_press == 0 and down_press == 0 and int(car.speed) != 0:
+            car.k_down = -.2
+            car.k_up = 0
+            
         # AI Movement System
         car2.k_right = moves[moveNum][0] * -5
         car2.k_left = moves[moveNum][1] * 5
@@ -192,11 +230,6 @@ def T1_AI(display_surface):
                 checkpoint_car2 = 0
 
         while(time.time()-countdownTimerStart < 4):
-            # Ability to close out mid countdown
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    sys.exit(0)
-
             image = _load_image('./images/starting_lights/lights' +
                                 str(int(time.time()-countdownTimerStart)+1)+'.png')
             display_surface.blit(image, ((1920/2)-(768/2), 50))
@@ -219,22 +252,6 @@ def SetCarMaxSpeed(car, pad_group, car_group):
 
     # Slow down car if not on track
     if not on_track:
-        car.MAX_FORWARD_SPEED = 3
+        car.setOffTrackSpeedAI()
     else:
-        car.MAX_FORWARD_SPEED = 20
-
-
-def getEvent1(car, event, display_surface):
-    down = event.type == KEYDOWN
-    if event.key == K_RIGHT:
-        car.k_right = down * -5
-    elif event.key == K_SPACE:
-        car.speed = 0
-    elif event.key == K_LEFT:
-        car.k_left = down * 5
-    elif event.key == K_UP:
-        car.k_up = down * 2
-    elif event.key == K_DOWN:
-        car.k_down = down * -2
-    elif event.key == K_ESCAPE:
-        mainmenu.main_menu(display_surface)
+        car.setRegularSpeedAI()
