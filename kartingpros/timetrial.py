@@ -73,12 +73,12 @@ def timeTrial(display_surface):
 
     data_collection = settings.getSetting('collect_data_for_AI')
     draw_hitbox = settings.getSetting('draw_hitbox')
-
+    i = 0
     if data_collection:
         # Data collection for machine learning
         features = []
         labels = []
-        right_press, left_press, up_press, down_press = 0, 0, 0, 0
+    right_press, left_press, up_press, down_press = 0, 0, 0, 0
     while True:
         if data_collection:
             # Machine Learning Features
@@ -109,43 +109,45 @@ def timeTrial(display_surface):
 
         t1 = time.time()
         dt = t1-t0
-
         for event in pygame.event.get():
             if event.type == QUIT:
                 sys.exit(0)
             if not hasattr(event, 'key'):
                 continue
-            down = event.type == KEYDOWN
-            # print(down)
             if event.key == K_RIGHT:
                 right_press = 1
-                car.k_right = down * -5
             elif event.key == K_SPACE:
                 car.speed = 0
             elif event.key == K_LEFT:
                 left_press = 1
-                car.k_left = down * 5
             elif event.key == K_UP:
                 up_press = 1
-                car.k_up = down * 2
             elif event.key == K_DOWN:
                 down_press = 1
-                car.k_down = down * -2
             elif event.key == K_ESCAPE:
                 if data_collection:
                     np.save('features.npy', np.array(features))
                     np.save('labels.npy', np.array(labels))
                 mainmenu.main_menu(display_surface)
-            if data_collection:
-                if event.type == KEYUP:
-                    if event.key == pygame.K_RIGHT:
-                        right_press = 0
-                    elif event.key == pygame.K_LEFT:
-                        left_press = 0
-                    elif event.key == pygame.K_UP:
-                        up_press = 0
-                    elif event.key == pygame.K_DOWN:
-                        down_press = 0
+            if event.type == KEYUP:
+                if event.key == pygame.K_RIGHT:
+                    right_press = 0
+                elif event.key == pygame.K_LEFT:
+                    left_press = 0
+                elif event.key == pygame.K_UP:
+                    up_press = 0
+                elif event.key == pygame.K_DOWN:
+                    down_press = 0
+        print(car.speed,up_press)
+
+        car.k_right = right_press * -5
+        car.k_left = left_press * 5
+        car.k_up = up_press * 2
+        car.k_down = down_press * -2
+
+        if up_press == 0 and down_press == 0 and int(car.speed) != 0:
+            car.k_down = -.2
+            car.k_up = 0
 
         if data_collection:
             labels.append([right_press, left_press, up_press, down_press])
@@ -181,9 +183,9 @@ def timeTrial(display_surface):
         # Countdown Timer Logic (program does not move forward until this is finished)
         while(time.time()-countdownTimerStart < 4):
             # Ability to close out mid countdown
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    sys.exit(0)
+            # for event in pygame.event.get():
+            #     if event.type == QUIT:
+            #         sys.exit(0)
             # Load proper lights image
             image = _load_image('./images/starting_lights/lights' +
                                 str(int(time.time()-countdownTimerStart)+1)+'.png')
