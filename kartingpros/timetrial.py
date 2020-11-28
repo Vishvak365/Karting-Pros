@@ -138,7 +138,6 @@ def timeTrial(display_surface):
                     up_press = 0
                 elif event.key == pygame.K_DOWN:
                     down_press = 0
-        print(car.speed,up_press)
 
         car.k_right = right_press * -5
         car.k_left = left_press * 5
