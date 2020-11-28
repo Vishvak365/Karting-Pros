@@ -119,6 +119,8 @@ def RaceCars(display_surface):
         delta_t = clock.tick(30)
         font = _load_font('./fonts/American Captain.ttf', 32)
         for event in pygame.event.get():
+            if event.type == QUIT:
+                sys.exit(0)
             if not hasattr(event, 'key'):
                 continue
             getEvent1(car, event, display_surface)
@@ -179,9 +181,9 @@ def RaceCars(display_surface):
 
         while(time.time()-countdownTimerStart < 4):
             # Ability to close out mid countdown
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    sys.exit(0)
+            # for event in pygame.event.get():
+            #     if event.type == QUIT:
+            #         sys.exit(0)
 
             image = _load_image('./images/starting_lights/lights' +
                                 str(int(time.time()-countdownTimerStart)+1)+'.png')
