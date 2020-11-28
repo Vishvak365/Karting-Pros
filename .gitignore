@@ -1,6 +1,6 @@
 *.pyc
 /build
-# /dist
+/dist
 /kartingpros.egg-info
 pypirc_template
 /dev_env
