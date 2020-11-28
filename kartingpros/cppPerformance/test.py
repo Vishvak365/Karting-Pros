@@ -15,22 +15,6 @@ for i in range(0,500):
 cppTime = 1
 pyTime = 1
 
-def cppCalc():
-    start_time = time.time_ns()
-    for x in nums:
-        carCalc.calcRad(x)
-    finish_time = time.time_ns()
-    # cppTime+=1
-    cppTime += (finish_time-start_time)
-
-def pythonCalc():
-    start_time = time.time_ns()
-    for x in nums:
-        math.sin(x)
-    finish_time = time.time_ns()
-    # print(cppTime)
-    pyTime+=(finish_time-start_time)
-
 for i in range(100):
     start_time = time.time_ns()
     for x in nums:
