@@ -13,10 +13,14 @@ import os
 
 def win(display_surface, msg):
     font = _load_font('./fonts/American Captain.ttf', 32)
-    win_image = _load_image('./images/win.png')
+    if msg == "car1":
+        win_image = _load_image('./images/p1_trophy.png')
+    else:
+        win_image = _load_image('./images/ai_trophy.png')
+    win_image = pygame.transform.scale(win_image, (500, 500))
     car_lap = font.render(msg, True, (255, 255, 255))
     display_surface.blit(win_image, (700, 300))
-    display_surface.blit(car_lap, (1050, 500))
+    #display_surface.blit(car_lap, (1050, 500))
     pygame.display.update()
     pygame.time.delay(5000)
     mainmenu.main_menu(display_surface)
@@ -176,7 +180,7 @@ def T1_AI(display_surface):
                               "Lap finished for car 1!")
             if lap_car1 > previouslapcar1:
                 if lap_car1 == 5:
-                    win(display_surface, "Car 1 Wins!")
+                    win(display_surface, "car1")
                 checkpoint_car1 = 0
         if checkpoint_car2 >= 1:
             previouslapcar2 = lap_car2
@@ -184,7 +188,7 @@ def T1_AI(display_surface):
                               "Lap finished for car 2!")
             if lap_car2 > previouslapcar2:
                 if lap_car2 == 5:
-                    win(display_surface, "AI Car Wins!")
+                    win(display_surface, "ai")
                 checkpoint_car2 = 0
 
         while(time.time()-countdownTimerStart < 4):

@@ -10,7 +10,7 @@ import sys
 
 def win(display_surface, msg):
     font = _load_font('./fonts/American Captain.ttf', 32)
-    win_image = _load_image('./images/win.png')
+    win_image = _load_image('./images/trophy.png')
     car_lap = font.render(msg, True, (255, 255, 255))
     display_surface.blit(win_image, (700, 300))
     display_surface.blit(car_lap, (1050, 500))
