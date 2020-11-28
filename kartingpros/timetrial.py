@@ -2,14 +2,15 @@ import pygame
 import time
 import math
 import sys
-from kartingpros import track, mainmenu, car, settings,loadimage
-from kartingpros.loadimage import _load_image,_load_sound,_load_font
+from kartingpros import track, mainmenu, car, settings, loadimage
+from kartingpros.loadimage import _load_image, _load_sound, _load_font
 import numpy as np
 from numpy import save
 from kartingpros.car import Car
 from pygame.locals import *
 from pygame import mixer
 import os
+
 
 def completeLap(car, finish_line):
     if (car.hitbox[1] < (finish_line[1] + 100)) and (car.hitbox[1] > (finish_line[1] - 100)):
@@ -101,7 +102,7 @@ def timeTrial(display_surface):
             features.append(feature)
 
         track.checkpoint(display_surface)
-        deltat = clock.tick(30)
+        deltat = clock.tick(60)
 
         # Update Car and draw
         car_group.update(deltat)
@@ -151,17 +152,6 @@ def timeTrial(display_surface):
         if data_collection:
             labels.append([right_press, left_press, up_press, down_press])
 
-        if(countdownFinished):
-            # Timer
-            timer_text = font.render("Time: " + str(dt), True, (255, 255, 255))
-            display_surface.blit(timer_text, (0, 0))
-
-            # Time to Beat
-            if best_lap_time != 30000:
-                best_lap_text = font.render(
-                    "Time to Beat: "+str(best_lap_time), True, (255, 255, 255))
-                display_surface.blit(best_lap_text, (0, 30))
-
         # Check if car is on track
         on_track = pygame.sprite.groupcollide(
             car_group, pad_group, False, False)
@@ -181,28 +171,34 @@ def timeTrial(display_surface):
 
         # Countdown Timer Logic (program does not move forward until this is finished)
         while(time.time()-countdownTimerStart < 4):
-            # Ability to close out mid countdown
-            # for event in pygame.event.get():
-            #     if event.type == QUIT:
-            #         sys.exit(0)
-            # Load proper lights image
             image = _load_image('./images/starting_lights/lights' +
                                 str(int(time.time()-countdownTimerStart)+1)+'.png')
             display_surface.blit(image, ((1920/2)-(768/2), 50))
             fontBig = _load_font('./fonts/American Captain.ttf', 64)
             countdown_text = font.render(
                 "Time: " + str(4-t0), True, (255, 255, 255))
-            display_surface.blit(countdown_text, (0, 0))
+            # display_surface.blit(countdown_text, (0, 0))
             t0 = time.time()
             t1 = time.time()
             dt = t1-t0
             countdownFinished = True
             pygame.display.update()
 
+        if(countdownFinished):
+            # Timer
+            timer_text = font.render("Time: " + str(round(dt,3)), True, (255, 255, 255))
+            display_surface.blit(timer_text, (0, 0))
+
+            # Time to Beat
+            if best_lap_time != 30000:
+                best_lap_text = font.render(
+                    "Time to Beat: "+str(best_lap_time), True, (255, 255, 255))
+                display_surface.blit(best_lap_text, (0, 30))
+
         if checkpoint_check >= 1:
             if completeLap(car, finish_line):
                 if dt < best_lap_time:
-                    best_lap_time = dt
+                    best_lap_time = round(dt,3)
                 t0, t1 = time.time(), time.time()
                 checkpoint_check = 0
 

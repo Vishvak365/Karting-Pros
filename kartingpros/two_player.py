@@ -180,19 +180,12 @@ def RaceCars(display_surface):
                 checkpoint_car2 = 0
 
         while(time.time()-countdownTimerStart < 4):
-            # Ability to close out mid countdown
-            # for event in pygame.event.get():
-            #     if event.type == QUIT:
-            #         sys.exit(0)
-
             image = _load_image('./images/starting_lights/lights' +
                                 str(int(time.time()-countdownTimerStart)+1)+'.png')
             display_surface.blit(image, ((1920/2)-(768/2), 50))
-            print(int(time.time()-countdownTimerStart))
             fontBig = _load_font('./fonts/American Captain.ttf', 64)
             countdown_text = font.render(
                 "Time: " + str(4-t0), True, (255, 255, 255))
-            display_surface.blit(countdown_text, (0, 0))
             t0 = time.time()
             t1 = time.time()
             dt = t1-t0

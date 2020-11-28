@@ -236,7 +236,6 @@ def T1_AI(display_surface):
             fontBig = _load_font('./fonts/American Captain.ttf', 64)
             countdown_text = font.render(
                 "Time: " + str(4-t0), True, (255, 255, 255))
-            display_surface.blit(countdown_text, (0, 0))
             t0 = time.time()
             t1 = time.time()
             dt = t1-t0
