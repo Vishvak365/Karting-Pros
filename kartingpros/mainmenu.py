@@ -231,12 +231,40 @@ def options(screen):
     set_file = open(Path("kartingpros/settings.json"), "r")
     set_json = json.load(set_file)
     set_file.close()
-    print(set_json)
+    #print(set_json)
 
     max_speed = int(set_json["max_forward_speed"])
     text("Max Forward Speed: ", YELLOW, screen, 20, 100)
     max_speed_up = pygame.Rect(300, 75, 30, 20)
     max_speed_down = pygame.Rect(300, 125, 30, 20)
+
+    rev_speed = int(set_json["max_reverse_speed"])
+    text("Max Reverse Speed: ", YELLOW, screen, 20, 200)
+    rev_speed_up = pygame.Rect(300, 175, 30, 20)
+    rev_speed_down = pygame.Rect(300, 225, 30, 20)
+
+    acc = int(set_json["acceleration"])
+    text("Acceleration Speed: ", YELLOW, screen, 20, 300)
+    acc_up = pygame.Rect(300, 275, 30, 20)
+    acc_down = pygame.Rect(300, 325, 30, 20)
+
+    turn_speed = int(set_json["turn_speed"])
+    text("Turn Speed: ", YELLOW, screen, 20, 400)
+    ts_up = pygame.Rect(300, 375, 30, 20)
+    ts_down = pygame.Rect(300, 425, 30, 20)
+
+    ot_speed = int(set_json["off_track_speed"])
+    text("Off-Track Speed: ", YELLOW, screen, 20, 500)
+    ot_up = pygame.Rect(300, 475, 30, 20)
+    ot_down = pygame.Rect(300, 525, 30, 20)
+
+    collision = bool(set_json["collision"])
+    text("Collisions: ", YELLOW, screen, 20, 600)
+    col_toggle = pygame.Rect(300, 585, 50, 50)
+
+    hitbox = bool(set_json["draw_hitbox"])
+    text("Draw Hitboxes: ", YELLOW, screen, 20, 700)
+    hb_toggle = pygame.Rect(300, 685, 50, 50)
 
     while in_opts:
         click = False
@@ -247,6 +275,12 @@ def options(screen):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     set_json["max_forward_speed"] = max_speed
+                    set_json["max_reverse_speed"] = rev_speed
+                    set_json["acceleration"] = acc
+                    set_json["turn_speed"] = turn_speed
+                    set_json["off_track_speed"] = ot_speed
+                    set_json["collision"] = collision
+                    set_json["draw_hitbox"] = hitbox
                     set_file = open(Path("kartingpros/settings.json"), "w")
                     json.dump(set_json, set_file)
                     set_file.close()
@@ -259,6 +293,24 @@ def options(screen):
 
         speedupcol = YELLOW
         speeddowncol = YELLOW
+        revupcol = YELLOW
+        revdowncol = YELLOW
+        accupcol = YELLOW
+        accdowncol = YELLOW
+        tsupcol = YELLOW
+        tsdowncol = YELLOW
+        otupcol = YELLOW
+        otdowncol = YELLOW
+
+        if(collision):
+            coll_col = RED
+        else:
+            coll_col = YELLOW
+
+        if (hitbox):
+            hb_col = RED
+        else:
+            hb_col = YELLOW
 
         if max_speed_up.collidepoint((mx, my)):
             speedupcol = RED
@@ -274,14 +326,114 @@ def options(screen):
                     pygame.draw.rect(screen, BLACK, (300, 75, 50, 50))
                     max_speed = max_speed - 1
 
+        if rev_speed_up.collidepoint((mx, my)):
+            revupcol = RED
+            if click:
+                if rev_speed < 99:
+                    pygame.draw.rect(screen, BLACK, (300, 175, 50, 50))
+                    rev_speed = rev_speed + 1
+
+        if rev_speed_down.collidepoint((mx, my)):
+            revdowncol = RED
+            if click:
+                if rev_speed > 1:
+                    pygame.draw.rect(screen, BLACK, (300, 175, 50, 50))
+                    rev_speed = rev_speed - 1
+
+        if acc_up.collidepoint((mx, my)):
+            accupcol = RED
+            if click:
+                if acc < 99:
+                    pygame.draw.rect(screen, BLACK, (300, 275, 50, 50))
+                    acc = acc + 1
+
+        if acc_down.collidepoint((mx, my)):
+            accdowncol = RED
+            if click:
+                if acc > 1:
+                    pygame.draw.rect(screen, BLACK, (300, 275, 50, 50))
+                    acc = acc - 1
+
+        if ts_up.collidepoint((mx, my)):
+            tsupcol = RED
+            if click:
+                if turn_speed < 99:
+                    pygame.draw.rect(screen, BLACK, (300, 375, 50, 50))
+                    turn_speed = turn_speed + 1
+
+        if ts_down.collidepoint((mx, my)):
+            tsdowncol = RED
+            if click:
+                if turn_speed > 1:
+                    pygame.draw.rect(screen, BLACK, (300, 375, 50, 50))
+                    turn_speed = turn_speed - 1
+
+        if ot_up.collidepoint((mx, my)):
+            otupcol = RED
+            if click:
+                if ot_speed < 99:
+                    pygame.draw.rect(screen, BLACK, (300, 475, 50, 50))
+                    ot_speed = ot_speed + 1
+
+        if ot_down.collidepoint((mx, my)):
+            otdowncol = RED
+            if click:
+                if ot_speed > 1:
+                    pygame.draw.rect(screen, BLACK, (300, 475, 50, 50))
+                    ot_speed = ot_speed - 1
+
+        if col_toggle.collidepoint((mx, my)):
+            if click:
+                    collision = not collision
+
+        if hb_toggle.collidepoint((mx, my)):
+            if click:
+                    hitbox = not hitbox
+
         pygame.draw.rect(screen, speedupcol, max_speed_up)
         pygame.draw.rect(screen, speeddowncol, max_speed_down)
         text("^", BLACK, screen, 307, 77)
         text("v", BLACK, screen, 307, 122)
 
+        pygame.draw.rect(screen, revupcol, rev_speed_up)
+        pygame.draw.rect(screen, revdowncol, rev_speed_down)
+        text("^", BLACK, screen, 307, 177)
+        text("v", BLACK, screen, 307, 222)
+
+        pygame.draw.rect(screen, accupcol, acc_up)
+        pygame.draw.rect(screen, accdowncol, acc_down)
+        text("^", BLACK, screen, 307, 277)
+        text("v", BLACK, screen, 307, 322)
+
+        pygame.draw.rect(screen, tsupcol, ts_up)
+        pygame.draw.rect(screen, tsdowncol, ts_down)
+        text("^", BLACK, screen, 307, 377)
+        text("v", BLACK, screen, 307, 422)
+
+        pygame.draw.rect(screen, otupcol, ot_up)
+        pygame.draw.rect(screen, otdowncol, ot_down)
+        text("^", BLACK, screen, 307, 477)
+        text("v", BLACK, screen, 307, 522)
+
+        pygame.draw.rect(screen, coll_col, col_toggle)
+
+        pygame.draw.rect(screen, hb_col, hb_toggle)
 
         text(str(max_speed), YELLOW, screen, 300, 100)
+        text(str(rev_speed), YELLOW, screen, 300, 200)
+        text(str(acc), YELLOW, screen, 300, 300)
+        text(str(turn_speed), YELLOW, screen, 300, 400)
+        text(str(ot_speed), YELLOW, screen, 300, 500)
 
+        if(collision):
+            text("ON", BLACK, screen, 300, 600)
+        else:
+            text("OFF", BLACK, screen, 300, 600)
+
+        if (hitbox):
+            text("ON", BLACK, screen, 300, 700)
+        else:
+            text("OFF", BLACK, screen, 300, 700)
 
         pygame.display.update()
 
