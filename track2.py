@@ -30,26 +30,6 @@ class Track2:
     def getOuterTrack(self):
         return self.outer_track
 
-    # Static method creates oval track using sin, cos
-    # def makePads(self):
-    #     center_x = 1980 / 2
-    #     center_y = 1020 / 2
-    #     pads = []
-    #
-    #     for r in range(4):
-    #         for i in range(int(360)):
-    #             radian = math.radians(i)
-    #             pad_x = math.floor(
-    #                 (math.cos(radian) * (650 + 32 * r) + center_x))
-    #             pad_y = math.floor(
-    #                 (math.sin(radian) * (350 + 32 * r) + center_y))
-    #             pads.append(RoadSquares((pad_x, pad_y)))
-    #             if r == 1:
-    #                 self.inner_track.append((pad_x, pad_y))
-    #             elif r == 4:
-    #                 self.outer_track.append((pad_x, pad_y))
-    #
-    #     return pygame.sprite.RenderPlain(*pads)
     def makePads(self):
         center_x = 1980 / 2
         center_y = 1020 / 2
@@ -127,23 +107,50 @@ class Track2:
         curve_center_y = lasty
         turn_pads = self.MakeTurn(curve_center_x, curve_center_y, -270, -180)
         pads.append(turn_pads)
-        curve_center_x = lastx - 4*32
-        curve_center_y = lasty -32
+        curve_center_x = lastx - 4 * 32
+        curve_center_y = lasty - 32
         turn_pads = self.MakeTurn(curve_center_x, curve_center_y, -90, 0)
         pads.append(turn_pads)
-        curve_center_x = lastx - 4*32
-        curve_center_y = lasty - 4*32
+        curve_center_x = lastx - 4 * 32
+        curve_center_y = lasty - 4 * 32
         turn_pads = self.MakeTurn(curve_center_x, curve_center_y, -270, -180)
         pads.append(turn_pads)
 
-        curve_center_x = curve_center_x - 4*32
-        curve_center_y = curve_center_y -32
+        curve_center_x = curve_center_x - 4 * 32
+        curve_center_y = curve_center_y - 32
         turn_pads = self.MakeTurn(curve_center_x, curve_center_y, -90, 0)
         pads.append(turn_pads)
         curve_center_x = curve_center_x - 32
-        curve_center_y = curve_center_y -32*3
+        curve_center_y = curve_center_y - 32 * 3
         turn_pads = self.MakeTurn(curve_center_x, curve_center_y, -271, -180)
         pads.append(turn_pads)
+        curve_center_x = curve_center_x - 32 * 4
+        curve_center_y = curve_center_y - 32
+        for r in range(13):
+            for i in range(4):
+                pad_x = math.floor(
+                    (curve_center_x + 32 * i))
+                pad_y = math.floor(
+                    (curve_center_y - 32 * r))
+                pads.append(RoadSquares((pad_x, pad_y)))
+                if r == 12 and i == 0:
+                    lastx = pad_x
+                    lasty = pad_y
+        curve_center_x = lastx + 4*32
+        curve_center_y = lasty -32
+        turn_pads = self.MakeTurn(curve_center_x, curve_center_y, -180, -90)
+        pads.append(turn_pads)
+
+        for r in range(24):
+            for i in range(4):
+                pad_x = math.floor(
+                    (curve_center_x + 32 * r))
+                pad_y = math.floor(
+                    (curve_center_y - 32 * i))
+                pads.append(RoadSquares((pad_x, pad_y)))
+                if r == 12 and i == 0:
+                    lastx = pad_x
+                    lasty = pad_y
         return pygame.sprite.RenderPlain(*pads)
 
     def MakeTurn(self, curve_center_x, curve_center_y, start_angle, end_angle):
