@@ -1,3 +1,6 @@
+import json
+from pathlib import Path
+import os
 import pygame
 from pygame import *
 from kartingpros import timetrial, two_player, T1_AI as track1_AI, race_computer,loadimage
@@ -112,7 +115,7 @@ def main_menu(screen):
                 sys.exit()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    break
+                    pygame.quit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
                     click = True
@@ -222,15 +225,63 @@ def pick_track_AI(screen):
 
 def options(screen):
     in_opts = True
-    screen.blit(background, (0, 0))
+    #screen.blit(BLACK, (0, 0))
+    screen.fill(BLACK)
     text('Options', YELLOW, screen, 20, 20)
+    set_file = open(Path("kartingpros/settings.json"), "r")
+    set_json = json.load(set_file)
+    set_file.close()
+    print(set_json)
+
+    max_speed = int(set_json["max_forward_speed"])
+    text("Max Forward Speed: ", YELLOW, screen, 20, 100)
+    max_speed_up = pygame.Rect(300, 75, 30, 20)
+    max_speed_down = pygame.Rect(300, 125, 30, 20)
+
     while in_opts:
+        click = False
         for event in pygame.event.get():  # User did something
             if event.type == pygame.QUIT:  # If user clicked close
                 pygame.quit()  # Flag that we are done so we exit this loop
+
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
+                    set_json["max_forward_speed"] = max_speed
+                    set_file = open(Path("kartingpros/settings.json"), "w")
+                    json.dump(set_json, set_file)
+                    set_file.close()
                     in_opts = False
+
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
+        mx, my = pygame.mouse.get_pos()
+
+        speedupcol = YELLOW
+        speeddowncol = YELLOW
+
+        if max_speed_up.collidepoint((mx, my)):
+            speedupcol = RED
+            if click:
+                if max_speed < 99:
+                    pygame.draw.rect(screen, BLACK, (300, 75, 50, 50))
+                    max_speed = max_speed + 1
+
+        if max_speed_down.collidepoint((mx, my)):
+            speeddowncol = RED
+            if click:
+                if max_speed > 1:
+                    pygame.draw.rect(screen, BLACK, (300, 75, 50, 50))
+                    max_speed = max_speed - 1
+
+        pygame.draw.rect(screen, speedupcol, max_speed_up)
+        pygame.draw.rect(screen, speeddowncol, max_speed_down)
+        text("^", BLACK, screen, 307, 77)
+        text("v", BLACK, screen, 307, 122)
+
+
+        text(str(max_speed), YELLOW, screen, 300, 100)
+
 
         pygame.display.update()
 
