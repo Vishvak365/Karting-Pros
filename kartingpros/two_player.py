@@ -48,6 +48,14 @@ def collision(car, car2, display_surface):
         if (car.hitbox[0] < (car2.hitbox[0] + 35)) and (car.hitbox[0] > (car2.hitbox[0] - 35)):
             car2.speed = 0
             car.speed = 0
+            # Music for countdown sound
+            current_path = os.path.abspath(os.path.dirname(__file__))
+            absolute_image_path = os.path.join(
+                current_path, './sounds/car_crash.mp3')
+            mixer.init()
+            mixer.music.load(absolute_image_path)
+            mixer.music.set_volume(0.7)
+            mixer.music.play()
             crash = _load_image('./images/crash.png')
             display_surface.blit(crash, (600, 250))
             pygame.display.update()
