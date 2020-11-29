@@ -10,9 +10,10 @@ from pygame import mixer
 import os
 
 track = _load_image('./images/track1.png')
-track2 = _load_image('./images/track2b.png')
+track1 = _load_image('./images/track2b.png')
 background = _load_image('./images/Gui_background.png')
 track = transform.scale(track, (100, 100))
+track1 = transform.scale(track1, (100, 100))
 # Define some colors
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
@@ -189,7 +190,7 @@ def pick_track(screen):
         draw.rect(screen, track_select_col, trackCollide)
         screen.blit(track, (50, 80))
         draw.rect(screen, track_select_col2, trackCollide2)
-        screen.blit(track, (200, 80))
+        screen.blit(track1, (200, 80))
         pygame.display.update()
         clock.tick(60)
     return False
@@ -250,7 +251,7 @@ def pick_track_2player(screen):
         draw.rect(screen, track_select_col, trackCollide)
         screen.blit(track, (50, 80))
         draw.rect(screen, track_select_col2, trackCollide2)
-        screen.blit(track, (200, 80))
+        screen.blit(track1, (200, 80))
         pygame.display.update()
         clock.tick(60)
     return False
@@ -311,7 +312,7 @@ def pick_track_AI(screen):
         draw.rect(screen, track_select_col, trackCollide)
         screen.blit(track, (50, 80))
         draw.rect(screen, track_select_col2, trackCollide2)
-        screen.blit(track, (200, 80))
+        screen.blit(track1, (200, 80))
         pygame.display.update()
         clock.tick(60)
     return False
