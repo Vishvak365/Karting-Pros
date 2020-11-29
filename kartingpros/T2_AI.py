@@ -238,6 +238,8 @@ def T2_AI(display_surface):
             if lap_car1 > previouslapcar1:
                 mixer.Sound.play(crowd)
                 if lap_car1 == 5:
+                    mixer.music.stop()
+                    mixer.Sound.stop(crowd)
                     win(display_surface, "car1")
                 checkpoint_car1 = 0
         if checkpoint_car2 >= 1:
@@ -246,6 +248,8 @@ def T2_AI(display_surface):
                               "Lap finished for car 2!")
             if lap_car2 > previouslapcar2:
                 if lap_car2 == 5:
+                    mixer.music.stop()
+                    mixer.Sound.stop(crowd)
                     win(display_surface, "ai")
                 checkpoint_car2 = 0
 

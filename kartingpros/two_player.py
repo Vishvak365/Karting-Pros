@@ -24,7 +24,6 @@ def win(display_surface, msg):
     #display_surface.blit(car_lap, (1050, 500))
     pygame.display.update()
     pygame.time.delay(5000)
-    mixer.music.stop()
     mainmenu.main_menu(display_surface)
 
 
@@ -278,6 +277,8 @@ def RaceCars(display_surface):
             if lap_car1 > previouslapcar1:
                 mixer.Sound.play(crowd)
                 if lap_car1 == 5:
+                    mixer.music.stop()
+                    mixer.Sound.stop(crowd)
                     win(display_surface, "p1")
                 checkpoint_car1 = 0
         if checkpoint_car2 >= 1:
@@ -287,6 +288,8 @@ def RaceCars(display_surface):
             if lap_car2 > previouslapcar2:
                 mixer.Sound.play(crowd)
                 if lap_car2 == 5:
+                    mixer.music.stop()
+                    mixer.Sound.stop(crowd)
                     win(display_surface, "p2")
                 checkpoint_car2 = 0
 
