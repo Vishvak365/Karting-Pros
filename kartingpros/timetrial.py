@@ -40,7 +40,7 @@ def timeTrial(display_surface):
 
     best_lap_time = 30000
 
-    trackImg = _load_image('./images/track1.png')
+    trackImg = _load_image('./images/track1-min.png')
     track1 = track.Track()
     white = (0, 128, 0)
 
