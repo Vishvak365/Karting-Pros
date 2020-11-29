@@ -123,7 +123,8 @@ def timeTrial(display_surface):
             elif event.key == K_LEFT:
                 left_press = 1
             elif event.key == K_UP:
-                mixer.music.load(os.path.join(current_path, './sounds/rev.mp3'))
+                mixer.music.load(os.path.join(
+                    current_path, './sounds/rev.mp3'))
                 mixer.music.play(-1)
                 up_press = 1
             elif event.key == K_DOWN:
@@ -181,9 +182,6 @@ def timeTrial(display_surface):
                                 str(int(time.time()-countdownTimerStart)+1)+'.png')
             display_surface.blit(image, ((1920/2)-(768/2), 50))
             fontBig = _load_font('./fonts/American Captain.ttf', 64)
-            countdown_text = font.render(
-                "Time: " + str(4-t0), True, (255, 255, 255))
-            # display_surface.blit(countdown_text, (0, 0))
             t0 = time.time()
             t1 = time.time()
             dt = t1-t0
@@ -192,7 +190,8 @@ def timeTrial(display_surface):
 
         if(countdownFinished):
             # Timer
-            timer_text = font.render("Time: " + str(round(dt,3)), True, (255, 255, 255))
+            timer_text = font.render(
+                "Time: " + str(round(dt, 3)), True, (255, 255, 255))
             display_surface.blit(timer_text, (0, 0))
 
             # Time to Beat
@@ -205,22 +204,12 @@ def timeTrial(display_surface):
             if completeLap(car, finish_line):
                 mixer.Sound.play(crowd)
                 if dt < best_lap_time:
-                    best_lap_time = round(dt,3)
+                    best_lap_time = round(dt, 3)
                 t0, t1 = time.time(), time.time()
                 checkpoint_check = 0
 
         # If car is out of screen
         if checkOutOfBounds(car):
             car.reset(start_position)
-
-        while(time.time()-countdownTimerStart < 4):
-            fontBig = _load_font('./fonts/American Captain.ttf', 64)
-            countdown_text = font.render(
-                "Time: " + str(4-t0), True, (255, 255, 255))
-            display_surface.blit(countdown_text, (0, 0))
-            t0 = time.time()
-            t1 = time.time()
-            dt = t1-t0
-            countdownFinished = True
 
         pygame.display.update()
