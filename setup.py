@@ -6,7 +6,7 @@ with open("README.md", "r") as readme:
 
 setup(
     name="kartingpros",
-    version="0.2.3",
+    version="0.2.4",
     include_package_data=True,
     author="Vishvak Seenichamy, Kevin Kosta, Wesley Boyd, Carson Hamel",
     author_email="vishvak@vishvak.com",
