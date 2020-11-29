@@ -3,8 +3,8 @@ from pathlib import Path
 import os
 import pygame
 from pygame import *
-from kartingpros import timetrial, two_player, T1_AI as track1_AI, race_computer,loadimage
-from kartingpros.loadimage import _load_image,_load_sound,_load_font
+from kartingpros import timetrial, timetrial2, two_player, two_player2, T1_AI as track1_AI, T2_AI as track2_AI, race_computer, loadimage
+from kartingpros.loadimage import _load_image, _load_sound, _load_font
 import sys
 from kartingpros.car import Car
 
@@ -144,6 +144,10 @@ def pick_track(screen):
 
         trackCollide = pygame.Rect(40, 70, 120, 120)
         track_select_col = BLACK
+
+        trackCollide2 = pygame.Rect(190, 70, 120, 120)
+        track_select_col2 = BLACK
+
         if trackCollide.collidepoint((mx, my)):
             track_select_col = YELLOW
             if click:
@@ -151,8 +155,17 @@ def pick_track(screen):
                 in_opts = False
                 return True
 
+        if trackCollide2.collidepoint((mx, my)):
+            track_select_col2 = YELLOW
+            if click:
+                timetrial2.timeTrial(screen)
+                in_opts = False
+                return True
+
         draw.rect(screen, track_select_col, trackCollide)
         screen.blit(track, (50, 80))
+        draw.rect(screen, track_select_col2, trackCollide2)
+        screen.blit(track, (200, 80))
         pygame.display.update()
         clock.tick(60)
     return False
@@ -177,14 +190,28 @@ def pick_track_2player(screen):
 
         trackCollide = pygame.Rect(40, 70, 120, 120)
         track_select_col = BLACK
+
+        trackCollide2 = pygame.Rect(190, 70, 120, 120)
+        track_select_col2 = BLACK
+
         if trackCollide.collidepoint((mx, my)):
             track_select_col = YELLOW
             if click:
                 two_player.RaceCars(screen)
+                in_opts = False
+                return True
+
+        if trackCollide2.collidepoint((mx, my)):
+            track_select_col2 = YELLOW
+            if click:
+                two_player2.RaceCars(screen)
+                in_opts = False
                 return True
 
         draw.rect(screen, track_select_col, trackCollide)
         screen.blit(track, (50, 80))
+        draw.rect(screen, track_select_col2, trackCollide2)
+        screen.blit(track, (200, 80))
         pygame.display.update()
         clock.tick(60)
     return False
@@ -209,15 +236,28 @@ def pick_track_AI(screen):
 
         trackCollide = pygame.Rect(40, 70, 120, 120)
         track_select_col = BLACK
+
+        trackCollide2 = pygame.Rect(190, 70, 120, 120)
+        track_select_col2 = BLACK
+
         if trackCollide.collidepoint((mx, my)):
             track_select_col = YELLOW
             if click:
                 track1_AI.T1_AI(screen)
-                # two_player.RaceCars(screen)
+                in_opts = False
+                return True
+
+        if trackCollide2.collidepoint((mx, my)):
+            track_select_col2 = YELLOW
+            if click:
+                track2_AI.T2_AI(screen)
+                in_opts = False
                 return True
 
         draw.rect(screen, track_select_col, trackCollide)
         screen.blit(track, (50, 80))
+        draw.rect(screen, track_select_col2, trackCollide2)
+        screen.blit(track, (200, 80))
         pygame.display.update()
         clock.tick(60)
     return False
@@ -231,7 +271,7 @@ def options(screen):
     set_file = open(Path("kartingpros/settings.json"), "r")
     set_json = json.load(set_file)
     set_file.close()
-    #print(set_json)
+    # print(set_json)
 
     max_speed = int(set_json["max_forward_speed"])
     text("Max Forward Speed: ", YELLOW, screen, 20, 100)
@@ -266,6 +306,10 @@ def options(screen):
     text("Draw Hitboxes: ", YELLOW, screen, 20, 700)
     hb_toggle = pygame.Rect(300, 685, 50, 50)
 
+    aiDifficulty = bool(set_json["ai_difficulty_hard"])
+    text("AI Difficulty Hard?: ", YELLOW, screen, 20, 800)
+    ai_toggle = pygame.Rect(300, 785, 67, 50)
+
     while in_opts:
         click = False
         for event in pygame.event.get():  # User did something
@@ -281,6 +325,7 @@ def options(screen):
                     set_json["off_track_speed"] = ot_speed
                     set_json["collision"] = collision
                     set_json["draw_hitbox"] = hitbox
+                    set_json["ai_difficulty_hard"] = aiDifficulty
                     set_file = open(Path("kartingpros/settings.json"), "w")
                     json.dump(set_json, set_file)
                     set_file.close()
@@ -311,6 +356,11 @@ def options(screen):
             hb_col = RED
         else:
             hb_col = YELLOW
+
+        if (aiDifficulty):
+            ai_col = RED
+        else:
+            ai_col = YELLOW
 
         if max_speed_up.collidepoint((mx, my)):
             speedupcol = RED
@@ -384,11 +434,15 @@ def options(screen):
 
         if col_toggle.collidepoint((mx, my)):
             if click:
-                    collision = not collision
+                collision = not collision
 
         if hb_toggle.collidepoint((mx, my)):
             if click:
-                    hitbox = not hitbox
+                hitbox = not hitbox
+
+        if ai_toggle.collidepoint((mx, my)):
+            if click:
+                aiDifficulty = not aiDifficulty
 
         pygame.draw.rect(screen, speedupcol, max_speed_up)
         pygame.draw.rect(screen, speeddowncol, max_speed_down)
@@ -419,6 +473,8 @@ def options(screen):
 
         pygame.draw.rect(screen, hb_col, hb_toggle)
 
+        pygame.draw.rect(screen, ai_col, ai_toggle)
+
         text(str(max_speed), YELLOW, screen, 300, 100)
         text(str(rev_speed), YELLOW, screen, 300, 200)
         text(str(acc), YELLOW, screen, 300, 300)
@@ -434,6 +490,11 @@ def options(screen):
             text("ON", BLACK, screen, 300, 700)
         else:
             text("OFF", BLACK, screen, 300, 700)
+
+        if (aiDifficulty):
+            text("HARD", BLACK, screen, 300, 800)
+        else:
+            text("EASY", BLACK, screen, 300, 800)
 
         pygame.display.update()
 

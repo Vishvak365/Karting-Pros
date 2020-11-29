@@ -48,6 +48,14 @@ def collision(car, car2, display_surface):
         if (car.hitbox[0] < (car2.hitbox[0] + 35)) and (car.hitbox[0] > (car2.hitbox[0] - 35)):
             car2.speed = 0
             car.speed = 0
+            # Music for countdown sound
+            current_path = os.path.abspath(os.path.dirname(__file__))
+            absolute_image_path = os.path.join(
+                current_path, './sounds/car_crash.mp3')
+            mixer.init()
+            mixer.music.load(absolute_image_path)
+            mixer.music.set_volume(0.7)
+            mixer.music.play()
             crash = _load_image('./images/crash.png')
             display_surface.blit(crash, (600, 250))
             pygame.display.update()
@@ -70,7 +78,7 @@ def carLap(car, finish_line, lap, msg):
 def RaceCars(display_surface):
     track1 = track.Track()
     white = (0, 128, 0)
-
+    trackImg = _load_image('./images/track1-min.png')
     # Official timer
     clock = pygame.time.Clock()
     t0 = time.time()
@@ -81,7 +89,7 @@ def RaceCars(display_surface):
     car_group = pygame.sprite.Group(car)
 
     start_car2 = (1010, 75)
-    car2 = Car('./images/f1sprite.png', start_car2)
+    car2 = Car('./images/f1sprite2.png', start_car2)
     car_group2 = pygame.sprite.Group(car2)
 
     # Groups for pads and finish line
@@ -114,11 +122,14 @@ def RaceCars(display_surface):
     while True:
         # Draw the Track
         display_surface.fill(white)
-        pad_group.draw(display_surface)
+        # pad_group.draw(display_surface)
+        display_surface.blit(trackImg, (0, 0))
         track.checkpoint(display_surface)
         delta_t = clock.tick(30)
         font = _load_font('./fonts/American Captain.ttf', 32)
         for event in pygame.event.get():
+            if event.type == QUIT:
+                sys.exit(0)
             if not hasattr(event, 'key'):
                 continue
             getEvent1(car, event, display_surface)
@@ -178,19 +189,12 @@ def RaceCars(display_surface):
                 checkpoint_car2 = 0
 
         while(time.time()-countdownTimerStart < 4):
-            # Ability to close out mid countdown
-            for event in pygame.event.get():
-                if event.type == QUIT:
-                    sys.exit(0)
-
             image = _load_image('./images/starting_lights/lights' +
                                 str(int(time.time()-countdownTimerStart)+1)+'.png')
             display_surface.blit(image, ((1920/2)-(768/2), 50))
-            print(int(time.time()-countdownTimerStart))
             fontBig = _load_font('./fonts/American Captain.ttf', 64)
             countdown_text = font.render(
                 "Time: " + str(4-t0), True, (255, 255, 255))
-            display_surface.blit(countdown_text, (0, 0))
             t0 = time.time()
             t1 = time.time()
             dt = t1-t0
@@ -206,9 +210,9 @@ def SetCarMaxSpeed(car, pad_group, car_group):
 
     # Slow down car if not on track
     if not on_track:
-        car.MAX_FORWARD_SPEED = 3
+        car.setOffTrackSpeed
     else:
-        car.MAX_FORWARD_SPEED = 20
+        car.setRegularSpeed
 
 
 def getEvent1(car, event, display_surface):
