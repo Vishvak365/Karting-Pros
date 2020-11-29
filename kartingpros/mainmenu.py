@@ -601,7 +601,7 @@ def tutorial(screen):
         car_group.draw(screen)
         text('Tutorial', YELLOW, screen, 20, 20)
         image = _load_image('./images/tutorial.png')
-        screen.blit(image, (0, 100))
+        screen.blit(image, (30, 100))
         for event in pygame.event.get():  # User did something
             if event.type == pygame.QUIT:  # If user clicked close
                 pygame.quit()  # Flag that we are done so we exit this loop
