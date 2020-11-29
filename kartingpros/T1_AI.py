@@ -132,6 +132,8 @@ def T1_AI(display_surface):
     mixer.music.load(absolute_image_path)
     mixer.music.set_volume(0.7)
     mixer.music.play()
+    crowd = mixer.Sound(os.path.join(current_path, './sounds/crowd.wav'))
+
     right_press, left_press, up_press, down_press = 0, 0, 0, 0
     while True:
 
@@ -154,6 +156,8 @@ def T1_AI(display_surface):
             elif event.key == K_LEFT:
                 left_press = 1
             elif event.key == K_UP:
+                mixer.music.load(os.path.join(os.path.abspath(os.path.dirname(__file__)), './sounds/rev.mp3'))
+                mixer.music.play()
                 up_press = 1
             elif event.key == K_DOWN:
                 down_press = 1
@@ -165,6 +169,7 @@ def T1_AI(display_surface):
                 elif event.key == pygame.K_LEFT:
                     left_press = 0
                 elif event.key == pygame.K_UP:
+                    mixer.music.stop()
                     up_press = 0
                 elif event.key == pygame.K_DOWN:
                     down_press = 0
@@ -226,6 +231,7 @@ def T1_AI(display_surface):
             lap_car1 = carLap(car, finish_line, lap_car1,
                               "Lap finished for car 1!")
             if lap_car1 > previouslapcar1:
+                mixer.Sound.play(crowd)
                 if lap_car1 == 5:
                     win(display_surface, "car1")
                 checkpoint_car1 = 0

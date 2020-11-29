@@ -119,6 +119,8 @@ def RaceCars(display_surface):
     mixer.music.load(absolute_image_path)
     mixer.music.set_volume(0.7)
     mixer.music.play()
+    crowd = mixer.Sound(os.path.join(current_path, './sounds/crowd.wav'))
+
     while True:
         # Draw the Track
         display_surface.fill(white)
@@ -176,6 +178,7 @@ def RaceCars(display_surface):
             lap_car1 = carLap(car, finish_line, lap_car1,
                               "Lap finished for car 1!")
             if lap_car1 > previouslapcar1:
+                mixer.Sound.play(crowd)
                 if lap_car1 == 5:
                     win(display_surface, "p1")
                 checkpoint_car1 = 0
@@ -184,6 +187,7 @@ def RaceCars(display_surface):
             lap_car2 = carLap(car2, finish_line, lap_car2,
                               "Lap finished for car 2!")
             if lap_car2 > previouslapcar2:
+                mixer.Sound.play(crowd)
                 if lap_car2 == 5:
                     win(display_surface, "p2")
                 checkpoint_car2 = 0
@@ -224,6 +228,8 @@ def getEvent1(car, event, display_surface):
     elif event.key == K_LEFT:
         car.k_left = down * 5
     elif event.key == K_UP:
+        mixer.music.load(os.path.join(os.path.abspath(os.path.dirname(__file__)), './sounds/rev.mp3'))
+        mixer.music.play()
         car.k_up = down * 2
     elif event.key == K_DOWN:
         car.k_down = down * -2
@@ -240,6 +246,8 @@ def getEvent2(car2, event, display_surface):
     elif event.key == K_a:
         car2.k_left = down * 5
     elif event.key == K_w:
+        mixer.music.load(os.path.join(os.path.abspath(os.path.dirname(__file__)), './sounds/rev.mp3'))
+        mixer.music.play()
         car2.k_up = down * 2
     elif event.key == K_s:
         car2.k_down = down * -2
