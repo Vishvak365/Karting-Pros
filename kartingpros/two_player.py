@@ -158,6 +158,7 @@ def RaceCars(display_surface):
                 down_press1 = 1
             elif event.key == K_ESCAPE:
                 mixer.music.stop()
+                mixer.Sound.stop(crowd)
                 mainmenu.main_menu(display_surface)
 
             if event.type == KEYUP:
@@ -185,6 +186,8 @@ def RaceCars(display_surface):
             elif event.key == K_s:
                 down_press2 = 1
             elif event.key == K_ESCAPE:
+                mixer.music.stop()
+                mixer.Sound.stop(crowd)
                 mainmenu.main_menu(display_surface)
 
             if event.type == KEYUP:

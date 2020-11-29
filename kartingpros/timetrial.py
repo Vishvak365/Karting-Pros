@@ -136,6 +136,7 @@ def timeTrial(display_surface):
                 down_press = 1
             elif event.key == K_ESCAPE:
                 mixer.music.stop()
+                mixer.Sound.stop(crowd)
                 if data_collection:
                     np.save('features.npy', np.array(features))
                     np.save('labels.npy', np.array(labels))
