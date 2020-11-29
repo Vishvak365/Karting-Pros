@@ -78,7 +78,7 @@ def carLap(car, finish_line, lap, msg):
 def RaceCars(display_surface):
     track1 = track2.Track2()
     white = (0, 128, 0)
-
+    track = _load_image('./images/track2.png')
     # Official timer
     clock = pygame.time.Clock()
     t0 = time.time()
@@ -122,7 +122,7 @@ def RaceCars(display_surface):
     while True:
         # Draw the Track
         display_surface.fill(white)
-        pad_group.draw(display_surface)
+        display_surface.blit(track, (0, 0))
         track2.checkpoint(display_surface)
         delta_t = clock.tick(30)
         font = _load_font('./fonts/American Captain.ttf', 32)

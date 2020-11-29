@@ -39,7 +39,7 @@ def checkpoint1(car, checkpoint, checkpoint_check):
 def timeTrial(display_surface):
 
     best_lap_time = 30000
-
+    track = _load_image('./images/track2.png')
     track1 = track2.Track2()
     white = (0, 128, 0)
 
@@ -90,7 +90,7 @@ def timeTrial(display_surface):
 
         # Draw the Track
         display_surface.fill(white)
-        pad_group.draw(display_surface)
+        display_surface.blit(track, (0, 0))
         font = _load_font('./fonts/American Captain.ttf', 32)
 
         if data_collection:
