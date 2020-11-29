@@ -92,7 +92,7 @@ def T2_AI(display_surface):
 
     # AI Car
     start_car2 = (1010, 144)
-    car2 = Car('./images/f1sprite.png', start_car2)
+    car2 = Car('./images/f1sprite2.png', start_car2)
     car_group2 = pygame.sprite.Group(car2)
     car2.setDefaultValues()
 

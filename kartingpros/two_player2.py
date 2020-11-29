@@ -89,7 +89,7 @@ def RaceCars(display_surface):
     car_group = pygame.sprite.Group(car)
 
     start_car2 = (1010, 75)
-    car2 = Car('./images/f1sprite.png', start_car2)
+    car2 = Car('./images/f1sprite2.png', start_car2)
     car_group2 = pygame.sprite.Group(car2)
 
     # Groups for pads and finish line
