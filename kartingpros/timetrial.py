@@ -71,6 +71,8 @@ def timeTrial(display_surface):
     mixer.music.set_volume(0.7)
     mixer.music.play()
 
+    crowd = mixer.Sound(os.path.join(current_path, './sounds/crowd.wav'))
+
     data_collection = settings.getSetting('collect_data_for_AI')
     draw_hitbox = settings.getSetting('draw_hitbox')
 
@@ -126,6 +128,8 @@ def timeTrial(display_surface):
                 left_press = 1
                 car.k_left = down * 5
             elif event.key == K_UP:
+                mixer.music.load(os.path.join(current_path, './sounds/rev.mp3'))
+                mixer.music.play()
                 up_press = 1
                 car.k_up = down * 2
             elif event.key == K_DOWN:
@@ -135,6 +139,7 @@ def timeTrial(display_surface):
                 if data_collection:
                     np.save('features.npy', np.array(features))
                     np.save('labels.npy', np.array(labels))
+                mixer.music.stop()
                 mainmenu.main_menu(display_surface)
             if data_collection:
                 if event.type == KEYUP:
@@ -200,6 +205,7 @@ def timeTrial(display_surface):
 
         if checkpoint_check >= 1:
             if completeLap(car, finish_line):
+                mixer.Sound.play(crowd)
                 if dt < best_lap_time:
                     best_lap_time = dt
                 t0, t1 = time.time(), time.time()
