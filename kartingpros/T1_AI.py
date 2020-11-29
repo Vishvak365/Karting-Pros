@@ -12,6 +12,8 @@ import os
 
 
 def win(display_surface, msg):
+    win = mixer.Sound(os.path.join(os.path.abspath(os.path.dirname(__file__)), './sounds/win.wav'))
+    mixer.Sound.play(win)
     font = _load_font('./fonts/American Captain.ttf', 32)
     if msg == "car1":
         win_image = _load_image('./images/p1_trophy.png')
@@ -23,6 +25,7 @@ def win(display_surface, msg):
     #display_surface.blit(car_lap, (1050, 500))
     pygame.display.update()
     pygame.time.delay(5000)
+    mixer.music.stop()
     mainmenu.main_menu(display_surface)
 
 

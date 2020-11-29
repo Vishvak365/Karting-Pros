@@ -11,6 +11,8 @@ import os
 
 
 def win(display_surface, msg):
+    win = mixer.Sound(os.path.join(os.path.abspath(os.path.dirname(__file__)), './sounds/win.wav'))
+    mixer.Sound.play(win)
     font = _load_font('./fonts/American Captain.ttf', 32)
     if msg == "p1":
         win_image = _load_image('./images/p1_trophy.png')
@@ -22,6 +24,7 @@ def win(display_surface, msg):
     #display_surface.blit(car_lap, (1050, 500))
     pygame.display.update()
     pygame.time.delay(5000)
+    mixer.music.stop()
     mainmenu.main_menu(display_surface)
 
 
@@ -120,6 +123,7 @@ def RaceCars(display_surface):
     mixer.music.load(absolute_image_path)
     mixer.music.set_volume(0.7)
     mixer.music.play()
+    crowd = mixer.Sound(os.path.join(current_path, './sounds/crowd.wav'))
 
     # Movement System
     right_press1, left_press1, up_press1, down_press1 = 0, 0, 0, 0
@@ -267,6 +271,7 @@ def RaceCars(display_surface):
             lap_car1 = carLap(car, finish_line, lap_car1,
                               "Lap finished for car 1!")
             if lap_car1 > previouslapcar1:
+                mixer.Sound.play(crowd)
                 if lap_car1 == 5:
                     win(display_surface, "p1")
                 checkpoint_car1 = 0
@@ -275,6 +280,7 @@ def RaceCars(display_surface):
             lap_car2 = carLap(car2, finish_line, lap_car2,
                               "Lap finished for car 2!")
             if lap_car2 > previouslapcar2:
+                mixer.Sound.play(crowd)
                 if lap_car2 == 5:
                     win(display_surface, "p2")
                 checkpoint_car2 = 0
