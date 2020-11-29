@@ -89,7 +89,7 @@ def RaceCars(display_surface):
     car_group = pygame.sprite.Group(car)
 
     start_car2 = (1010, 75)
-    car2 = Car('./images/f1sprite.png', start_car2)
+    car2 = Car('./images/f1sprite2.png', start_car2)
     car_group2 = pygame.sprite.Group(car2)
 
     # Groups for pads and finish line
@@ -209,9 +209,9 @@ def SetCarMaxSpeed(car, pad_group, car_group):
 
     # Slow down car if not on track
     if not on_track:
-        car.MAX_FORWARD_SPEED = 3
+        car.setOffTrackSpeed
     else:
-        car.MAX_FORWARD_SPEED = 20
+        car.setRegularSpeed
 
 
 def getEvent1(car, event, display_surface):

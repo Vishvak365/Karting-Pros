@@ -102,7 +102,7 @@ def timeTrial(display_surface):
             features.append(feature)
 
         track2.checkpoint(display_surface)
-        deltat = clock.tick(60)
+        deltat = clock.tick(30)
 
         # Update Car and draw
         car_group.update(deltat)

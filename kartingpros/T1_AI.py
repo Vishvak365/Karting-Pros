@@ -2,7 +2,7 @@
 import pygame
 import time
 from kartingpros import screen, track, mainmenu, settings, car, loadimage
-from kartingpros.loadimage import _load_image,_load_sound,_load_font
+from kartingpros.loadimage import _load_image, _load_sound, _load_font
 from kartingpros.car import Car
 from pygame.locals import *
 from pygame import mixer
@@ -78,7 +78,7 @@ def carLap(car, finish_line, lap, msg):
 def T1_AI(display_surface):
     track1 = track.Track()
     white = (0, 128, 0)
-
+    trackImg = _load_image('./images/track1-min.png')
     # Official timer
     clock = pygame.time.Clock()
     t0 = time.time()
@@ -91,7 +91,7 @@ def T1_AI(display_surface):
 
     # AI Car
     start_car2 = (1010, 144)
-    car2 = Car('./images/f1sprite.png', start_car2)
+    car2 = Car('./images/f1sprite2.png', start_car2)
     car_group2 = pygame.sprite.Group(car2)
     car2.setDefaultValues()
 
@@ -137,7 +137,8 @@ def T1_AI(display_surface):
 
         # Draw the Track
         display_surface.fill(white)
-        pad_group.draw(display_surface)
+        # pad_group.draw(display_surface)
+        display_surface.blit(trackImg, (0, 0))
         track.checkpoint(display_surface)
         delta_t = clock.tick(30)
         font = _load_font('./fonts/American Captain.ttf', 32)
@@ -178,7 +179,7 @@ def T1_AI(display_surface):
         if up_press == 0 and down_press == 0 and int(car.speed) != 0:
             car.k_down = -.2
             car.k_up = 0
-            
+
         # AI Movement System
         car2.k_right = moves[moveNum][0] * -5
         car2.k_left = moves[moveNum][1] * 5
