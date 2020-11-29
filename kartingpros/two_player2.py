@@ -209,9 +209,9 @@ def SetCarMaxSpeed(car, pad_group, car_group):
 
     # Slow down car if not on track
     if not on_track:
-        car.MAX_FORWARD_SPEED = 3
+        car.setOffTrackSpeed
     else:
-        car.MAX_FORWARD_SPEED = 20
+        car.setRegularSpeed
 
 
 def getEvent1(car, event, display_surface):
