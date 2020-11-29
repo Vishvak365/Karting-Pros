@@ -58,6 +58,6 @@ def timeTrial(display_surface):
         display_surface.fill(white)
         pad_group.draw(display_surface)
 
-        pygame.display.flip()
+        pygame.display.update()
 
 

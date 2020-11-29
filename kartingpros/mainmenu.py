@@ -9,7 +9,8 @@ from kartingpros.car import Car
 from pygame import mixer
 import os
 
-track = _load_image('./images/track.png')
+track = _load_image('./images/track1.png')
+track2 = _load_image('./images/track2b.png')
 background = _load_image('./images/Gui_background.png')
 track = transform.scale(track, (100, 100))
 # Define some colors
@@ -134,11 +135,24 @@ def main_menu(screen):
 
 
 def pick_track(screen):
+    offset = 0
+    start_position = (1105, 400)
+    car = Car('images/f1sprite.png', start_position)
+    car.direction = 0
+    car_group = pygame.sprite.Group(car)
     click = False
     in_opts = True
-    screen.blit(background, (0, 0))
-    text('Pick Track', YELLOW, screen, 20, 20)
     while in_opts:
+        deltat = clock.tick(30)
+        screen.fill(BLACK)
+        if offset == 99:
+            offset = 0
+        else:
+            offset = offset + 1
+        drawroad(screen, offset)
+        car_group.update(deltat)
+        car_group.draw(screen)
+        text('Pick Track', YELLOW, screen, 20, 20)
         mx, my = pygame.mouse.get_pos()
         for event in pygame.event.get():  # User did something
             if event.type == pygame.QUIT:  # If user clicked close
@@ -182,11 +196,24 @@ def pick_track(screen):
 
 
 def pick_track_2player(screen):
+    offset = 0
+    start_position = (1105, 400)
+    car = Car('images/f1sprite.png', start_position)
+    car.direction = 0
+    car_group = pygame.sprite.Group(car)
     click = False
     in_opts = True
-    screen.blit(background, (0, 0))
-    text('Pick Track', YELLOW, screen, 20, 20)
     while in_opts:
+        deltat = clock.tick(30)
+        screen.fill(BLACK)
+        if offset == 99:
+            offset = 0
+        else:
+            offset = offset + 1
+        drawroad(screen, offset)
+        car_group.update(deltat)
+        car_group.draw(screen)
+        text('Pick Track', YELLOW, screen, 20, 20)
         mx, my = pygame.mouse.get_pos()
         for event in pygame.event.get():  # User did something
             if event.type == pygame.QUIT:  # If user clicked close
@@ -230,11 +257,24 @@ def pick_track_2player(screen):
 
 
 def pick_track_AI(screen):
+    offset = 0
+    start_position = (1105, 400)
+    car = Car('images/f1sprite.png', start_position)
+    car.direction = 0
+    car_group = pygame.sprite.Group(car)
     click = False
     in_opts = True
-    screen.blit(background, (0, 0))
-    text('Pick Track', YELLOW, screen, 20, 20)
     while in_opts:
+        deltat = clock.tick(30)
+        screen.fill(BLACK)
+        if offset == 99:
+            offset = 0
+        else:
+            offset = offset + 1
+        drawroad(screen, offset)
+        car_group.update(deltat)
+        car_group.draw(screen)
+        text('Pick Track', YELLOW, screen, 20, 20)
         mx, my = pygame.mouse.get_pos()
         for event in pygame.event.get():  # User did something
             if event.type == pygame.QUIT:  # If user clicked close
@@ -278,11 +318,12 @@ def pick_track_AI(screen):
 
 
 def options(screen):
+    offset = 0
+    start_position = (1105, 400)
+    car = Car('images/f1sprite.png', start_position)
+    car.direction = 0
+    car_group = pygame.sprite.Group(car)
     in_opts = True
-    #screen.blit(BLACK, (0, 0))
-    screen.fill(BLACK)
-    text('Options', YELLOW, screen, 20, 20)
-
     JSON_FILE_NAME = "./settings.json"
     current_path = os.path.abspath(os.path.dirname(__file__))
     absolute_settings_path = os.path.join(current_path, JSON_FILE_NAME)
@@ -293,44 +334,61 @@ def options(screen):
     # print(set_json)
 
     max_speed = int(set_json["max_forward_speed"])
-    text("Max Forward Speed: ", YELLOW, screen, 20, 100)
-    max_speed_up = pygame.Rect(300, 75, 30, 20)
-    max_speed_down = pygame.Rect(300, 125, 30, 20)
-
     rev_speed = int(set_json["max_reverse_speed"])
-    text("Max Reverse Speed: ", YELLOW, screen, 20, 200)
-    rev_speed_up = pygame.Rect(300, 175, 30, 20)
-    rev_speed_down = pygame.Rect(300, 225, 30, 20)
-
     acc = int(set_json["acceleration"])
-    text("Acceleration Speed: ", YELLOW, screen, 20, 300)
-    acc_up = pygame.Rect(300, 275, 30, 20)
-    acc_down = pygame.Rect(300, 325, 30, 20)
-
     turn_speed = int(set_json["turn_speed"])
-    text("Turn Speed: ", YELLOW, screen, 20, 400)
-    ts_up = pygame.Rect(300, 375, 30, 20)
-    ts_down = pygame.Rect(300, 425, 30, 20)
-
     ot_speed = int(set_json["off_track_speed"])
-    text("Off-Track Speed: ", YELLOW, screen, 20, 500)
-    ot_up = pygame.Rect(300, 475, 30, 20)
-    ot_down = pygame.Rect(300, 525, 30, 20)
-
+    ot_speed = int(set_json["off_track_speed"])
     collision = bool(set_json["collision"])
-    text("Collisions: ", YELLOW, screen, 20, 600)
-    col_toggle = pygame.Rect(300, 585, 50, 50)
-
     hitbox = bool(set_json["draw_hitbox"])
-    text("Draw Hitboxes: ", YELLOW, screen, 20, 700)
-    hb_toggle = pygame.Rect(300, 685, 50, 50)
-
     aiDifficulty = bool(set_json["ai_difficulty_hard"])
-    text("AI Difficulty Hard?: ", YELLOW, screen, 20, 800)
-    ai_toggle = pygame.Rect(300, 785, 67, 50)
 
     while in_opts:
+        deltat = clock.tick(30)
+        screen.fill(BLACK)
+        if offset == 99:
+            offset = 0
+        else:
+            offset = offset + 1
+        drawroad(screen, offset)
+        car_group.update(deltat)
+        car_group.draw(screen)
         click = False
+        # screen.blit(BLACK, (0, 0))
+        text('Options', YELLOW, screen, 20, 20)
+
+        text("Max Forward Speed: ", YELLOW, screen, 20, 100)
+        max_speed_up = pygame.Rect(300, 75, 30, 20)
+        max_speed_down = pygame.Rect(300, 125, 30, 20)
+
+
+        text("Max Reverse Speed: ", YELLOW, screen, 20, 200)
+        rev_speed_up = pygame.Rect(300, 175, 30, 20)
+        rev_speed_down = pygame.Rect(300, 225, 30, 20)
+
+
+        text("Acceleration Speed: ", YELLOW, screen, 20, 300)
+        acc_up = pygame.Rect(300, 275, 30, 20)
+        acc_down = pygame.Rect(300, 325, 30, 20)
+
+
+        text("Turn Speed: ", YELLOW, screen, 20, 400)
+        ts_up = pygame.Rect(300, 375, 30, 20)
+        ts_down = pygame.Rect(300, 425, 30, 20)
+
+        text("Off-Track Speed: ", YELLOW, screen, 20, 500)
+        ot_up = pygame.Rect(300, 475, 30, 20)
+        ot_down = pygame.Rect(300, 525, 30, 20)
+
+        text("Collisions: ", YELLOW, screen, 20, 600)
+        col_toggle = pygame.Rect(300, 585, 50, 50)
+
+        text("Draw Hitboxes: ", YELLOW, screen, 20, 700)
+        hb_toggle = pygame.Rect(300, 685, 50, 50)
+
+        text("AI Difficulty Hard?: ", YELLOW, screen, 20, 800)
+        ai_toggle = pygame.Rect(300, 785, 67, 50)
+
         for event in pygame.event.get():  # User did something
             if event.type == pygame.QUIT:  # If user clicked close
                 pygame.quit()  # Flag that we are done so we exit this loop
@@ -524,12 +582,25 @@ def options(screen):
 
 
 def tutorial(screen):
+    offset = 0
+    start_position = (1105, 400)
+    car = Car('images/f1sprite.png', start_position)
+    car.direction = 0
+    car_group = pygame.sprite.Group(car)
     in_opts = True
-    screen.blit(background, (0, 0))
-    text('Tutorial', YELLOW, screen, 20, 20)
-    image = _load_image('./images/tutorial.png')
-    screen.blit(image, (0, 100))
     while in_opts:
+        deltat = clock.tick(30)
+        screen.fill(BLACK)
+        if offset == 99:
+            offset = 0
+        else:
+            offset = offset + 1
+        drawroad(screen, offset)
+        car_group.update(deltat)
+        car_group.draw(screen)
+        text('Tutorial', YELLOW, screen, 20, 20)
+        image = _load_image('./images/tutorial.png')
+        screen.blit(image, (0, 100))
         for event in pygame.event.get():  # User did something
             if event.type == pygame.QUIT:  # If user clicked close
                 pygame.quit()  # Flag that we are done so we exit this loop

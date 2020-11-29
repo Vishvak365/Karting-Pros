@@ -5,8 +5,10 @@ from kartingpros import screen, track, mainmenu, settings, car, loadimage
 from kartingpros.loadimage import _load_image,_load_sound,_load_font
 from kartingpros.car import Car
 from pygame.locals import *
+from pygame import mixer
+import numpy as np
 import sys
-
+import os
 
 def win(display_surface, msg):
     font = _load_font('./fonts/American Captain.ttf', 32)
@@ -43,6 +45,14 @@ def collision(car, car2, display_surface):
         if (car.hitbox[0] < (car2.hitbox[0] + 35)) and (car.hitbox[0] > (car2.hitbox[0] - 35)):
             car2.speed = 0
             car.speed = 0
+            # Music for countdown sound
+            current_path = os.path.abspath(os.path.dirname(__file__))
+            absolute_image_path = os.path.join(
+                current_path, './sounds/car_crash.mp3')
+            mixer.init()
+            mixer.music.load(absolute_image_path)
+            mixer.music.set_volume(0.7)
+            mixer.music.play()
             crash = _load_image('./images/crash.png')
             display_surface.blit(crash, (600, 250))
             pygame.display.update()
@@ -84,6 +94,14 @@ def RaceCars(display_surface):
     checkpoint_car1 = 0
     lap_car2 = 0
     checkpoint_car2 = 0
+    # Music for countdown sound
+    current_path = os.path.abspath(os.path.dirname(__file__))
+    absolute_image_path = os.path.join(
+        current_path, './sounds/race_coundown.mp3')
+    mixer.init()
+    mixer.music.load(absolute_image_path)
+    mixer.music.set_volume(0.7)
+    mixer.music.play()
     while True:
         # Draw the Track
         display_surface.fill(white)
