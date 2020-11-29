@@ -162,6 +162,7 @@ def T1_AI(display_surface):
             elif event.key == K_DOWN:
                 down_press = 1
             elif event.key == K_ESCAPE:
+                mixer.music.stop()
                 mainmenu.main_menu(display_surface)
             if event.type == KEYUP:
                 if event.key == pygame.K_RIGHT:

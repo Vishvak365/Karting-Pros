@@ -152,6 +152,7 @@ def RaceCars(display_surface):
             elif event.key == K_DOWN:
                 down_press1 = 1
             elif event.key == K_ESCAPE:
+                mixer.music.stop()
                 mainmenu.main_menu(display_surface)
 
             if event.type == KEYUP:
@@ -160,6 +161,7 @@ def RaceCars(display_surface):
                 elif event.key == pygame.K_LEFT:
                     left_press1 = 0
                 elif event.key == pygame.K_UP:
+                    mixer.music.stop()
                     up_press1 = 0
                 elif event.key == pygame.K_DOWN:
                     down_press1 = 0
@@ -186,6 +188,7 @@ def RaceCars(display_surface):
                 elif event.key == pygame.K_a:
                     left_press2 = 0
                 elif event.key == pygame.K_w:
+                    mixer.music.stop()
                     up_press2 = 0
                 elif event.key == pygame.K_s:
                     down_press2 = 0
