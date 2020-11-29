@@ -1,1 +1,1 @@
-{"screen_size": [1920, 1080], "max_forward_speed": 15, "max_reverse_speed": 3, "acceleration": 1, "turn_speed": 4, "off_track_speed": 4, "collision": false, "draw_hitbox": false, "collect_data_for_AI": false, "ai_difficulty_hard": true}
+{"screen_size": [1920, 1080], "max_forward_speed": 10, "max_reverse_speed": 3, "acceleration": 1, "turn_speed": 4, "off_track_speed": 4, "collision": false, "draw_hitbox": false, "collect_data_for_AI": true, "ai_difficulty_hard": true}

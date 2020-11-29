@@ -67,6 +67,12 @@ class Car(pygame.sprite.Sprite):
     def setOffTrackSpeedAI(self):
         self.MAX_FORWARD_SPEED = 4
 
+    def setRegularSpeedAIT2(self):
+        self.MAX_FORWARD_SPEED = 10
+
+    def setOffTrackSpeedAIT2(self):
+        self.MAX_FORWARD_SPEED = 4
+
     def reset(self, position):
         self.position = position
         self.speed = 0

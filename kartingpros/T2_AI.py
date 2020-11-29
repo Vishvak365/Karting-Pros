@@ -103,7 +103,7 @@ def T2_AI(display_surface):
             current_path, './ArtificalIntelligence/track2_easy.npy')
     else:
         absolute_image_path = os.path.join(
-            current_path, './ArtificalIntelligence/track2_easy.npy')
+            current_path, './ArtificalIntelligence/track2_hard.npy')
     moves = np.load(absolute_image_path)
     moveNum = 0
 
@@ -260,6 +260,6 @@ def SetCarMaxSpeed(car, pad_group, car_group):
 
     # Slow down car if not on track
     if not on_track:
-        car.setOffTrackSpeedAI()
+        car.setOffTrackSpeedAIT2()
     else:
-        car.setRegularSpeedAI()
+        car.setRegularSpeedAIT2()
