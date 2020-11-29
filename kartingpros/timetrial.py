@@ -130,7 +130,7 @@ def timeTrial(display_surface):
                 left_press = 1
             elif event.key == K_UP:
                 mixer.music.load(os.path.join(current_path, './sounds/rev.mp3'))
-                mixer.music.play()
+                mixer.music.play(-1)
                 up_press = 1
             elif event.key == K_DOWN:
                 down_press = 1

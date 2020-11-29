@@ -150,7 +150,7 @@ def RaceCars(display_surface):
             elif event.key == K_UP:
                 mixer.music.load(os.path.join(
                     current_path, './sounds/rev.mp3'))
-                mixer.music.play()
+                mixer.music.play(-1)
                 up_press1 = 1
             elif event.key == K_DOWN:
                 down_press1 = 1
@@ -178,7 +178,7 @@ def RaceCars(display_surface):
             elif event.key == K_w:
                 mixer.music.load(os.path.join(
                     current_path, './sounds/rev.mp3'))
-                mixer.music.play()
+                mixer.music.play(-1)
                 up_press2 = 1
             elif event.key == K_s:
                 down_press2 = 1

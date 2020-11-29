@@ -160,7 +160,7 @@ def T2_AI(display_surface):
                 left_press = 1
             elif event.key == K_UP:
                 mixer.music.load(os.path.join(os.path.abspath(os.path.dirname(__file__)), './sounds/rev.mp3'))
-                mixer.music.play()
+                mixer.music.play(-1)
                 up_press = 1
             elif event.key == K_DOWN:
                 down_press = 1
