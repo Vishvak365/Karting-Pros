@@ -74,6 +74,7 @@ def timeTrial(display_surface):
     mixer.music.play()
 
     crowd = mixer.Sound(os.path.join(current_path, './sounds/crowd.wav'))
+    rev = mixer.Sound(os.path.join(current_path, './sounds/rev.wav'))
 
     data_collection = settings.getSetting('collect_data_for_AI')
     draw_hitbox = settings.getSetting('draw_hitbox')
@@ -134,6 +135,7 @@ def timeTrial(display_surface):
             elif event.key == K_DOWN:
                 down_press = 1
             elif event.key == K_ESCAPE:
+                mixer.music.stop()
                 if data_collection:
                     np.save('features.npy', np.array(features))
                     np.save('labels.npy', np.array(labels))
@@ -145,6 +147,7 @@ def timeTrial(display_surface):
                 elif event.key == pygame.K_LEFT:
                     left_press = 0
                 elif event.key == pygame.K_UP:
+                    mixer.music.stop()
                     up_press = 0
                 elif event.key == pygame.K_DOWN:
                     down_press = 0
