@@ -268,7 +268,12 @@ def options(screen):
     #screen.blit(BLACK, (0, 0))
     screen.fill(BLACK)
     text('Options', YELLOW, screen, 20, 20)
-    set_file = open(Path("kartingpros/settings.json"), "r")
+
+    JSON_FILE_NAME = "./settings.json"
+    current_path = os.path.abspath(os.path.dirname(__file__))
+    absolute_settings_path = os.path.join(current_path, JSON_FILE_NAME)
+
+    set_file = open(Path(absolute_settings_path), "r")
     set_json = json.load(set_file)
     set_file.close()
     # print(set_json)
@@ -326,7 +331,10 @@ def options(screen):
                     set_json["collision"] = collision
                     set_json["draw_hitbox"] = hitbox
                     set_json["ai_difficulty_hard"] = aiDifficulty
-                    set_file = open(Path("kartingpros/settings.json"), "w")
+                    JSON_FILE_NAME = "./settings.json"
+                    current_path = os.path.abspath(os.path.dirname(__file__))
+                    absolute_settings_path = os.path.join(current_path, JSON_FILE_NAME)
+                    set_file = open(absolute_settings_path, "w")
                     json.dump(set_json, set_file)
                     set_file.close()
                     in_opts = False
