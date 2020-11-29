@@ -99,10 +99,10 @@ def T2_AI(display_surface):
     current_path = os.path.abspath(os.path.dirname(__file__))
     if settings.getSetting('ai_difficulty_hard') == False:
         absolute_image_path = os.path.join(
-            current_path, './ArtificalIntelligence/track1_easy.npy')
+            current_path, './ArtificalIntelligence/track2_easy.npy')
     else:
         absolute_image_path = os.path.join(
-            current_path, './ArtificalIntelligence/track1_hard.npy')
+            current_path, './ArtificalIntelligence/track2_easy.npy')
     moves = np.load(absolute_image_path)
     moveNum = 0
 
