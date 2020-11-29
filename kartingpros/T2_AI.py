@@ -12,6 +12,8 @@ import os
 
 
 def win(display_surface, msg):
+    win = mixer.Sound(os.path.join(os.path.abspath(os.path.dirname(__file__)), './sounds/win.wav'))
+    mixer.Sound.play(win)
     font = _load_font('./fonts/American Captain.ttf', 32)
     if msg == "car1":
         win_image = _load_image('./images/p1_trophy.png')
@@ -23,6 +25,7 @@ def win(display_surface, msg):
     # display_surface.blit(car_lap, (1050, 500))
     pygame.display.update()
     pygame.time.delay(5000)
+    mixer.music.stop()
     mainmenu.main_menu(display_surface)
 
 
@@ -133,6 +136,8 @@ def T2_AI(display_surface):
     mixer.music.load(absolute_image_path)
     mixer.music.set_volume(0.7)
     mixer.music.play()
+    crowd = mixer.Sound(os.path.join(current_path, './sounds/crowd.wav'))
+
     right_press, left_press, up_press, down_press = 0, 0, 0, 0
     while True:
 
@@ -154,10 +159,14 @@ def T2_AI(display_surface):
             elif event.key == K_LEFT:
                 left_press = 1
             elif event.key == K_UP:
+                mixer.music.load(os.path.join(os.path.abspath(os.path.dirname(__file__)), './sounds/rev.mp3'))
+                mixer.music.play(-1)
                 up_press = 1
             elif event.key == K_DOWN:
                 down_press = 1
             elif event.key == K_ESCAPE:
+                mixer.music.stop()
+                mixer.Sound.stop(crowd)
                 mainmenu.main_menu(display_surface)
             if event.type == KEYUP:
                 if event.key == pygame.K_RIGHT:
@@ -165,6 +174,7 @@ def T2_AI(display_surface):
                 elif event.key == pygame.K_LEFT:
                     left_press = 0
                 elif event.key == pygame.K_UP:
+                    mixer.music.stop()
                     up_press = 0
                 elif event.key == pygame.K_DOWN:
                     down_press = 0
@@ -226,6 +236,7 @@ def T2_AI(display_surface):
             lap_car1 = carLap(car, finish_line, lap_car1,
                               "Lap finished for car 1!")
             if lap_car1 > previouslapcar1:
+                mixer.Sound.play(crowd)
                 if lap_car1 == 5:
                     win(display_surface, "car1")
                 checkpoint_car1 = 0

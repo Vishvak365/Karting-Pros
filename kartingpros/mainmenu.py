@@ -1,12 +1,13 @@
 import json
 from pathlib import Path
-import os
 import pygame
 from pygame import *
 from kartingpros import timetrial, timetrial2, two_player, two_player2, T1_AI as track1_AI, T2_AI as track2_AI, race_computer, loadimage
 from kartingpros.loadimage import _load_image, _load_sound, _load_font
 import sys
 from kartingpros.car import Car
+from pygame import mixer
+import os
 
 track = _load_image('./images/track.png')
 background = _load_image('./images/Gui_background.png')
@@ -40,10 +41,17 @@ def main_menu(screen):
     click = False
 
     offset = 0
-    start_position = (1120, 400)
+    start_position = (1105, 400)
     car = Car('images/f1sprite.png', start_position)
     car.direction = 0
     car_group = pygame.sprite.Group(car)
+    current_path = os.path.abspath(os.path.dirname(__file__))
+    absolute_path = os.path.join(
+        current_path, './sounds/menu.mp3')
+    mixer.init()
+    mixer.music.load(absolute_path)
+    mixer.music.set_volume(0.7)
+    mixer.music.play(-1)
 
     while True:
         # --- Main event loop
@@ -151,6 +159,7 @@ def pick_track(screen):
         if trackCollide.collidepoint((mx, my)):
             track_select_col = YELLOW
             if click:
+                mixer.music.stop()
                 timetrial.timeTrial(screen)
                 in_opts = False
                 return True
@@ -158,6 +167,7 @@ def pick_track(screen):
         if trackCollide2.collidepoint((mx, my)):
             track_select_col2 = YELLOW
             if click:
+                mixer.music.stop()
                 timetrial2.timeTrial(screen)
                 in_opts = False
                 return True
@@ -197,6 +207,7 @@ def pick_track_2player(screen):
         if trackCollide.collidepoint((mx, my)):
             track_select_col = YELLOW
             if click:
+                mixer.music.stop()
                 two_player.RaceCars(screen)
                 in_opts = False
                 return True
@@ -204,6 +215,7 @@ def pick_track_2player(screen):
         if trackCollide2.collidepoint((mx, my)):
             track_select_col2 = YELLOW
             if click:
+                mixer.music.stop()
                 two_player2.RaceCars(screen)
                 in_opts = False
                 return True
@@ -243,6 +255,7 @@ def pick_track_AI(screen):
         if trackCollide.collidepoint((mx, my)):
             track_select_col = YELLOW
             if click:
+                mixer.music.stop()
                 track1_AI.T1_AI(screen)
                 in_opts = False
                 return True
@@ -250,6 +263,7 @@ def pick_track_AI(screen):
         if trackCollide2.collidepoint((mx, my)):
             track_select_col2 = YELLOW
             if click:
+                mixer.music.stop()
                 track2_AI.T2_AI(screen)
                 in_opts = False
                 return True
