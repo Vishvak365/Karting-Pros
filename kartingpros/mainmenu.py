@@ -3,7 +3,7 @@ from pathlib import Path
 import os
 import pygame
 from pygame import *
-from kartingpros import timetrial, two_player, T1_AI as track1_AI, race_computer,loadimage
+from kartingpros import timetrial, timetrial2, two_player, two_player2, T1_AI as track1_AI, race_computer,loadimage
 from kartingpros.loadimage import _load_image,_load_sound,_load_font
 import sys
 from kartingpros.car import Car
@@ -144,6 +144,10 @@ def pick_track(screen):
 
         trackCollide = pygame.Rect(40, 70, 120, 120)
         track_select_col = BLACK
+
+        trackCollide2 = pygame.Rect(190, 70, 120, 120)
+        track_select_col2 = BLACK
+
         if trackCollide.collidepoint((mx, my)):
             track_select_col = YELLOW
             if click:
@@ -151,8 +155,17 @@ def pick_track(screen):
                 in_opts = False
                 return True
 
+        if trackCollide2.collidepoint((mx, my)):
+            track_select_col2 = YELLOW
+            if click:
+                timetrial2.timeTrial(screen)
+                in_opts = False
+                return True
+
         draw.rect(screen, track_select_col, trackCollide)
         screen.blit(track, (50, 80))
+        draw.rect(screen, track_select_col2, trackCollide2)
+        screen.blit(track, (200, 80))
         pygame.display.update()
         clock.tick(60)
     return False
@@ -177,14 +190,28 @@ def pick_track_2player(screen):
 
         trackCollide = pygame.Rect(40, 70, 120, 120)
         track_select_col = BLACK
+
+        trackCollide2 = pygame.Rect(190, 70, 120, 120)
+        track_select_col2 = BLACK
+
         if trackCollide.collidepoint((mx, my)):
             track_select_col = YELLOW
             if click:
                 two_player.RaceCars(screen)
+                in_opts = False
+                return True
+
+        if trackCollide2.collidepoint((mx, my)):
+            track_select_col2 = YELLOW
+            if click:
+                two_player2.RaceCars(screen)
+                in_opts = False
                 return True
 
         draw.rect(screen, track_select_col, trackCollide)
         screen.blit(track, (50, 80))
+        draw.rect(screen, track_select_col2, trackCollide2)
+        screen.blit(track, (200, 80))
         pygame.display.update()
         clock.tick(60)
     return False

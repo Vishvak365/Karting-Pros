@@ -1,7 +1,8 @@
 import pygame
 import math
-
-
+import os
+from kartingpros import loadimage
+from kartingpros.loadimage import _load_image,_load_sound,_load_font
 # Track class, makes surface of track
 
 def checkpoint(surface):
@@ -175,7 +176,7 @@ class Track2:
 
 # Black 32x32 squares to make the road
 class RoadSquares(pygame.sprite.Sprite):
-    black = pygame.image.load('images/track_black.png')
+    black = _load_image("./images/track_black.png")
 
     def __init__(self, position):
         super(RoadSquares, self).__init__()
